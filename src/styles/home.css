@@ -1,0 +1,18 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.model {
+  background-color: lightblue;
+  height: 100px;
+  margin: 50px;
+  position: relative;
+  width: 200px;
+}
+
+.model-size {
+  position: absolute;
+  top: 100%;
+  margin: 8px;
+}
