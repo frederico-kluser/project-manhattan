@@ -1,0 +1,39 @@
+{
+  "name": "javascript-started-project",
+  "version": "1.0.0",
+  "description": "Github project template",
+  "main": "index.js",
+  "scripts": {
+    "lint": "pretty-quick --staged && lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frederico-kluser/javascript-started-project.git"
+  },
+  "author": "Frederico Guilherme Kluser de Oliveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frederico-kluser/javascript-started-project/issues"
+  },
+  "homepage": "https://github.com/frederico-kluser/javascript-started-project#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.3.0",
+    "prettier": "^2.1.1",
+    "pretty-quick": "^3.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": "eslint --cache --fix"
+  }
+}
