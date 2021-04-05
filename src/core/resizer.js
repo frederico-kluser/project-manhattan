@@ -28,6 +28,9 @@ const dragStart = e => {
     initialX = e.layerX;
     initialY = e.layerY;
   }
+
+  resizeX = 0;
+  resizeY = 0;
 };
 
 const drag = e => {

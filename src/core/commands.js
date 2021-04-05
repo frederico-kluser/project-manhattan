@@ -78,6 +78,8 @@ const executeCommands = () => {
   }
 
   element.setAttribute('style', `width:${width}px;height:${height}px;`);
+  console.log(element);
+  console.log(`${width}px x ${height}px`);
   resetCommands();
 };
 
