@@ -2,7 +2,32 @@
 var key;
 
 const keyCodeLetters = {
+  65: 'a',
+  66: 'b',
+  67: 'c',
+  68: 'd',
+  69: 'e',
+  70: 'f',
+  71: 'g',
+  72: 'h',
+  73: 'i',
+  74: 'j',
+  75: 'k',
+  76: 'l',
+  77: 'm',
+  78: 'n',
+  79: 'o',
+  80: 'p',
+  81: 'q',
+  82: 'r',
+  83: 's',
+  84: 't',
+  85: 'u',
+  86: 'v',
   87: 'w',
+  88: 'x',
+  89: 'y',
+  90: 'z',
 };
 
 const keyCodeNumbers = {
@@ -42,15 +67,18 @@ const resetCommands = () => {
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
 
+  // eslint-disable-next-line default-case
   switch (command) {
     case 'width':
-      width = value;
-      element.setAttribute('style', `width:${width}px;height:${height}px;`);
+      width = parseFloat(value);
       break;
-
-    default:
+    case 'height':
+      height = parseFloat(value);
       break;
   }
+
+  element.setAttribute('style', `width:${width}px;height:${height}px;`);
+  resetCommands();
 };
 
 const getValue = () => {
