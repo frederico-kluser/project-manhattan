@@ -39,11 +39,28 @@ const resetCommands = () => {
   };
 };
 
+const executeCommands = () => {
+  const {command, value} = shortCutCommands;
+
+  switch (command) {
+    case 'width':
+      width = value;
+      element.setAttribute('style', `width:${width}px;height:${height}px;`);
+      break;
+
+    default:
+      break;
+  }
+};
+
 const getValue = () => {
   if (keyCodeCommands[key] !== undefined || keyCodeNumbers[key] !== undefined) {
     switch (keyCodeCommands[key]) {
       case 'backspace':
         shortCutCommands.value = backSpaceText(shortCutCommands.value);
+        break;
+      case 'enter':
+        executeCommands();
         break;
       default:
         shortCutCommands.value += keyCodeNumbers[key];
@@ -57,11 +74,14 @@ const getValue = () => {
   console.log(shortCutCommands);
 };
 
+const setCommands = command => {
+  shortCutCommands.command = command;
+  return true;
+};
+
 const getCommandSwitch = {
-  w: () => {
-    shortCutCommands.command = 'width';
-    activeCommands = true;
-  },
+  w: () => setCommands('width'),
+  h: () => setCommands('height'),
 };
 
 const getCommands = e => {
@@ -73,7 +93,7 @@ const getCommands = e => {
     getValue();
   }
   if (e.shiftKey) {
-    dynamicFunction(getCommandSwitch[letter], resetCommands);
+    activeCommands = !!dynamicFunction(getCommandSwitch[letter], resetCommands);
   }
 };
 

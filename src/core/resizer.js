@@ -14,6 +14,8 @@ var resizeY;
 var width = 200;
 var height = 100;
 
+var element;
+
 const dragStart = e => {
   dragBegins = true;
   const pSize = e.target.children[0];
@@ -41,7 +43,7 @@ const drag = e => {
     resizeX = moveX - initialX;
     resizeY = moveY - initialY;
 
-    const element = e.target;
+    element = e.target;
     const pSize = element.children[0];
     pSize.innerHTML = `${width + resizeX}px x ${height + resizeY}px`;
     element.setAttribute('style', `width:${width + resizeX}px;height:${height + resizeY}px;`);
@@ -53,7 +55,7 @@ const dragEnd = e => {
   width += resizeX;
   height += resizeY;
 
-  const element = e.target;
+  element = e.target;
   const pSize = element.children[0];
   console.log(element);
   console.log(`${width}px x ${height}px`);
@@ -63,12 +65,12 @@ const dragEnd = e => {
 const builderElement = () => {
   console.log('String to insert');
   const size = createElementor({tag: 'p', className: 'model-size'});
-  const div = createElementor({tag: 'div', className: 'model', chield: [size]});
-  div.addEventListener('mousedown', dragStart, false);
-  div.addEventListener('mousemove', drag, false);
-  div.addEventListener('mouseup', dragEnd, false);
+  element = createElementor({tag: 'div', className: 'model', chield: [size]});
+  element.addEventListener('mousedown', dragStart, false);
+  element.addEventListener('mousemove', drag, false);
+  element.addEventListener('mouseup', dragEnd, false);
 
-  document.body.appendChild(div);
+  document.body.appendChild(element);
 };
 
 builderElement();
