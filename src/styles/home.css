@@ -1,6 +1,6 @@
 body {
-  padding: 0px;
   margin: 0px;
+  padding: 0px;
 }
 
 .model {
@@ -12,7 +12,12 @@ body {
 }
 
 .model-size {
+  margin: 8px;
   position: absolute;
   top: 100%;
-  margin: 8px;
+  white-space: nowrap;
+}
+
+.model-size:empty {
+  display: none;
 }
