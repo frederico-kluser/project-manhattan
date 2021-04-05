@@ -112,6 +112,10 @@ const setCommands = command => {
 const getCommandSwitch = {
   w: () => setCommands('width'),
   h: () => setCommands('height'),
+  t: () => {
+    recognition.continuous = false;
+    recognition.start();
+  },
 };
 
 const getCommands = e => {
@@ -121,8 +125,7 @@ const getCommands = e => {
 
   if (activeCommands) {
     getValue();
-  }
-  if (e.shiftKey) {
+  } else if (e.shiftKey) {
     activeCommands = !!dynamicFunction(getCommandSwitch[letter], resetCommands);
   }
 };

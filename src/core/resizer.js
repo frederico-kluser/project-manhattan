@@ -67,7 +67,7 @@ const dragEnd = e => {
 
 const builderElement = () => {
   console.log('String to insert');
-  const size = createElementor({tag: 'p', className: 'model-size'});
+  const size = createElementor({tag: 'p', className: 'model-size noselect'});
   element = createElementor({tag: 'div', className: 'model', chield: [size]});
   element.addEventListener('mousedown', dragStart, false);
   element.addEventListener('mousemove', drag, false);
