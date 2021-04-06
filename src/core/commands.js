@@ -19,19 +19,20 @@ const resetCommands = () => {
 
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
+  const {html} = enums;
 
   // eslint-disable-next-line default-case
   switch (command) {
-    case 'width':
+    case html.width:
       elementAttributes.width = parseFloat(value);
       break;
-    case 'height':
+    case html.height:
       elementAttributes.height = parseFloat(value);
       break;
   }
 
   element.setAttribute(
-    'style',
+    html.style,
     `width:${elementAttributes.width}px;height:${elementAttributes.height}px;`
   );
   console.log(element);
@@ -40,12 +41,13 @@ const executeCommands = () => {
 };
 
 const getValue = () => {
+  const {html} = enums;
   if (keyCodeCommands[key] !== undefined || keyCodeNumbers[key] !== undefined) {
     switch (keyCodeCommands[key]) {
-      case 'backspace':
+      case html.backspace:
         shortCutCommands.value = backSpaceText(shortCutCommands.value);
         break;
-      case 'enter':
+      case html.enter:
         executeCommands();
         break;
       default:
@@ -66,8 +68,8 @@ const setCommands = command => {
 };
 
 const getCommandSwitch = {
-  w: () => setCommands('width'),
-  h: () => setCommands('height'),
+  w: () => setCommands(enums.html.width),
+  h: () => setCommands(enums.html.height),
   t: () => {
     recognition.continuous = false;
     recognition.start();
@@ -86,4 +88,4 @@ const getCommands = e => {
   }
 };
 
-document.body.addEventListener('keydown', getCommands, false);
+document.body.addEventListener(enums.events.keydown, getCommands, false);

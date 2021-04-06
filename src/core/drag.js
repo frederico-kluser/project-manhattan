@@ -14,11 +14,12 @@ var resizeY = 0;
 var element;
 
 const dragStart = e => {
+  const {events} = enums;
   dragBegins = true;
   const pSize = e.target.children[0];
   pSize.innerHTML = `${elementAttributes.width}px x ${elementAttributes.height}px`;
 
-  if (e.type === 'touchstart') {
+  if (e.type === events.touchstart) {
     initialX = e.touches[0].layerX;
     initialY = e.touches[0].layerY;
   } else {
@@ -31,8 +32,10 @@ const dragStart = e => {
 };
 
 const drag = e => {
+  const {events, html} = enums;
+
   if (dragBegins) {
-    if (e.type === 'touchstart') {
+    if (e.type === events.touchstart) {
       moveX = e.touches[0].layerX;
       moveY = e.touches[0].layerY;
     } else {
@@ -49,7 +52,7 @@ const drag = e => {
       elementAttributes.height + resizeY
     }px`;
     element.setAttribute(
-      'style',
+      html.style,
       `width:${elementAttributes.width + resizeX}px;height:${elementAttributes.height + resizeY}px;`
     );
   }
@@ -68,12 +71,13 @@ const dragEnd = e => {
 };
 
 const builderElement = () => {
+  const {events} = enums;
   console.log('String to insert');
   const size = createElementor({tag: 'p', className: 'model-size noselect'});
   element = createElementor({tag: 'div', className: 'model', chield: [size]});
-  element.addEventListener('mousedown', dragStart, false);
-  element.addEventListener('mousemove', drag, false);
-  element.addEventListener('mouseup', dragEnd, false);
+  element.addEventListener(events.mousedown, dragStart, false);
+  element.addEventListener(events.mousemove, drag, false);
+  element.addEventListener(events.mouseup, dragEnd, false);
 
   document.body.appendChild(element);
 };
