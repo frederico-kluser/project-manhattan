@@ -71,6 +71,7 @@ const getCommandSwitch = {
 
 const getCommands = e => {
   key = e.which || e.keyCode;
+  console.log('key :', key);
   const letter = keyCodeLetters[key];
 
   if (activeCommands) {

@@ -5,10 +5,10 @@ body {
 
 .model {
   background-color: lightblue;
-  height: 100px;
+  height: 200px;
   margin: 50px;
   position: relative;
-  width: 200px;
+  width: 300px;
 }
 
 .element-info {
