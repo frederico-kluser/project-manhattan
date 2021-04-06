@@ -1,53 +1,6 @@
 /* eslint-disable no-undef */
 var key;
 
-const keyCodeLetters = {
-  65: 'a',
-  66: 'b',
-  67: 'c',
-  68: 'd',
-  69: 'e',
-  70: 'f',
-  71: 'g',
-  72: 'h',
-  73: 'i',
-  74: 'j',
-  75: 'k',
-  76: 'l',
-  77: 'm',
-  78: 'n',
-  79: 'o',
-  80: 'p',
-  81: 'q',
-  82: 'r',
-  83: 's',
-  84: 't',
-  85: 'u',
-  86: 'v',
-  87: 'w',
-  88: 'x',
-  89: 'y',
-  90: 'z',
-};
-
-const keyCodeNumbers = {
-  48: '0',
-  49: '1',
-  50: '2',
-  51: '3',
-  52: '4',
-  53: '5',
-  54: '6',
-  55: '7',
-  56: '8',
-  57: '9',
-};
-
-const keyCodeCommands = {
-  13: 'enter',
-  8: 'backspace',
-};
-
 var activeCommands = false;
 var shortCutCommands = {
   command: '',
@@ -70,16 +23,19 @@ const executeCommands = () => {
   // eslint-disable-next-line default-case
   switch (command) {
     case 'width':
-      width = parseFloat(value);
+      elementAttributes.width = parseFloat(value);
       break;
     case 'height':
-      height = parseFloat(value);
+      elementAttributes.height = parseFloat(value);
       break;
   }
 
-  element.setAttribute('style', `width:${width}px;height:${height}px;`);
+  element.setAttribute(
+    'style',
+    `width:${elementAttributes.width}px;height:${elementAttributes.height}px;`
+  );
   console.log(element);
-  console.log(`${width}px x ${height}px`);
+  console.log(`${elementAttributes.width}px x ${elementAttributes.height}px`);
   resetCommands();
 };
 

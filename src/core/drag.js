@@ -8,18 +8,15 @@ var initialY;
 var moveX;
 var moveY;
 
-var resizeX;
-var resizeY;
-
-var width = 200;
-var height = 100;
+var resizeX = 0;
+var resizeY = 0;
 
 var element;
 
 const dragStart = e => {
   dragBegins = true;
   const pSize = e.target.children[0];
-  pSize.innerHTML = `${width}px x ${height}px`;
+  pSize.innerHTML = `${elementAttributes.width}px x ${elementAttributes.height}px`;
 
   if (e.type === 'touchstart') {
     initialX = e.touches[0].layerX;
@@ -48,20 +45,25 @@ const drag = e => {
 
     element = e.target;
     const pSize = element.children[0];
-    pSize.innerHTML = `${width + resizeX}px x ${height + resizeY}px`;
-    element.setAttribute('style', `width:${width + resizeX}px;height:${height + resizeY}px;`);
+    pSize.innerHTML = `${elementAttributes.width + resizeX}px x ${
+      elementAttributes.height + resizeY
+    }px`;
+    element.setAttribute(
+      'style',
+      `width:${elementAttributes.width + resizeX}px;height:${elementAttributes.height + resizeY}px;`
+    );
   }
 };
 
 const dragEnd = e => {
   dragBegins = false;
-  width += resizeX;
-  height += resizeY;
+  elementAttributes.width += resizeX;
+  elementAttributes.height += resizeY;
 
   element = e.target;
   const pSize = element.children[0];
   console.log(element);
-  console.log(`${width}px x ${height}px`);
+  console.log(`${elementAttributes.width}px x ${elementAttributes.height}px`);
   pSize.innerHTML = '';
 };
 
