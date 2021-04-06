@@ -34,8 +34,6 @@ const executeCommands = () => {
     'style',
     `width:${elementAttributes.width}px;height:${elementAttributes.height}px;`
   );
-  console.log(element);
-  console.log(`${elementAttributes.width}px x ${elementAttributes.height}px`);
   resetCommands();
 };
 
@@ -55,9 +53,6 @@ const getValue = () => {
   } else {
     resetCommands();
   }
-
-  console.log('shortCutCommands');
-  console.log(shortCutCommands);
 };
 
 const setCommands = command => {
@@ -76,7 +71,6 @@ const getCommandSwitch = {
 
 const getCommands = e => {
   key = e.which || e.keyCode;
-  console.log('key :', key);
   const letter = keyCodeLetters[key];
 
   if (activeCommands) {
@@ -86,4 +80,4 @@ const getCommands = e => {
   }
 };
 
-document.body.addEventListener(enums.events.keydown, getCommands, false);
+document.body.addEventListener('keydown', getCommands, false);

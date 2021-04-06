@@ -3,7 +3,6 @@ class ElementBuilder {
   constructor(parent, tag) {
     const {infoClass} = enums.helpers;
     const {resize} = enums.mod;
-    const {mousedown, mousemove, mouseup} = enums.events;
 
     this.info = createElementor({tag: 'span', className: infoClass});
     this.mode = resize;
@@ -17,9 +16,9 @@ class ElementBuilder {
     this.tag = tag;
 
     this.element = createElementor({tag: this.tag, className: 'model', chield: [this.info]});
-    this.element.addEventListener(mousedown, dragStart, false);
-    this.element.addEventListener(mousemove, drag, false);
-    this.element.addEventListener(mouseup, dragEnd, false);
+    this.element.addEventListener('mousedown', dragStart, false);
+    this.element.addEventListener('mousemove', drag, false);
+    this.element.addEventListener('mouseup', dragEnd, false);
 
     parent.appendChild(this.element);
   }
