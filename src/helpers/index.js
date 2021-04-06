@@ -1,5 +1,5 @@
 /* eslint-disable-next-line complexity */
-const createElementor = ({attributes = [], chield = [], className, html, id, tag, text}) => {
+const createElementor = ({attributes = [], chield = [], className, html, id, tag, text, style}) => {
   const element = document.createElement(tag);
   if (className) {
     element.setAttribute('class', className);
@@ -19,6 +19,9 @@ const createElementor = ({attributes = [], chield = [], className, html, id, tag
   }
   if (id) {
     element.setAttribute('id', id);
+  }
+  if (style) {
+    element.setAttribute('style', style);
   }
   if (html) {
     element.innerHTML = html;

@@ -19,20 +19,19 @@ const resetCommands = () => {
 
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
-  const {html} = enums;
 
   // eslint-disable-next-line default-case
   switch (command) {
-    case html.width:
+    case 'width':
       elementAttributes.width = parseFloat(value);
       break;
-    case html.height:
+    case 'height':
       elementAttributes.height = parseFloat(value);
       break;
   }
 
   element.setAttribute(
-    html.style,
+    'style',
     `width:${elementAttributes.width}px;height:${elementAttributes.height}px;`
   );
   console.log(element);
@@ -41,13 +40,12 @@ const executeCommands = () => {
 };
 
 const getValue = () => {
-  const {html} = enums;
   if (keyCodeCommands[key] !== undefined || keyCodeNumbers[key] !== undefined) {
     switch (keyCodeCommands[key]) {
-      case html.backspace:
+      case 'backspace':
         shortCutCommands.value = backSpaceText(shortCutCommands.value);
         break;
-      case html.enter:
+      case 'enter':
         executeCommands();
         break;
       default:
@@ -68,8 +66,8 @@ const setCommands = command => {
 };
 
 const getCommandSwitch = {
-  w: () => setCommands(enums.html.width),
-  h: () => setCommands(enums.html.height),
+  w: () => setCommands('width'),
+  h: () => setCommands('height'),
   t: () => {
     recognition.continuous = false;
     recognition.start();

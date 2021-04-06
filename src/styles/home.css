@@ -11,14 +11,14 @@ body {
   width: 200px;
 }
 
-.model-size {
+.element-info {
   margin: 8px;
   position: absolute;
   top: 100%;
   white-space: nowrap;
 }
 
-.model-size:empty {
+.element-info:empty {
   display: none;
 }
 
