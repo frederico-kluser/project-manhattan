@@ -8,6 +8,7 @@ const styleTemplate = {
   top: 0,
   width: 300,
 };
+var elementId;
 
 class ElementBuilder {
   constructor(parent, tag) {
@@ -15,6 +16,7 @@ class ElementBuilder {
     const {resize} = enums.mod;
 
     this.id = unicGlobalVarNameGenerator();
+    elementId = this.id;
     this.info = createElementor({tag: 'span', className: infoClass});
     this.mode = resize;
     this.style = styleTemplate;
@@ -58,6 +60,7 @@ class ElementBuilder {
   }
 
   dragStart(e) {
+    elementId = this.id;
     this.dragBegins = true;
 
     this.initialPositionX = e.layerX;
@@ -94,3 +97,4 @@ class ElementBuilder {
 }
 
 window.ElementBuilder = ElementBuilder;
+window.elementId = elementId;

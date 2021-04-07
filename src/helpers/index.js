@@ -22,34 +22,34 @@ const injectCSS = cssCode => {
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const createElementor = ({attributes = [], chield = [], className, html, id, tag, text, style}) => {
-  const element = document.createElement(tag);
+  const elem = document.createElement(tag);
   if (className) {
-    element.setAttribute('class', className);
+    elem.setAttribute('class', className);
   }
   if (attributes.length) {
     attributes.forEach(({attribute, value}) => {
-      element.setAttribute(attribute, value);
+      elem.setAttribute(attribute, value);
     });
   }
   if (chield.length) {
     chield.forEach(item => {
-      element.appendChild(item);
+      elem.appendChild(item);
     });
   }
   if (text) {
-    element.innerText = text;
+    elem.innerText = text;
   }
   if (id) {
-    element.setAttribute('id', id);
+    elem.setAttribute('id', id);
   }
   if (style) {
-    element.setAttribute('style', style);
+    elem.setAttribute('style', style);
   }
   if (html) {
-    element.innerHTML = html;
+    elem.innerHTML = html;
   }
 
-  return element;
+  return elem;
 };
 
 const dynamicFunction = (func1, func2, conditional) => {

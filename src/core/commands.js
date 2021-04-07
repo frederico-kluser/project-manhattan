@@ -23,17 +23,16 @@ const executeCommands = () => {
   // eslint-disable-next-line default-case
   switch (command) {
     case 'width':
-      elementAttributes.width = parseFloat(value);
+      Elements[elementId].style.width = parseFloat(value);
       break;
     case 'height':
-      elementAttributes.height = parseFloat(value);
+      Elements[elementId].style.height = parseFloat(value);
       break;
   }
 
-  element.setAttribute(
-    'style',
-    `width:${elementAttributes.width}px;height:${elementAttributes.height}px;`
-  );
+  Elements[
+    elementId
+  ].setStyle = `width:${Elements[elementId].style.width}px;height:${Elements[elementId].style.height}px;`;
   resetCommands();
 };
 
