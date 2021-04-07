@@ -2,22 +2,22 @@
 
 const dragStart = e => {
   const {id} = e.target;
-  Elements[id].dragStart(e);
+  Elements[id].drag(e, 'start');
 };
 
-const drag = e => {
+const dragMove = e => {
   const {id} = e.target;
-  Elements[id].drag(e);
+  Elements[id].drag(e, 'move');
 };
 
 const dragEnd = e => {
   const {id} = e.target;
-  Elements[id].dragEnd();
+  Elements[id].drag(e, 'end');
 };
 
 // eslint-disable-next-line no-new
 new ElementBuilder(document.body, 'div');
 
 window.dragStart = dragStart;
-window.drag = drag;
+window.dragMove = dragMove;
 window.dragEnd = dragEnd;

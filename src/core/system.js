@@ -39,8 +39,9 @@ class ElementBuilder {
       chield: [this.info],
       id: this.id,
     });
+
     this.element.addEventListener('mousedown', dragStart, false);
-    this.element.addEventListener('mousemove', drag, false);
+    this.element.addEventListener('mousemove', dragMove, false);
     this.element.addEventListener('mouseup', dragEnd, false);
 
     parent.appendChild(this.element);
@@ -55,44 +56,67 @@ class ElementBuilder {
     this.info.innerHTML = info;
   }
 
+  setDragInfo(type) {
+    const {height, width} = this.style;
+    let info;
+
+    switch (type) {
+      case 'start':
+      case 'move':
+        info = `${width + this.calcValueX}px x ${height + this.calcValueY}px`;
+        break;
+      default:
+        info = '';
+        break;
+    }
+
+    this.info.innerHTML = info;
+  }
+
   set setStyle(style) {
     this.element.setAttribute('style', style);
   }
 
-  dragStart(e) {
-    elementId = this.id;
-    this.dragBegins = true;
+  drag(e, type) {
+    switch (type) {
+      case 'start':
+        elementId = this.id;
+        this.dragBegins = true;
 
-    this.initialPositionX = e.layerX;
-    this.initialPositionY = e.layerY;
+        this.initialPositionX = e.layerX;
+        this.initialPositionY = e.layerY;
 
-    this.calcValueX = 0;
-    this.calcValueY = 0;
+        this.calcValueX = 0;
+        this.calcValueY = 0;
+        break;
+      case 'move':
+        if (this.dragBegins) {
+          this.PositionX = e.layerX;
+          this.PositionY = e.layerY;
 
-    const {height, width} = this.style;
-    this.setInfo = `${width}px x ${height}px`;
-  }
+          this.calcValueX = this.PositionX - this.initialPositionX;
+          this.calcValueY = this.PositionY - this.initialPositionY;
 
-  drag(e) {
-    if (this.dragBegins) {
-      this.PositionX = e.layerX;
-      this.PositionY = e.layerY;
+          const {height, width} = this.style;
+          this.setStyle = `width:${width + this.calcValueX}px;height:${
+            height + this.calcValueY
+          }px;`;
+        }
+        break;
+      case 'end':
+        this.dragBegins = false;
 
-      this.calcValueX = this.PositionX - this.initialPositionX;
-      this.calcValueY = this.PositionY - this.initialPositionY;
+        this.style.width += this.calcValueX;
+        this.style.height += this.calcValueY;
 
-      const {height, width} = this.style;
-      this.setInfo = `${width + this.calcValueX}px x ${height + this.calcValueY}px`;
-      this.setStyle = `width:${width + this.calcValueX}px;height:${height + this.calcValueY}px;`;
+        this.calcValueX = 0;
+        this.calcValueY = 0;
+        break;
+      default:
+        break;
     }
-  }
 
-  dragEnd() {
-    this.dragBegins = false;
-    this.style.width += this.calcValueX;
-    this.style.height += this.calcValueY;
-
-    this.setInfo = '';
+    this.setDragInfo(type);
   }
 }
 
