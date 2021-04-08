@@ -4,9 +4,9 @@ var Elements = {};
 const styleTemplate = {
   'background-color': 'lightblue',
   height: 200,
-  left: 0,
+  left: 10,
   position: 'relative',
-  top: 0,
+  top: 10,
   width: 300,
 };
 var elementId;
@@ -36,7 +36,6 @@ class ElementBuilder {
 
     this.element = createElementor({
       tag: this.tag,
-      className: 'model',
       chield: [this.info],
       id: this.id,
     });

@@ -24,6 +24,8 @@ const executeCommands = () => {
   switch (command) {
     case 'width':
     case 'height':
+    case 'left':
+    case 'top':
       Elements[elementId].style[command] = parseFloat(value);
       break;
   }
@@ -58,7 +60,9 @@ const setCommands = command => {
 const getCommandSwitch = {
   w: () => setCommands('width'),
   h: () => setCommands('height'),
-  t: () => {
+  l: () => setCommands('left'),
+  t: () => setCommands('top'),
+  v: () => {
     recognition.continuous = false;
     recognition.start();
   },
