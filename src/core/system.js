@@ -52,29 +52,36 @@ class ElementBuilder {
     return this.element;
   }
 
-  set setInfo(info) {
-    this.info.innerHTML = info;
-  }
+  setInfo(type) {
+    const {resize} = enums.mod;
+    const {width, height} = this.style;
+    let info = '';
 
-  setDragInfo(type) {
-    const {height, width} = this.style;
-    let info;
-
-    switch (type) {
-      case 'start':
-      case 'move':
-        info = `${width + this.calcValueX}px x ${height + this.calcValueY}px`;
-        break;
-      case 'end':
+    switch (this.mode) {
+      case resize:
       default:
-        info = '';
+        info = `${height + this.calcValueY}px X ${width + this.calcValueX}px`;
         break;
     }
 
-    this.setInfo = info;
+    if (type === 'move' && !this.dragBegins) {
+      info = '';
+    }
+    this.info.innerHTML = info;
   }
 
-  set setStyle(style) {
+  setStyle() {
+    const {resize} = enums.mod;
+    const {width, height} = this.style;
+    let style = '';
+
+    switch (this.mode) {
+      case resize:
+      default:
+        style = `width:${width + this.calcValueX}px;height:${height + this.calcValueY}px;`;
+        break;
+    }
+
     this.element.setAttribute('style', style);
   }
 
@@ -89,8 +96,6 @@ class ElementBuilder {
 
         this.calcValueX = 0;
         this.calcValueY = 0;
-
-        this.setDragInfo(type);
         break;
       case 'move':
         if (this.dragBegins) {
@@ -100,12 +105,7 @@ class ElementBuilder {
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
 
-          const {height, width} = this.style;
-          this.setStyle = `width:${width + this.calcValueX}px;height:${
-            height + this.calcValueY
-          }px;`;
-
-          this.setDragInfo(type);
+          this.setStyle();
         }
         break;
       case 'end':
@@ -118,9 +118,10 @@ class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        this.setDragInfo(type);
         break;
     }
+
+    this.setInfo(type);
   }
 }
 

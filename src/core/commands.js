@@ -28,9 +28,7 @@ const executeCommands = () => {
       break;
   }
 
-  Elements[
-    elementId
-  ].setStyle = `width:${Elements[elementId].style.width}px;height:${Elements[elementId].style.height}px;`;
+  Elements[elementId].setStyle();
   resetCommands();
 };
 
