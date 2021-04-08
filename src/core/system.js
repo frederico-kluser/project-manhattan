@@ -65,12 +65,13 @@ class ElementBuilder {
       case 'move':
         info = `${width + this.calcValueX}px x ${height + this.calcValueY}px`;
         break;
+      case 'end':
       default:
         info = '';
         break;
     }
 
-    this.info.innerHTML = info;
+    this.setInfo = info;
   }
 
   set setStyle(style) {
@@ -88,6 +89,8 @@ class ElementBuilder {
 
         this.calcValueX = 0;
         this.calcValueY = 0;
+
+        this.setDragInfo(type);
         break;
       case 'move':
         if (this.dragBegins) {
@@ -101,9 +104,12 @@ class ElementBuilder {
           this.setStyle = `width:${width + this.calcValueX}px;height:${
             height + this.calcValueY
           }px;`;
+
+          this.setDragInfo(type);
         }
         break;
       case 'end':
+      default:
         this.dragBegins = false;
 
         this.style.width += this.calcValueX;
@@ -111,12 +117,10 @@ class ElementBuilder {
 
         this.calcValueX = 0;
         this.calcValueY = 0;
-        break;
-      default:
+
+        this.setDragInfo(type);
         break;
     }
-
-    this.setDragInfo(type);
   }
 }
 
