@@ -2,6 +2,7 @@
 
 var Elements = {};
 const styleTemplate = {
+  'background-color': 'lightblue',
   height: 200,
   left: 0,
   position: 'relative',
@@ -46,6 +47,9 @@ class ElementBuilder {
 
     parent.appendChild(this.element);
     Elements[this.id] = this;
+    if (globalStyle === undefined) {
+      injectCSS();
+    }
   }
 
   get getElement() {
@@ -118,6 +122,7 @@ class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
+        updateGlobalStyle();
         break;
     }
 

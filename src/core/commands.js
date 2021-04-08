@@ -28,7 +28,7 @@ const executeCommands = () => {
       break;
   }
 
-  Elements[elementId].setStyle();
+  updateGlobalStyle();
   resetCommands();
 };
 

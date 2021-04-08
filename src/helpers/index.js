@@ -1,5 +1,8 @@
+/* eslint-disable no-undef */
 /* eslint-disable complexity */
 /* eslint-disable-next-line complexity */
+
+var globalStyle;
 
 const nameGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -12,11 +15,36 @@ const unicGlobalVarNameGenerator = () => {
   return name;
 };
 
-const injectCSS = cssCode => {
-  var style = document.createElement('style');
-  style.type = 'text/css';
-  style.innerHTML = cssCode;
-  document.getElementsByTagName('head')[0].appendChild(style);
+const updateGlobalStyle = () => {
+  const cssReference = {
+    height: 'px',
+    width: 'px',
+    top: 'px',
+    left: 'px',
+  };
+
+  let css = '';
+
+  Object.keys(Elements).forEach(elementKey => {
+    css += `#${elementKey} {\n`;
+    const {element, style} = Elements[elementKey];
+    element.removeAttribute('style');
+
+    Object.keys(style).forEach(cssKey => {
+      css += `\t${cssKey}: ${style[cssKey]}${cssReference[cssKey] || ''};\n`;
+    });
+
+    css += '}\n';
+  });
+
+  globalStyle.innerHTML = css;
+};
+
+const injectCSS = () => {
+  globalStyle = document.createElement('style');
+  globalStyle.setAttribute('type', 'text/css');
+  document.getElementsByTagName('head')[0].appendChild(globalStyle);
+  updateGlobalStyle();
 };
 
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -68,5 +96,7 @@ window.createElementor = createElementor;
 window.dynamicFunction = dynamicFunction;
 window.backSpaceText = backSpaceText;
 window.unicGlobalVarNameGenerator = unicGlobalVarNameGenerator;
+window.globalStyle = globalStyle;
 window.injectCSS = injectCSS;
+window.updateGlobalStyle = updateGlobalStyle;
 window.random = random;

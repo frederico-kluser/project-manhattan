@@ -3,14 +3,6 @@ body {
   padding: 0px;
 }
 
-.model {
-  background-color: lightblue;
-  height: 200px;
-  margin: 50px;
-  position: relative;
-  width: 300px;
-}
-
 .element-info {
   margin: 8px;
   position: absolute;
