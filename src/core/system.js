@@ -77,7 +77,7 @@ class ElementBuilder {
     this.info.innerHTML = info;
   }
 
-  setStyle() {
+  setStyleTagAttribute() {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
     let style = '';
@@ -95,23 +95,24 @@ class ElementBuilder {
     this.element.setAttribute('style', style);
   }
 
-  // eslint-disable-next-line complexity
-  drag(e, type) {
+  updateStyleElement() {
     const {sizeMode, moveMode} = enums.mod;
-    let x;
-    let y;
-
     switch (this.mode) {
       case sizeMode:
       default:
-        x = e.layerX;
-        y = e.layerY;
+        this.style.width += this.calcValueX;
+        this.style.height += this.calcValueY;
         break;
       case moveMode:
-        x = e.clientX;
-        y = e.clientY;
+        this.style.left += this.calcValueX;
+        this.style.top += this.calcValueY;
         break;
     }
+  }
+
+  drag(e, type) {
+    const x = e.clientX;
+    const y = e.clientY;
 
     switch (type) {
       case 'start':
@@ -132,24 +133,14 @@ class ElementBuilder {
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
 
-          this.setStyle();
+          this.setStyleTagAttribute();
         }
         break;
       case 'end':
       default:
         this.dragBegins = false;
 
-        switch (this.mode) {
-          case sizeMode:
-          default:
-            this.style.width += this.calcValueX;
-            this.style.height += this.calcValueY;
-            break;
-          case moveMode:
-            this.style.left += this.calcValueX;
-            this.style.top += this.calcValueY;
-            break;
-        }
+        this.updateStyleElement();
 
         this.calcValueX = 0;
         this.calcValueY = 0;

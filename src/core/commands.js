@@ -70,7 +70,9 @@ const setCommands = command => {
 
 const getControlCommands = {
   s: () => setCommands('sizeMode'),
+  1: () => setCommands('sizeMode'),
   m: () => setCommands('moveMode'),
+  2: () => setCommands('moveMode'),
 };
 
 const getShiftCommands = {
@@ -87,17 +89,19 @@ const getShiftCommands = {
   },
 };
 
+// eslint-disable-next-line complexity
 const getCommands = e => {
   key = e.which || e.keyCode;
   console.log('key :', key);
   const letter = keyCodeLetters[key];
+  const number = keyCodeNumbers[key];
 
   if (activeCommands) {
     getValue();
   } else if (e.shiftKey) {
-    activeCommands = !!dynamicFunction(getShiftCommands[letter], resetCommands);
-  } else if (e.ctrlKey) {
-    activeCommands = !!dynamicFunction(getControlCommands[letter], resetCommands);
+    activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands); // não faz sentido porque o resetCommands já sera o activeCommands como false
+  } else if (e.ctrlKey && dynamicFunction(getControlCommands[letter], getControlCommands[number])) {
+    executeCommands();
   }
 };
 

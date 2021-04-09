@@ -90,13 +90,15 @@ const createElementor = ({attributes = [], chield = [], className, html, id, tag
 };
 
 const dynamicFunction = (func1, func2, conditional) => {
-  let func = func1 || func2;
+  if (func1 || func2) {
+    let func = func1 || func2;
 
-  if (conditional === false) {
-    func = func2;
+    if (conditional === false) {
+      func = func2;
+    }
+    return !!func();
   }
-
-  return func();
+  return false;
 };
 
 const backSpaceText = string => string.substring(0, string.length - 1);
