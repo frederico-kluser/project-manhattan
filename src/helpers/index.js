@@ -18,9 +18,11 @@ const unicGlobalVarNameGenerator = () => {
 const updateGlobalStyle = () => {
   const cssReference = {
     height: 'px',
-    width: 'px',
-    top: 'px',
     left: 'px',
+    margin: 'px',
+    padding: 'px',
+    top: 'px',
+    width: 'px',
   };
 
   let css = '';
@@ -29,9 +31,16 @@ const updateGlobalStyle = () => {
     css += `#${elementKey} {\n`;
     const {element, style} = Elements[elementKey];
     element.removeAttribute('style');
+    const sortAttributes = [];
 
     Object.keys(style).forEach(cssKey => {
-      css += `\t${cssKey}: ${style[cssKey]}${cssReference[cssKey] || ''};\n`;
+      sortAttributes.push(`\t${cssKey}: ${style[cssKey]}${cssReference[cssKey] || ''};\n`);
+    });
+
+    sortAttributes.sort();
+
+    sortAttributes.forEach(attribute => {
+      css += attribute;
     });
 
     css += '}\n';

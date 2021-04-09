@@ -3,8 +3,8 @@ var enums = {
     infoClass: 'element-info noselect',
   },
   mod: {
-    resize: 'resize',
-    reposition: 'reposition,',
+    sizeMode: 'sizeMode',
+    moveMode: 'moveMode',
   },
 };
 

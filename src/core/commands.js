@@ -17,16 +17,27 @@ const resetCommands = () => {
   };
 };
 
+// eslint-disable-next-line complexity
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
+  const {sizeMode, moveMode} = enums.mod;
+
+  console.log('Execute command');
+  console.log(command);
 
   // eslint-disable-next-line default-case
   switch (command) {
-    case 'width':
     case 'height':
     case 'left':
+    case 'margin':
+    case 'padding':
     case 'top':
-      Elements[elementId].style[command] = parseFloat(value);
+    case 'width':
+      Elements[elementId].style[command] = parseFloat(value) || 0;
+      break;
+    case sizeMode:
+    case moveMode:
+      Elements[elementId].mode = command;
       break;
   }
 
@@ -57,11 +68,19 @@ const setCommands = command => {
   return true;
 };
 
-const getCommandSwitch = {
-  w: () => setCommands('width'),
+const getControlCommands = {
+  s: () => setCommands('sizeMode'),
+  m: () => setCommands('moveMode'),
+};
+
+const getShiftCommands = {
   h: () => setCommands('height'),
   l: () => setCommands('left'),
+  m: () => setCommands('margin'),
+  p: () => setCommands('padding'),
   t: () => setCommands('top'),
+  w: () => setCommands('width'),
+
   v: () => {
     recognition.continuous = false;
     recognition.start();
@@ -76,7 +95,9 @@ const getCommands = e => {
   if (activeCommands) {
     getValue();
   } else if (e.shiftKey) {
-    activeCommands = !!dynamicFunction(getCommandSwitch[letter], resetCommands);
+    activeCommands = !!dynamicFunction(getShiftCommands[letter], resetCommands);
+  } else if (e.ctrlKey) {
+    activeCommands = !!dynamicFunction(getControlCommands[letter], resetCommands);
   }
 };
 

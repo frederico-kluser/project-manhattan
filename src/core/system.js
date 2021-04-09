@@ -4,9 +4,10 @@ var Elements = {};
 const styleTemplate = {
   'background-color': 'lightblue',
   height: 200,
-  left: 10,
+  left: 100,
+  margin: 50,
   position: 'relative',
-  top: 10,
+  top: 100,
   width: 300,
 };
 var elementId;
@@ -14,12 +15,12 @@ var elementId;
 class ElementBuilder {
   constructor(parent, tag) {
     const {infoClass} = enums.helpers;
-    const {resize} = enums.mod;
+    const {sizeMode} = enums.mod;
 
     this.id = unicGlobalVarNameGenerator();
     elementId = this.id;
     this.info = createElementor({tag: 'span', className: infoClass});
-    this.mode = resize;
+    this.mode = sizeMode;
     this.style = styleTemplate;
     this.tag = tag;
 
@@ -56,14 +57,17 @@ class ElementBuilder {
   }
 
   setInfo(type) {
-    const {resize} = enums.mod;
-    const {width, height} = this.style;
+    const {sizeMode, moveMode} = enums.mod;
+    const {width, height, left, top} = this.style;
     let info = '';
 
     switch (this.mode) {
-      case resize:
+      case sizeMode:
       default:
         info = `${height + this.calcValueY}px X ${width + this.calcValueX}px`;
+        break;
+      case moveMode:
+        info = `${top + this.calcValueY}px X ${left + this.calcValueX}px`;
         break;
     }
 
@@ -74,36 +78,56 @@ class ElementBuilder {
   }
 
   setStyle() {
-    const {resize} = enums.mod;
-    const {width, height} = this.style;
+    const {sizeMode, moveMode} = enums.mod;
+    const {width, height, left, top} = this.style;
     let style = '';
 
     switch (this.mode) {
-      case resize:
+      case sizeMode:
       default:
         style = `width:${width + this.calcValueX}px;height:${height + this.calcValueY}px;`;
+        break;
+      case moveMode:
+        style = `left:${left + this.calcValueX}px;top:${top + this.calcValueY}px;`;
         break;
     }
 
     this.element.setAttribute('style', style);
   }
 
+  // eslint-disable-next-line complexity
   drag(e, type) {
+    const {sizeMode, moveMode} = enums.mod;
+    let x;
+    let y;
+
+    switch (this.mode) {
+      case sizeMode:
+      default:
+        x = e.layerX;
+        y = e.layerY;
+        break;
+      case moveMode:
+        x = e.clientX;
+        y = e.clientY;
+        break;
+    }
+
     switch (type) {
       case 'start':
         elementId = this.id;
         this.dragBegins = true;
 
-        this.initialPositionX = e.layerX;
-        this.initialPositionY = e.layerY;
+        this.initialPositionX = x;
+        this.initialPositionY = y;
 
         this.calcValueX = 0;
         this.calcValueY = 0;
         break;
       case 'move':
         if (this.dragBegins) {
-          this.PositionX = e.layerX;
-          this.PositionY = e.layerY;
+          this.PositionX = x;
+          this.PositionY = y;
 
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
@@ -115,8 +139,17 @@ class ElementBuilder {
       default:
         this.dragBegins = false;
 
-        this.style.width += this.calcValueX;
-        this.style.height += this.calcValueY;
+        switch (this.mode) {
+          case sizeMode:
+          default:
+            this.style.width += this.calcValueX;
+            this.style.height += this.calcValueY;
+            break;
+          case moveMode:
+            this.style.left += this.calcValueX;
+            this.style.top += this.calcValueY;
+            break;
+        }
 
         this.calcValueX = 0;
         this.calcValueY = 0;
