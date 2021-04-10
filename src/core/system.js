@@ -19,7 +19,7 @@ class ElementBuilder {
 
     this.id = unicGlobalVarNameGenerator();
     elementId = this.id;
-    this.info = createElementor({tag: 'span', className: infoClass});
+    this.info = createElement({tag: 'span', className: infoClass});
     this.mode = sizeMode;
     this.style = styleTemplate;
     this.tag = tag;
@@ -35,7 +35,7 @@ class ElementBuilder {
     this.calcValueX = 0;
     this.calcValueY = 0;
 
-    this.element = createElementor({
+    this.element = createElement({
       tag: this.tag,
       chield: [this.info],
       id: this.id,
@@ -44,6 +44,7 @@ class ElementBuilder {
     this.element.addEventListener('mousedown', dragStart, false);
     this.element.addEventListener('mousemove', dragMove, false);
     this.element.addEventListener('mouseup', dragEnd, false);
+    this.element.addEventListener('contextmenu', builderMenu);
 
     parent.appendChild(this.element);
     Elements[this.id] = this;

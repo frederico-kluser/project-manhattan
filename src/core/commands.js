@@ -105,4 +105,4 @@ const getCommands = e => {
   }
 };
 
-document.body.addEventListener('keydown', getCommands, false);
+document.addEventListener('keydown', getCommands, false);
