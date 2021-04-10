@@ -9,26 +9,27 @@ body {
 }
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 `,
   helper: `
 .kluser_helper {
-  position: fixed;
-  top: 25px;
-  left: 25px;
-  width: 50px;
-  height: 50px;
   background-color: ${black};
   border-radius: 10px;
+  height: 50px;
+  left: 25px;
   opacity: 0.1;
+  overflow: hidden;
+  position: fixed;
   text-align: center;
+  top: 25px;
   transition: all 0.5s;
+  width: 50px;
 }
 
 .kluser_helper:hover {
@@ -36,9 +37,24 @@ body {
 }
 
 .kluser_helper .material-icons {
-  font-size: 30px;
-  line-height: 50px;
+  background-color: ${black};
   color: ${white};
+  font-size: 30px;
+  left: 0px;
+  line-height: 50px;
+  position: absolute;
+  width: 50px;
+  z-index: 1;
+}
+
+.kluser_text {
+  color: ${white};
+  font-family: Roboto;
+  height: 50px;
+  line-height: 50px;
+  padding-right: 16px;
+  position: relative;
+  text-align: right;
 }
 `,
 };
@@ -47,9 +63,16 @@ var globalStyle;
 var helper = {};
 helper.symbol = enums.icons.search;
 helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
-helper.element = createElement({tag: 'div', className: 'kluser_helper', chield: [helper.icon]});
+helper.text = createElement({tag: 'div', className: 'kluser_text mdc-typography--headline1'});
+helper.element = createElement({
+  tag: 'div',
+  className: 'kluser_helper',
+  chield: [helper.icon, helper.text],
+});
 
-const updateHelper = () => {};
+const updateHelper = () => {
+  helper.icon.innerText = helper.symbol;
+};
 
 const updateGlobalStyle = () => {
   const cssReference = {
@@ -108,8 +131,22 @@ const injectCSS = () => {
       },
     ],
   });
+  const linkFonts = createElement({
+    tag: 'link',
+    attributes: [
+      {
+        attribute: 'href',
+        value: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500',
+      },
+      {
+        attribute: 'rel',
+        value: 'stylesheet',
+      },
+    ],
+  });
 
   document.getElementsByTagName('head')[0].appendChild(linkIcons);
+  document.getElementsByTagName('head')[0].appendChild(linkFonts);
   document.getElementsByTagName('head')[0].appendChild(globalStyle);
   document.body.appendChild(helper.element);
   updateGlobalStyle();

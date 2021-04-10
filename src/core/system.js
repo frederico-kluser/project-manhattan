@@ -14,12 +14,10 @@ var elementId;
 
 class ElementBuilder {
   constructor(parent, tag) {
-    const {infoClass} = enums.helpers;
     const {sizeMode} = enums.mod;
 
     this.id = unicGlobalVarNameGenerator();
     elementId = this.id;
-    this.info = createElement({tag: 'span', className: infoClass});
     this.mode = sizeMode;
     this.style = styleTemplate;
     this.tag = tag;
@@ -37,7 +35,6 @@ class ElementBuilder {
 
     this.element = createElement({
       tag: this.tag,
-      chield: [this.info],
       id: this.id,
     });
 
@@ -57,6 +54,7 @@ class ElementBuilder {
     return this.element;
   }
 
+  // eslint-disable-next-line complexity
   setInfo(type) {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
@@ -65,17 +63,19 @@ class ElementBuilder {
     switch (this.mode) {
       case sizeMode:
       default:
-        info = `${height + this.calcValueY}px X ${width + this.calcValueX}px`;
+        info = `height: ${height + this.calcValueY}px; width: ${width + this.calcValueX}px`;
         break;
       case moveMode:
-        info = `${top + this.calcValueY}px X ${left + this.calcValueX}px`;
+        info = `top: ${top + this.calcValueY}px left: ${left + this.calcValueX}px`;
         break;
     }
 
     if (type === 'move' && !this.dragBegins) {
       info = '';
     }
-    this.info.innerHTML = info;
+
+    helper.text.innerText = info;
+    helper.element.setAttribute('style', info ? `width:275px;opacity:1;` : '');
   }
 
   setStyleTagAttribute() {
@@ -125,6 +125,9 @@ class ElementBuilder {
 
         this.calcValueX = 0;
         this.calcValueY = 0;
+
+        helper.symbol = enums.icons.tune;
+        updateGlobalStyle();
         break;
       case 'move':
         if (this.dragBegins) {
@@ -146,6 +149,7 @@ class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
+        helper.symbol = enums.icons.search;
         updateGlobalStyle();
         break;
     }
