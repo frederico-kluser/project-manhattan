@@ -154,5 +154,6 @@ class ElementBuilder {
   }
 }
 
-window.ElementBuilder = ElementBuilder;
+// eslint-disable-next-line no-new
+new ElementBuilder(document.body, 'div');
 window.elementId = elementId;

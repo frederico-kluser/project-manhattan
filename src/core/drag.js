@@ -15,9 +15,6 @@ const dragEnd = e => {
   Elements[id].drag(e, 'end');
 };
 
-// eslint-disable-next-line no-new
-new ElementBuilder(document.body, 'div');
-
 window.dragStart = dragStart;
 window.dragMove = dragMove;
 window.dragEnd = dragEnd;

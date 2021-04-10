@@ -49,6 +49,8 @@ helper.symbol = enums.icons.search;
 helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
 helper.element = createElement({tag: 'div', className: 'kluser_helper', chield: [helper.icon]});
 
+const updateHelper = () => {};
+
 const updateGlobalStyle = () => {
   const cssReference = {
     height: 'px',
@@ -85,6 +87,7 @@ const updateGlobalStyle = () => {
   });
 
   globalStyle.innerHTML = css;
+  updateHelper();
 };
 
 const injectCSS = () => {
@@ -112,7 +115,6 @@ const injectCSS = () => {
   updateGlobalStyle();
 };
 
-window.globalStyleObject = globalStyleObject;
 window.updateGlobalStyle = updateGlobalStyle;
 window.globalStyle = globalStyle;
 window.helper = helper;

@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
 /* eslint-disable complexity */
-/* eslint-disable-next-line complexity */
 
 const nameGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
