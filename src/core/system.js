@@ -55,7 +55,7 @@ class ElementBuilder {
   }
 
   // eslint-disable-next-line complexity
-  setInfo(type) {
+  setInfo() {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
     let info = '';
@@ -70,12 +70,12 @@ class ElementBuilder {
         break;
     }
 
-    if (type === 'move' && !this.dragBegins) {
+    if (!this.dragBegins) {
       info = '';
     }
 
     helper.text.innerText = info;
-    helper.element.setAttribute('style', info ? `width:275px;opacity:1;` : '');
+    helper.element.setAttribute('style', info ? `width:225px;opacity:1;` : '');
   }
 
   setStyleTagAttribute() {
@@ -154,7 +154,7 @@ class ElementBuilder {
         break;
     }
 
-    this.setInfo(type);
+    this.setInfo();
   }
 }
 

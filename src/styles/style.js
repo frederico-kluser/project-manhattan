@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const {black, white} = enums.colors;
 
+const size = 30;
 const globalStyleObject = {
   generalConfig: `
 body {
@@ -21,15 +22,15 @@ body {
 .kluser_helper {
   background-color: ${black};
   border-radius: 10px;
-  height: 50px;
+  height: ${size}px;
   left: 25px;
   opacity: 0.1;
   overflow: hidden;
   position: fixed;
   text-align: center;
   top: 25px;
-  transition: all 0.5s;
-  width: 50px;
+  transition: all 0.25s;
+  width: ${size}px;
 }
 
 .kluser_helper:hover {
@@ -39,19 +40,20 @@ body {
 .kluser_helper .material-icons {
   background-color: ${black};
   color: ${white};
-  font-size: 30px;
+  font-size: 20px;
   left: 0px;
-  line-height: 50px;
+  line-height: ${size}px;
   position: absolute;
-  width: 50px;
+  width: ${size}px;
   z-index: 1;
 }
 
 .kluser_text {
   color: ${white};
   font-family: Roboto;
-  height: 50px;
-  line-height: 50px;
+  font-size: 14px;
+  height: ${size}px;
+  line-height: ${size}px;
   padding-right: 16px;
   position: relative;
   text-align: right;
