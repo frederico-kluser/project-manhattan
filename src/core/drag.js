@@ -1,8 +1,10 @@
 /* eslint-disable no-undef */
 
 const dragStart = e => {
-  const {id} = e.target;
-  Elements[id].drag(e, 'start');
+  if (e.which === 1) {
+    const {id} = e.target;
+    Elements[id].drag(e, 'start');
+  }
 };
 
 const dragMove = e => {
