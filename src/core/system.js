@@ -58,7 +58,9 @@ class ElementBuilder {
   setInfo() {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
+    const {tune, search} = enums.icons;
     let info = '';
+    let icon = tune;
 
     switch (this.mode) {
       case sizeMode:
@@ -72,10 +74,10 @@ class ElementBuilder {
 
     if (!this.dragBegins) {
       info = '';
+      icon = search;
     }
 
-    helper.text.innerText = info;
-    helper.element.setAttribute('style', info ? `width:225px;opacity:1;` : '');
+    updateHelper(info, icon);
   }
 
   setStyleTagAttribute() {
@@ -117,6 +119,8 @@ class ElementBuilder {
 
     switch (type) {
       case 'start':
+        console.log('start');
+        console.log(e);
         elementId = this.id;
         this.dragBegins = true;
 
@@ -126,7 +130,6 @@ class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        helper.symbol = enums.icons.tune;
         updateGlobalStyle();
         break;
       case 'move':
@@ -149,7 +152,6 @@ class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        helper.symbol = enums.icons.search;
         updateGlobalStyle();
         break;
     }

@@ -8,6 +8,7 @@ var enums = {
     code: 'code',
     keyboard: 'keyboard',
     search: 'search',
+    shortcut: 'shortcut',
     tune: 'tune',
   },
   mod: {

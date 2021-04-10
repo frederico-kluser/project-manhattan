@@ -99,10 +99,23 @@ const getCommands = e => {
   if (activeCommands) {
     getValue();
   } else if (e.shiftKey) {
-    activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands); // não faz sentido porque o resetCommands já sera o activeCommands como false
+    activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
+    updateHelper(shortCutCommands.command, enums.icons.shortcut);
   } else if (e.ctrlKey && dynamicFunction(getControlCommands[letter], getControlCommands[number])) {
     executeCommands();
   }
 };
 
 document.addEventListener('keydown', getCommands, false);
+document.addEventListener(
+  'mousemove',
+  () => {
+    if (activeCommands) {
+      resetCommands();
+      updateHelper('', enums.icons.search);
+    }
+  },
+  false
+);
+window.activeCommands = activeCommands;
+window.shortCutCommands = shortCutCommands;

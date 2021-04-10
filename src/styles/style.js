@@ -72,8 +72,11 @@ helper.element = createElement({
   chield: [helper.icon, helper.text],
 });
 
-const updateHelper = () => {
-  helper.icon.innerText = helper.symbol;
+const updateHelper = (info = '', icon = helper.symbol) => {
+  helper.text.innerText = info;
+  helper.symbol = icon;
+  helper.icon.innerText = icon;
+  helper.element.setAttribute('style', info ? `width:225px;opacity:1;` : '');
 };
 
 const updateGlobalStyle = () => {
@@ -158,3 +161,4 @@ window.updateGlobalStyle = updateGlobalStyle;
 window.globalStyle = globalStyle;
 window.helper = helper;
 window.injectCSS = injectCSS;
+window.updateHelper = updateHelper;
