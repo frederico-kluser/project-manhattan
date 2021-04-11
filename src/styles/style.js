@@ -2,6 +2,7 @@
 const {black, white} = enums.colors;
 
 const size = 30;
+const inputExtraSize = 1;
 const globalStyleObject = {
   generalConfig: `
 body {
@@ -18,7 +19,7 @@ body {
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 `,
-  helper: `
+  helperBubble: `
 .kluser_helper {
   background-color: ${black};
   border-radius: 10px;
@@ -31,7 +32,8 @@ body {
   position: fixed;
   text-align: center;
   top: 25px;
-  transition: opacity 0.25s, max-width 1s;
+  transition: all 0.25s;
+  transition: opacity 0.25s, max-width 0.5s;
   transition-timing-function: linear;
   width: auto;
 }
@@ -39,7 +41,8 @@ body {
 .kluser_helper:hover {
   opacity: 1;
 }
-
+`,
+  helperIcons: `
 .kluser_helper .material-icons {
   background-color: ${black};
   color: ${white};
@@ -50,9 +53,11 @@ body {
   width: ${size}px;
   z-index: 1;
 }
-
+`,
+  helperText: `
 .kluser_text {
   color: ${white};
+  float: left;
   font-family: Roboto;
   font-size: 14px;
   height: ${size}px;
@@ -67,24 +72,71 @@ body {
   display: none;
 }
 `,
+  helperInput: `
+.kluser_input {
+  background-color: transparent;
+  border: none;
+  color: ${white};
+  display: none;
+  float: left;
+  height: ${size}px;
+  line-height: ${size}px;
+  outline: none;
+  padding: 0px;
+  padding-right: 16px;
+}
+
+.kluser_input::placeholder {
+  color: ${white};
+}
+`,
+};
+
+const autoReizeInput = ({target}) => {
+  const {length} = target.value;
+  target.setAttribute('size', length + inputExtraSize);
+  target.setAttribute('maxlength', length + inputExtraSize);
 };
 
 var globalStyle;
 var helper = {};
 helper.symbol = enums.icons.search;
 helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
-helper.text = createElement({tag: 'div', className: 'kluser_text mdc-typography--headline1'});
+helper.text = createElement({tag: 'div', className: 'kluser_text'});
+helper.input = createElement({tag: 'input', className: 'kluser_input'});
 helper.element = createElement({
   tag: 'div',
   className: 'kluser_helper',
-  chield: [helper.icon, helper.text],
+  chield: [helper.icon, helper.text, helper.input],
 });
 
-const updateHelper = (info = '', icon = helper.symbol) => {
+const updateHelper = (
+  info = '',
+  icon = helper.symbol,
+  inputPlaceholder = '',
+  inputType = 'text',
+  inputValue = ''
+) => {
   helper.text.innerText = info;
   helper.symbol = icon;
   helper.icon.innerText = icon;
-  helper.element.setAttribute('style', info ? `opacity:1;max-width:500px;` : '');
+  helper.input.setAttribute('placeholder', inputPlaceholder);
+  helper.input.setAttribute('type', inputType);
+  helper.input.setAttribute('size', inputValue.length + inputExtraSize);
+  helper.input.setAttribute('maxlength', inputValue.length + inputExtraSize);
+  helper.input.value = inputValue;
+  helper.input.setAttribute('style', inputPlaceholder ? `display: initial;` : '');
+  if (inputPlaceholder) {
+    helper.input.setAttribute('type', inputType);
+    setTimeout(() => {
+      helper.input.focus();
+    }, 1);
+  }
+  helper.input.addEventListener('keydown', autoReizeInput, false);
+  helper.element.setAttribute(
+    'style',
+    info ? `opacity:1;max-width:500px;` : 'transition: opacity 0.25s;'
+  );
 };
 
 const updateGlobalStyle = () => {

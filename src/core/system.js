@@ -119,8 +119,6 @@ class ElementBuilder {
 
     switch (type) {
       case 'start':
-        console.log('start');
-        console.log(e);
         this.dragBegins = true;
 
         this.initialPositionX = x;
