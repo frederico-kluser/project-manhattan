@@ -45,24 +45,6 @@ const executeCommands = () => {
   resetCommands();
 };
 
-const getValue = () => {
-  if (keyCodeCommands[key] !== undefined || keyCodeNumbers[key] !== undefined) {
-    switch (keyCodeCommands[key]) {
-      case 'backspace':
-        shortCutCommands.value = backSpaceText(shortCutCommands.value);
-        break;
-      case 'enter':
-        executeCommands();
-        break;
-      default:
-        shortCutCommands.value += keyCodeNumbers[key];
-        break;
-    }
-  } else {
-    resetCommands();
-  }
-};
-
 const setCommands = command => {
   shortCutCommands.command = command;
   return true;
@@ -95,9 +77,10 @@ const getCommands = e => {
   console.log('key :', key);
   const letter = keyCodeLetters[key];
   const number = keyCodeNumbers[key];
+  shortCutCommands.value = helper.input.value;
 
-  if (activeCommands) {
-    getValue();
+  if (activeCommands && keyCodeCommands[key] === 'enter') {
+    executeCommands();
   } else if (e.shiftKey) {
     activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
     if (activeCommands) {

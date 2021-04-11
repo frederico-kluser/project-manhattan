@@ -56,8 +56,6 @@ const dynamicFunction = (func1, func2, conditional) => {
   return false;
 };
 
-const backSpaceText = string => string.substring(0, string.length - 1);
-
 const builderMenu = e => {
   console.log(e);
   e.preventDefault();
@@ -65,7 +63,6 @@ const builderMenu = e => {
 
 window.createElement = createElement;
 window.dynamicFunction = dynamicFunction;
-window.backSpaceText = backSpaceText;
 window.unicGlobalVarNameGenerator = unicGlobalVarNameGenerator;
 window.random = random;
 window.builderMenu = builderMenu;
