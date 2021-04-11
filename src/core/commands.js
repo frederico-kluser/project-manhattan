@@ -100,9 +100,13 @@ const getCommands = e => {
     getValue();
   } else if (e.shiftKey) {
     activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
-    updateHelper(shortCutCommands.command, enums.icons.shortcut);
+    if (activeCommands) {
+      updateHelper(shortCutCommands.command, enums.icons.shortcut);
+    }
   } else if (e.ctrlKey && dynamicFunction(getControlCommands[letter], getControlCommands[number])) {
+    const mod = shortCutCommands.command;
     executeCommands();
+    updateHelper(`${mod} activate`, enums.icons.mode);
   }
 };
 

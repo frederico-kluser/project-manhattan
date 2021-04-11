@@ -3,6 +3,7 @@
 const dragStart = e => {
   if (e.which === 1) {
     const {id} = e.target;
+    elementId = id;
     Elements[id].drag(e, 'start');
   }
 };

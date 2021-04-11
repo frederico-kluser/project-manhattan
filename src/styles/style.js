@@ -24,13 +24,16 @@ body {
   border-radius: 10px;
   height: ${size}px;
   left: 25px;
+  max-width: ${size}px;
+  min-width: ${size}px;
   opacity: 0.1;
   overflow: hidden;
   position: fixed;
   text-align: center;
   top: 25px;
-  transition: all 0.25s;
-  width: ${size}px;
+  transition: opacity 0.25s, max-width 1s;
+  transition-timing-function: linear;
+  width: auto;
 }
 
 .kluser_helper:hover {
@@ -57,6 +60,11 @@ body {
   padding-right: 16px;
   position: relative;
   text-align: right;
+  margin-left: ${size}px;
+}
+
+.kluser_text:empty {
+  display: none;
 }
 `,
 };
@@ -76,7 +84,7 @@ const updateHelper = (info = '', icon = helper.symbol) => {
   helper.text.innerText = info;
   helper.symbol = icon;
   helper.icon.innerText = icon;
-  helper.element.setAttribute('style', info ? `width:225px;opacity:1;` : '');
+  helper.element.setAttribute('style', info ? `opacity:1;max-width:500px;` : '');
 };
 
 const updateGlobalStyle = () => {

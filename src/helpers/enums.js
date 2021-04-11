@@ -7,6 +7,7 @@ var enums = {
     add_circle: 'add_circle',
     code: 'code',
     keyboard: 'keyboard',
+    mode: 'mode',
     search: 'search',
     shortcut: 'shortcut',
     tune: 'tune',

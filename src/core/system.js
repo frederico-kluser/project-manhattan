@@ -121,7 +121,6 @@ class ElementBuilder {
       case 'start':
         console.log('start');
         console.log(e);
-        elementId = this.id;
         this.dragBegins = true;
 
         this.initialPositionX = x;
