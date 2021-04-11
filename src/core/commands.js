@@ -33,7 +33,7 @@ const executeCommands = () => {
     case 'padding':
     case 'top':
     case 'width':
-      Elements[elementId].style[command] = parseFloat(value) || 0;
+      Elements[elementId].style[command] = value;
       break;
     case sizeMode:
     case moveMode:

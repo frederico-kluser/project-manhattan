@@ -162,7 +162,10 @@ const updateGlobalStyle = () => {
     const sortAttributes = [];
 
     Object.keys(style).forEach(cssKey => {
-      sortAttributes.push(`\t${cssKey}: ${style[cssKey]}${cssReference[cssKey] || ''};\n`);
+      const value = cssReference[cssKey]
+        ? regex.adjut(style[cssKey], regex.only_numbers, cssReference[cssKey])
+        : style[cssKey];
+      sortAttributes.push(`\t${cssKey}: ${value};\n`);
     });
 
     sortAttributes.sort();
