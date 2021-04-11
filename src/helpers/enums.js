@@ -1,6 +1,10 @@
 var enums = {
   colors: {
-    black: '#212121',
+    gray: {
+      200: '#EEEEEE',
+      400: '#BDBDBD',
+      900: '#212121',
+    },
     white: '#FFFFFF',
   },
   font: {
@@ -18,6 +22,9 @@ var enums = {
   mod: {
     sizeMode: 'sizeMode',
     moveMode: 'moveMode',
+  },
+  command: {
+    newElement: 'new element',
   },
 };
 

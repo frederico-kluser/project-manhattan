@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const {black, white} = enums.colors;
+const {gray, white} = enums.colors;
 
 const size = 30;
 const inputExtraSize = 2;
@@ -21,7 +21,7 @@ body {
 `,
   helperBubble: `
 .kluser_helper {
-  background-color: ${black};
+  background-color: ${gray[900]};
   border-radius: 10px;
   height: ${size}px;
   left: 25px;
@@ -44,7 +44,7 @@ body {
 `,
   helperIcons: `
 .kluser_helper .material-icons {
-  background-color: ${black};
+  background-color: ${gray[900]};
   color: ${white};
   font-size: 20px;
   left: 0px;
@@ -76,7 +76,7 @@ body {
 .kluser_input {
   background-color: transparent;
   border: none;
-  color: ${white};
+  color: ${gray[200]};
   display: none;
   float: left;
   font-family: ${enums.font.roboto};
@@ -88,7 +88,7 @@ body {
 }
 
 .kluser_input::placeholder {
-  color: ${white};
+  color: ${gray[400]};
 }
 `,
 };
@@ -123,8 +123,8 @@ const updateHelper = (
   helper.icon.innerText = icon;
   helper.input.setAttribute('placeholder', inputPlaceholder);
   helper.input.setAttribute('type', inputType);
-  helper.input.setAttribute('size', inputValue.length + inputExtraSize);
-  helper.input.setAttribute('maxlength', inputValue.length + inputExtraSize);
+  helper.input.setAttribute('size', inputValue.length + inputPlaceholder.length);
+  helper.input.setAttribute('maxlength', inputValue.length + inputPlaceholder.length);
   helper.input.value = inputValue;
   helper.input.setAttribute('style', inputPlaceholder ? `display: initial;` : '');
   if (inputPlaceholder) {

@@ -21,6 +21,7 @@ const resetCommands = () => {
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
   const {sizeMode, moveMode} = enums.mod;
+  const {newElement} = enums.command;
 
   console.log('Execute command');
   console.log(command);
@@ -45,6 +46,9 @@ const executeCommands = () => {
     case moveMode:
       Elements[elementId].mode = command;
       break;
+    case newElement:
+      alert(value);
+      break;
   }
 
   updateGlobalStyle();
@@ -58,10 +62,10 @@ const setCommands = (command, placeholder = '...') => {
 };
 
 const getControlCommands = {
-  s: () => setCommands('sizeMode'),
-  1: () => setCommands('sizeMode'),
-  m: () => setCommands('moveMode'),
-  2: () => setCommands('moveMode'),
+  s: () => setCommands(enums.mod.sizeMode),
+  1: () => setCommands(enums.mod.sizeMode),
+  m: () => setCommands(enums.mod.moveMode),
+  2: () => setCommands(enums.mod.moveMode),
 };
 
 const getShiftCommands = {
@@ -72,7 +76,7 @@ const getShiftCommands = {
   t: () => setCommands('top'),
   w: () => setCommands('width'),
 
-  n: () => setCommands('new'),
+  n: () => setCommands(enums.command.newElement, 'div, h1, p'),
   v: () => {
     recognition.continuous = false;
     recognition.start();
