@@ -82,7 +82,16 @@ class ElementBuilder {
 
   setStyleTagAttribute() {
     const {sizeMode, moveMode} = enums.mod;
-    const {width, height, left, top} = this.style;
+    // eslint-disable-next-line prefer-const
+    let {width, height, left, top} = this.style;
+
+    top = parseFloat(top);
+    left = parseFloat(left);
+    width = regex.test(width, regex.only_numbers) ? parseFloat(width) : this.element.clientWidth;
+    height = regex.test(height, regex.only_numbers)
+      ? parseFloat(height)
+      : this.element.clientHeight;
+
     let style = '';
 
     switch (this.mode) {
@@ -95,6 +104,10 @@ class ElementBuilder {
         break;
     }
 
+    this.style.left = left;
+    this.style.top = top;
+    this.style.width = width;
+    this.style.height = height;
     this.element.setAttribute('style', style);
   }
 

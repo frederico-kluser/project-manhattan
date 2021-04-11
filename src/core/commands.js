@@ -28,12 +28,18 @@ const executeCommands = () => {
   // eslint-disable-next-line default-case
   switch (command) {
     case 'height':
+    case 'width':
+      Elements[elementId].style[command] = value;
+      break;
     case 'left':
     case 'margin':
     case 'padding':
     case 'top':
-    case 'width':
-      Elements[elementId].style[command] = value;
+      if (!regex.test(value, regex.only_numbers)) {
+        alert('To types thats not is width/height we only support pixels by now');
+      } else {
+        Elements[elementId].style[command] = parseFloat(value);
+      }
       break;
     case sizeMode:
     case moveMode:
