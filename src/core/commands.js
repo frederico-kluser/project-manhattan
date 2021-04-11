@@ -5,7 +5,7 @@ var activeCommands = false;
 var shortCutCommands = {
   command: '',
   value: '',
-  type: '',
+  placeholder: '...',
 };
 
 const resetCommands = () => {
@@ -13,7 +13,7 @@ const resetCommands = () => {
   shortCutCommands = {
     command: '',
     value: '',
-    type: '',
+    placeholder: '...',
   };
 };
 
@@ -51,8 +51,9 @@ const executeCommands = () => {
   resetCommands();
 };
 
-const setCommands = command => {
+const setCommands = (command, placeholder = '...') => {
   shortCutCommands.command = command;
+  shortCutCommands.placeholder = placeholder;
   return true;
 };
 
@@ -71,6 +72,7 @@ const getShiftCommands = {
   t: () => setCommands('top'),
   w: () => setCommands('width'),
 
+  n: () => setCommands('new'),
   v: () => {
     recognition.continuous = false;
     recognition.start();
@@ -90,7 +92,7 @@ const getCommands = e => {
   } else if (e.shiftKey) {
     activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
     if (activeCommands) {
-      updateHelper(shortCutCommands.command, enums.icons.shortcut, '...');
+      updateHelper(shortCutCommands.command, enums.icons.shortcut, shortCutCommands.placeholder);
     }
   } else if (e.ctrlKey && dynamicFunction(getControlCommands[letter], getControlCommands[number])) {
     const mod = shortCutCommands.command;

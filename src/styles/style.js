@@ -2,7 +2,7 @@
 const {black, white} = enums.colors;
 
 const size = 30;
-const inputExtraSize = 1;
+const inputExtraSize = 2;
 const globalStyleObject = {
   generalConfig: `
 body {
@@ -58,14 +58,14 @@ body {
 .kluser_text {
   color: ${white};
   float: left;
-  font-family: Roboto;
+  font-family: ${enums.font.roboto};
   font-size: 14px;
   height: ${size}px;
   line-height: ${size}px;
   padding-right: 16px;
   position: relative;
   text-align: right;
-  margin-left: ${size}px;
+  margin-left: ${size + 8}px;
 }
 
 .kluser_text:empty {
@@ -79,6 +79,7 @@ body {
   color: ${white};
   display: none;
   float: left;
+  font-family: ${enums.font.roboto};
   height: ${size}px;
   line-height: ${size}px;
   outline: none;
@@ -204,7 +205,8 @@ const injectCSS = () => {
     attributes: [
       {
         attribute: 'href',
-        value: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500',
+        value:
+          'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap',
       },
       {
         attribute: 'rel',

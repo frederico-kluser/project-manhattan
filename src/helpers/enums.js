@@ -3,6 +3,9 @@ var enums = {
     black: '#212121',
     white: '#FFFFFF',
   },
+  font: {
+    roboto: "'Roboto Mono', monospace",
+  },
   icons: {
     add_circle: 'add_circle',
     code: 'code',
