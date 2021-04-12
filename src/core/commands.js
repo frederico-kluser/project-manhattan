@@ -4,16 +4,18 @@ var key;
 var activeCommands = false;
 var shortCutCommands = {
   command: '',
+  icon: enums.icons.search,
+  placeholder: '',
   value: '',
-  placeholder: '...',
 };
 
 const resetCommands = () => {
   activeCommands = false;
   shortCutCommands = {
     command: '',
+    icon: enums.icons.search,
+    placeholder: '',
     value: '',
-    placeholder: '...',
   };
 };
 
@@ -25,6 +27,8 @@ const executeCommands = () => {
 
   console.log('Execute command');
   console.log(command);
+
+  let resetCommandsBool = true;
 
   // eslint-disable-next-line default-case
   switch (command) {
@@ -47,12 +51,28 @@ const executeCommands = () => {
       Elements[elementId].mode = command;
       break;
     case newElement:
-      alert(value);
+      resetCommandsBool = false;
+      shortCutCommands.command = 'className';
+      shortCutCommands.icon = enums.icons.playlist_add;
+      shortCutCommands.placeholder = 'classes separated by space';
+      break;
+    case 'className':
+      resetCommandsBool = false;
+      shortCutCommands.command = 'innerText';
+      shortCutCommands.placeholder = 'text thats will inserted';
+      break;
+    case 'innerText':
+      console.log('Finish');
       break;
   }
 
   updateGlobalStyle();
-  resetCommands();
+
+  if (resetCommandsBool) {
+    resetCommands();
+  } else {
+    updateHelper(shortCutCommands.command, shortCutCommands.icon, shortCutCommands.placeholder);
+  }
 };
 
 const setCommands = (command, placeholder = '...') => {
@@ -111,7 +131,7 @@ document.addEventListener(
   () => {
     if (activeCommands) {
       resetCommands();
-      updateHelper('', enums.icons.search);
+      updateHelper();
     }
   },
   false

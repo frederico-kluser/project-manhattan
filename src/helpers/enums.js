@@ -303,6 +303,7 @@ var enums = {
     code: 'code',
     keyboard: 'keyboard',
     mode: 'mode',
+    playlist_add: 'playlist_add',
     search: 'search',
     shortcut: 'shortcut',
     tune: 'tune',
