@@ -9,7 +9,7 @@ import regex from '../helpers/regex.js';
 import {globalStyleGetter, injectCSS, updateGlobalStyle, updateHelper} from '../styles/style.js';
 import {dragEnd, dragMove, dragStart} from './drag.js';
 
-export var Elements = {};
+export const Elements = {};
 
 const styleTemplate = () => ({
   'background-color': randomColor(900),

@@ -6,16 +6,16 @@ import {helper, updateGlobalStyle, updateHelper} from '../styles/style.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
 import recognition from './voice.js';
 
-var key;
+let key;
 
-export var activeCommands = false;
-var shortCutCommands = {
+export let activeCommands = false;
+let shortCutCommands = {
   command: '',
   icon: enums.icons.search,
   placeholder: '',
   value: '',
 };
-var elementInfo = {
+const elementInfo = {
   tag: '',
   className: '',
   text: '',

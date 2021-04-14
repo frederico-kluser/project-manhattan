@@ -109,7 +109,7 @@ export const globalStyleSetter = value => {
   globalStyle = value;
 };
 
-export var helper = {};
+export const helper = {};
 helper.symbol = enums.icons.search;
 helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
 helper.text = createElement({tag: 'div', className: 'kluser_text'});
