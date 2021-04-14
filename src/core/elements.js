@@ -1,26 +1,30 @@
 /* eslint-disable no-undef */
 
 var Elements = {};
-const styleTemplate = {
-  'background-color': 'lightblue',
+
+const styleTemplate = () => ({
+  'background-color': randomColor(900),
+  border: '1px solid black',
   height: 200,
-  left: 100,
-  margin: 50,
+  left: 0,
   position: 'relative',
-  top: 100,
+  top: 0,
   width: 300,
-};
+});
 var elementId;
 
 class ElementBuilder {
-  constructor(parent, tag) {
+  constructor(parent, tag, className = '', text = '') {
     const {sizeMode} = enums.mod;
 
     this.id = unicGlobalVarNameGenerator();
     elementId = this.id;
     this.mode = sizeMode;
-    this.style = styleTemplate;
+    this.style = styleTemplate();
     this.tag = tag;
+
+    this.className = className;
+    this.text = text;
 
     this.dragBegins = false;
 
@@ -36,6 +40,8 @@ class ElementBuilder {
     this.element = createElement({
       tag: this.tag,
       id: this.id,
+      className,
+      text,
     });
 
     this.element.addEventListener('mousedown', dragStart, false);
@@ -127,6 +133,8 @@ class ElementBuilder {
   }
 
   drag(e, type) {
+    //  conditional with id in all function
+    // ------------------
     const x = e.clientX;
     const y = e.clientY;
 

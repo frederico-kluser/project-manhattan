@@ -8,6 +8,11 @@ var shortCutCommands = {
   placeholder: '',
   value: '',
 };
+var elementInfo = {
+  tag: '',
+  className: '',
+  text: '',
+};
 
 const resetCommands = () => {
   activeCommands = false;
@@ -23,7 +28,7 @@ const resetCommands = () => {
 const executeCommands = () => {
   const {command, value} = shortCutCommands;
   const {sizeMode, moveMode} = enums.mod;
-  const {newElement} = enums.command;
+  const {className, innerText, newElement} = enums.command;
 
   console.log('Execute command');
   console.log(command);
@@ -55,14 +60,20 @@ const executeCommands = () => {
       shortCutCommands.command = 'className';
       shortCutCommands.icon = enums.icons.playlist_add;
       shortCutCommands.placeholder = 'classes separated by space';
+      elementInfo.tag = shortCutCommands.value;
       break;
-    case 'className':
+    case className:
       resetCommandsBool = false;
       shortCutCommands.command = 'innerText';
       shortCutCommands.placeholder = 'text thats will inserted';
+      elementInfo.className = shortCutCommands.value;
       break;
-    case 'innerText':
-      console.log('Finish');
+    case innerText:
+      elementInfo.text = shortCutCommands.value;
+      // eslint-disable-next-line no-case-declarations
+      const {element} = Elements[elementId];
+      // eslint-disable-next-line no-new
+      new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
       break;
   }
 

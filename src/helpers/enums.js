@@ -314,6 +314,8 @@ var enums = {
   },
   command: {
     newElement: 'new element',
+    className: 'className',
+    innerText: 'innerText',
   },
 };
 

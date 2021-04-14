@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable complexity */
 
 const nameGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
@@ -12,6 +13,19 @@ const unicGlobalVarNameGenerator = () => {
 };
 
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = (intensity = 500) => {
+  let color;
+  const colorIndex = random(1, Object.keys(enums.colors).length - 3);
+  Object.keys(enums.colors).forEach((key, index) => {
+    if (index === colorIndex) {
+      // eslint-disable-next-line prefer-destructuring
+      color = enums.colors[key][intensity];
+    }
+  });
+
+  return color;
+};
 
 const createElement = ({attributes = [], chield = [], className, html, id, tag, text, style}) => {
   const elem = document.createElement(tag);
@@ -65,4 +79,5 @@ window.createElement = createElement;
 window.dynamicFunction = dynamicFunction;
 window.unicGlobalVarNameGenerator = unicGlobalVarNameGenerator;
 window.random = random;
+window.randomColor = randomColor;
 window.builderMenu = builderMenu;
