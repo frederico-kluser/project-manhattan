@@ -1,7 +1,14 @@
-/* eslint-disable no-undef */
+/* eslint-disable complexity */
+import {enums, keyCodeCommands, keyCodeLetters, keyCodeNumbers} from '../helpers/enums.js';
+import {dynamicFunction} from '../helpers/general.js';
+import regex from '../helpers/regex.js';
+import {helper, updateGlobalStyle, updateHelper} from '../styles/style.js';
+import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
+import recognition from './voice.js';
+
 var key;
 
-var activeCommands = false;
+export var activeCommands = false;
 var shortCutCommands = {
   command: '',
   icon: enums.icons.search,
@@ -14,7 +21,7 @@ var elementInfo = {
   text: '',
 };
 
-const resetCommands = () => {
+export const resetCommands = () => {
   activeCommands = false;
   shortCutCommands = {
     command: '',
@@ -39,7 +46,7 @@ const executeCommands = () => {
   switch (command) {
     case 'height':
     case 'width':
-      Elements[elementId].style[command] = value;
+      Elements[elementIdGetter()].style[command] = value;
       break;
     case 'left':
     case 'margin':
@@ -48,12 +55,12 @@ const executeCommands = () => {
       if (!regex.test(value, regex.only_numbers)) {
         alert('To types thats not is width/height we only support pixels by now');
       } else {
-        Elements[elementId].style[command] = parseFloat(value);
+        Elements[elementIdGetter()].style[command] = parseFloat(value);
       }
       break;
     case sizeMode:
     case moveMode:
-      Elements[elementId].mode = command;
+      Elements[elementIdGetter()].mode = command;
       break;
     case newElement:
       resetCommandsBool = false;
@@ -71,7 +78,7 @@ const executeCommands = () => {
     case innerText:
       elementInfo.text = shortCutCommands.value;
       // eslint-disable-next-line no-case-declarations
-      const {element} = Elements[elementId];
+      const {element} = Elements[elementIdGetter()];
       // eslint-disable-next-line no-new
       new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
       break;
@@ -114,8 +121,7 @@ const getShiftCommands = {
   },
 };
 
-// eslint-disable-next-line complexity
-const getCommands = e => {
+export const getCommands = e => {
   key = e.which || e.keyCode;
   console.log('key :', key);
   const letter = keyCodeLetters[key];
@@ -147,5 +153,3 @@ document.addEventListener(
   },
   false
 );
-window.activeCommands = activeCommands;
-window.shortCutCommands = shortCutCommands;

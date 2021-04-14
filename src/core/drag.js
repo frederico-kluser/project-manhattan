@@ -1,23 +1,19 @@
-/* eslint-disable no-undef */
+import {elementIdSetter, Elements} from './elements.js';
 
-const dragStart = e => {
+export const dragStart = e => {
   if (e.which === 1) {
     const {id} = e.target;
-    elementId = id;
-    Elements[elementId].drag(e, 'start');
+    elementIdSetter(id);
+    Elements[id].drag(e, 'start');
   }
 };
 
-const dragMove = e => {
+export const dragMove = e => {
   const {id} = e.target;
   Elements[id].drag(e, 'move');
 };
 
-const dragEnd = e => {
+export const dragEnd = e => {
   const {id} = e.target;
   Elements[id].drag(e, 'end');
 };
-
-window.dragStart = dragStart;
-window.dragMove = dragMove;
-window.dragEnd = dragEnd;

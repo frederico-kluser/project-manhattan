@@ -1,4 +1,4 @@
-var enums = {
+export const enums = {
   colors: {
     red: {
       50: '#FFEBEE',
@@ -319,7 +319,7 @@ var enums = {
   },
 };
 
-const keyCodeLetters = {
+export const keyCodeLetters = {
   65: 'a',
   66: 'b',
   67: 'c',
@@ -348,7 +348,7 @@ const keyCodeLetters = {
   90: 'z',
 };
 
-const keyCodeNumbers = {
+export const keyCodeNumbers = {
   48: '0',
   49: '1',
   50: '2',
@@ -361,13 +361,7 @@ const keyCodeNumbers = {
   57: '9',
 };
 
-const keyCodeCommands = {
+export const keyCodeCommands = {
   13: 'enter',
   8: 'backspace',
 };
-
-window.keyCodeLetters = keyCodeLetters;
-window.keyCodeNumbers = keyCodeNumbers;
-window.keyCodeCommands = keyCodeCommands;
-
-window.enums = enums;

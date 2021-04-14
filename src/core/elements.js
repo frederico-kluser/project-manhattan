@@ -1,6 +1,15 @@
-/* eslint-disable no-undef */
+import {enums} from '../helpers/enums.js';
+import {
+  builderMenu,
+  createElement,
+  randomColor,
+  unicGlobalVarNameGenerator,
+} from '../helpers/general.js';
+import regex from '../helpers/regex.js';
+import {globalStyleGetter, injectCSS, updateGlobalStyle, updateHelper} from '../styles/style.js';
+import {dragEnd, dragMove, dragStart} from './drag.js';
 
-var Elements = {};
+export var Elements = {};
 
 const styleTemplate = () => ({
   'background-color': randomColor(900),
@@ -11,9 +20,14 @@ const styleTemplate = () => ({
   top: 0,
   width: 300,
 });
-var elementId;
 
-class ElementBuilder {
+let elementId;
+export const elementIdGetter = () => elementId;
+export const elementIdSetter = value => {
+  elementId = value;
+};
+
+export class ElementBuilder {
   constructor(parent, tag, className = '', text = '') {
     const {sizeMode} = enums.mod;
 
@@ -51,7 +65,7 @@ class ElementBuilder {
 
     parent.appendChild(this.element);
     Elements[this.id] = this;
-    if (globalStyle === undefined) {
+    if (globalStyleGetter() === undefined) {
       injectCSS();
     }
   }
@@ -177,7 +191,3 @@ class ElementBuilder {
     this.setInfo();
   }
 }
-
-// eslint-disable-next-line no-new
-new ElementBuilder(document.body, 'div');
-window.elementId = elementId;

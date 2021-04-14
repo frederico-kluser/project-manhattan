@@ -5,4 +5,4 @@ const regex = {
   adjut: (value, rule, extension = '') => (rule.exec(value) !== null ? value + extension : value),
 };
 
-window.regex = regex;
+export default regex;

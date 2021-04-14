@@ -12,5 +12,9 @@ module.exports = {
   rules: {
     complexity: ['error', 5],
     'no-var': 'off',
+
+    'import/extensions': 'off',
+    'import/no-cycle': 'off',
+    'import/no-mutable-exports': 'off',
   },
 };

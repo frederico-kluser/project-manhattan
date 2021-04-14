@@ -1,9 +1,10 @@
-/* eslint-disable no-undef */
 /* eslint-disable complexity */
+
+import {enums} from './enums.js';
 
 const nameGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
-const unicGlobalVarNameGenerator = () => {
+export const unicGlobalVarNameGenerator = () => {
   let name;
   do {
     name = nameGenerator();
@@ -14,7 +15,7 @@ const unicGlobalVarNameGenerator = () => {
 
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-const randomColor = (intensity = 500) => {
+export const randomColor = (intensity = 500) => {
   let color;
   const colorIndex = random(1, Object.keys(enums.colors).length - 3);
   Object.keys(enums.colors).forEach((key, index) => {
@@ -27,7 +28,16 @@ const randomColor = (intensity = 500) => {
   return color;
 };
 
-const createElement = ({attributes = [], chield = [], className, html, id, tag, text, style}) => {
+export const createElement = ({
+  attributes = [],
+  chield = [],
+  className,
+  html,
+  id,
+  tag,
+  text,
+  style,
+}) => {
   const elem = document.createElement(tag);
   if (className) {
     elem.setAttribute('class', className);
@@ -58,7 +68,7 @@ const createElement = ({attributes = [], chield = [], className, html, id, tag, 
   return elem;
 };
 
-const dynamicFunction = (func1, func2, conditional) => {
+export const dynamicFunction = (func1, func2, conditional) => {
   if (func1 || func2) {
     let func = func1 || func2;
 
@@ -70,14 +80,7 @@ const dynamicFunction = (func1, func2, conditional) => {
   return false;
 };
 
-const builderMenu = e => {
+export const builderMenu = e => {
   console.log(e);
   e.preventDefault();
 };
-
-window.createElement = createElement;
-window.dynamicFunction = dynamicFunction;
-window.unicGlobalVarNameGenerator = unicGlobalVarNameGenerator;
-window.random = random;
-window.randomColor = randomColor;
-window.builderMenu = builderMenu;

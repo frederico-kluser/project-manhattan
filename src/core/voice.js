@@ -1,5 +1,5 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-undef */
+/* eslint-disable no-use-before-define */
 
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
@@ -41,3 +41,5 @@ recognition.onresult = function (event) {
   });
   console.log(possiblesOutput.join(', '));
 };
+
+export default recognition;

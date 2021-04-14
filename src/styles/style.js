@@ -1,4 +1,8 @@
-/* eslint-disable no-undef */
+import {enums} from '../helpers/enums.js';
+import {Elements} from '../core/elements.js';
+import regex from '../helpers/regex.js';
+import {createElement} from '../helpers/general.js';
+
 const {gray, white} = enums.colors;
 
 const size = 30;
@@ -99,8 +103,13 @@ const autoReizeInput = ({target}) => {
   target.setAttribute('maxlength', length + inputExtraSize);
 };
 
-var globalStyle;
-var helper = {};
+let globalStyle;
+export const globalStyleGetter = () => globalStyle;
+export const globalStyleSetter = value => {
+  globalStyle = value;
+};
+
+export var helper = {};
 helper.symbol = enums.icons.search;
 helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
 helper.text = createElement({tag: 'div', className: 'kluser_text'});
@@ -111,7 +120,7 @@ helper.element = createElement({
   chield: [helper.icon, helper.text, helper.input],
 });
 
-const updateHelper = (
+export const updateHelper = (
   info = '',
   icon = helper.symbol,
   inputPlaceholder = '',
@@ -140,7 +149,7 @@ const updateHelper = (
   );
 };
 
-const updateGlobalStyle = () => {
+export const updateGlobalStyle = () => {
   const cssReference = {
     height: 'px',
     left: 'px',
@@ -182,11 +191,13 @@ const updateGlobalStyle = () => {
   updateHelper();
 };
 
-const injectCSS = () => {
-  globalStyle = createElement({
-    tag: 'style',
-    attributes: [{attribute: 'type', value: 'text/css'}],
-  });
+export const injectCSS = () => {
+  globalStyleSetter(
+    createElement({
+      tag: 'style',
+      attributes: [{attribute: 'type', value: 'text/css'}],
+    })
+  );
   const linkIcons = createElement({
     tag: 'link',
     attributes: [
@@ -221,9 +232,3 @@ const injectCSS = () => {
   document.body.appendChild(helper.element);
   updateGlobalStyle();
 };
-
-window.updateGlobalStyle = updateGlobalStyle;
-window.globalStyle = globalStyle;
-window.helper = helper;
-window.injectCSS = injectCSS;
-window.updateHelper = updateHelper;
