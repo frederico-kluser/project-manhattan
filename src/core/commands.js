@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import {enums, keyCodeCommands, keyCodeLetters, keyCodeNumbers} from '../helpers/enums.js';
 import {dynamicFunction} from '../helpers/general.js';
-import regex from '../helpers/regex.js';
+import {attributeCommands, attributeShiftCommands} from '../styles/attributes.js';
 import {helper, updateGlobalStyle, updateHelper} from '../styles/style.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
 import recognition from './voice.js';
@@ -33,7 +33,7 @@ export const resetCommands = () => {
 
 // eslint-disable-next-line complexity
 const executeCommands = () => {
-  const {command, value} = shortCutCommands;
+  const {command} = shortCutCommands;
   const {sizeMode, moveMode} = enums.mod;
   const {className, innerText, newElement} = enums.command;
 
@@ -42,46 +42,36 @@ const executeCommands = () => {
 
   let resetCommandsBool = true;
 
-  // eslint-disable-next-line default-case
-  switch (command) {
-    case 'height':
-    case 'width':
-      Elements[elementIdGetter()].style[command] = value;
-      break;
-    case 'left':
-    case 'margin':
-    case 'padding':
-    case 'top':
-      if (!regex.test(value, regex.only_numbers)) {
-        alert('To types thats not is width/height we only support pixels by now');
-      } else {
-        Elements[elementIdGetter()].style[command] = parseFloat(value);
-      }
-      break;
-    case sizeMode:
-    case moveMode:
-      Elements[elementIdGetter()].mode = command;
-      break;
-    case newElement:
-      resetCommandsBool = false;
-      shortCutCommands.command = 'className';
-      shortCutCommands.icon = enums.icons.playlist_add;
-      shortCutCommands.placeholder = 'classes separated by space';
-      elementInfo.tag = shortCutCommands.value;
-      break;
-    case className:
-      resetCommandsBool = false;
-      shortCutCommands.command = 'innerText';
-      shortCutCommands.placeholder = 'text thats will inserted';
-      elementInfo.className = shortCutCommands.value;
-      break;
-    case innerText:
-      elementInfo.text = shortCutCommands.value;
-      // eslint-disable-next-line no-case-declarations
-      const {element} = Elements[elementIdGetter()];
-      // eslint-disable-next-line no-new
-      new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
-      break;
+  if (attributeCommands[command]) {
+    attributeCommands[command](shortCutCommands);
+  } else {
+    // eslint-disable-next-line default-case
+    switch (command) {
+      case sizeMode:
+      case moveMode:
+        Elements[elementIdGetter()].mode = command;
+        break;
+      case newElement:
+        resetCommandsBool = false;
+        shortCutCommands.command = 'className';
+        shortCutCommands.icon = enums.icons.playlist_add;
+        shortCutCommands.placeholder = 'classes separated by space';
+        elementInfo.tag = shortCutCommands.value;
+        break;
+      case className:
+        resetCommandsBool = false;
+        shortCutCommands.command = 'innerText';
+        shortCutCommands.placeholder = 'text thats will inserted';
+        elementInfo.className = shortCutCommands.value;
+        break;
+      case innerText:
+        elementInfo.text = shortCutCommands.value;
+        // eslint-disable-next-line no-case-declarations
+        const {element} = Elements[elementIdGetter()];
+        // eslint-disable-next-line no-new
+        new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
+        break;
+    }
   }
 
   updateGlobalStyle();
@@ -93,7 +83,7 @@ const executeCommands = () => {
   }
 };
 
-const setCommands = (command, placeholder = '...') => {
+export const setCommands = (command, placeholder = '...') => {
   shortCutCommands.command = command;
   shortCutCommands.placeholder = placeholder;
   return true;
@@ -107,13 +97,7 @@ const getControlCommands = {
 };
 
 const getShiftCommands = {
-  h: () => setCommands('height'),
-  l: () => setCommands('left'),
-  m: () => setCommands('margin'),
-  p: () => setCommands('padding'),
-  t: () => setCommands('top'),
-  w: () => setCommands('width'),
-
+  ...attributeShiftCommands,
   n: () => setCommands(enums.command.newElement, 'div, h1, p'),
   v: () => {
     recognition.continuous = false;

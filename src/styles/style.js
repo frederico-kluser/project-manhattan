@@ -2,6 +2,7 @@ import {enums} from '../helpers/enums.js';
 import {Elements} from '../core/elements.js';
 import regex from '../helpers/regex.js';
 import {createElement} from '../helpers/general.js';
+import {cssReference} from './attributes.js';
 
 const {gray, white} = enums.colors;
 
@@ -150,15 +151,6 @@ export const updateHelper = (
 };
 
 export const updateGlobalStyle = () => {
-  const cssReference = {
-    height: 'px',
-    left: 'px',
-    margin: 'px',
-    padding: 'px',
-    top: 'px',
-    width: 'px',
-  };
-
   let css = '';
 
   Object.values(globalStyleObject).forEach(style => {
