@@ -153,11 +153,7 @@ export const updateHelper = (
 };
 
 export const updateGlobalStyle = () => {
-  let css = '';
-
-  Object.values(globalStyleObject).forEach(style => {
-    css += style;
-  });
+  let css = Object.values(globalStyleObject).join('');
 
   Object.keys(Elements).forEach(elementKey => {
     css += `\n#${elementKey} {\n`;

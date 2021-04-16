@@ -16,16 +16,9 @@ export const unicGlobalVarNameGenerator = () => {
 const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 export const randomColor = (intensity = 500) => {
-  let color;
-  const colorIndex = random(1, Object.keys(enums.colors).length - 3);
-  Object.keys(enums.colors).forEach((key, index) => {
-    if (index === colorIndex) {
-      // eslint-disable-next-line prefer-destructuring
-      color = enums.colors[key][intensity];
-    }
-  });
-
-  return color;
+  const colorKey = random(1, Object.keys(enums.colors).length - 3);
+  const colorProperty = Object.keys(enums.colors)[colorKey];
+  return enums.colors[colorProperty][intensity];
 };
 
 export const createElement = ({
