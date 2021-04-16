@@ -3,6 +3,7 @@ import {Elements} from '../core/elements.js';
 import regex from '../helpers/regex.js';
 import {createElement} from '../helpers/general.js';
 import {cssReference} from './attributes.js';
+import {stopKeyboardCommandsSetter} from '../core/commands.js';
 
 const {gray, white} = enums.colors;
 
@@ -128,6 +129,7 @@ export const updateHelper = (
   inputType = 'text',
   inputValue = ''
 ) => {
+  stopKeyboardCommandsSetter(info);
   helper.text.innerText = info;
   helper.symbol = icon;
   helper.icon.innerText = icon;
@@ -146,7 +148,7 @@ export const updateHelper = (
   helper.input.addEventListener('keydown', autoReizeInput, false);
   helper.element.setAttribute(
     'style',
-    info ? `opacity:1;max-width:500px;` : 'transition: opacity 0.25s;'
+    info !== '' ? `opacity:1;max-width:500px;` : 'transition: opacity 0.25s;'
   );
 };
 

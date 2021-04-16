@@ -8,6 +8,12 @@ import recognition from './voice.js';
 
 let key;
 
+let stopKeyboardCommands = false;
+export const stopKeyboardCommandsGetter = () => stopKeyboardCommands;
+export const stopKeyboardCommandsSetter = value => {
+  stopKeyboardCommands = !!value;
+};
+
 export let activeCommands = false;
 let shortCutCommands = {
   command: '',
@@ -114,12 +120,16 @@ export const getCommands = e => {
 
   if (activeCommands && keyCodeCommands[key] === 'enter') {
     executeCommands();
-  } else if (e.shiftKey) {
+  } else if (e.shiftKey && !stopKeyboardCommandsGetter()) {
     activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
     if (activeCommands) {
       updateHelper(shortCutCommands.command, enums.icons.shortcut, shortCutCommands.placeholder);
     }
-  } else if (e.ctrlKey && dynamicFunction(getControlCommands[letter], getControlCommands[number])) {
+  } else if (
+    e.ctrlKey &&
+    !stopKeyboardCommandsGetter() &&
+    dynamicFunction(getControlCommands[letter], getControlCommands[number])
+  ) {
     const mod = shortCutCommands.command;
     executeCommands();
     updateHelper(`${mod} activate`, enums.icons.mode);
