@@ -6,7 +6,13 @@ import {
   unicGlobalVarNameGenerator,
 } from '../helpers/general.js';
 import regex from '../helpers/regex.js';
-import {globalStyleGetter, injectCSS, updateGlobalStyle, updateHelper} from '../styles/style.js';
+import {
+  globalStyleGetter,
+  injectCSS,
+  makeOnlyOnetouchable,
+  updateGlobalStyle,
+  updateHelper,
+} from '../styles/style.js';
 import {dragEnd, dragMove, dragStart} from './drag.js';
 
 export const Elements = {};
@@ -14,11 +20,11 @@ export const Elements = {};
 const styleTemplate = () => ({
   'background-color': randomColor(900),
   border: '1px solid black',
-  height: 200,
-  left: 0,
+  height: 100,
+  left: 100,
   position: 'relative',
-  top: 0,
-  width: 300,
+  top: 100,
+  width: 100,
 });
 
 let elementId;
@@ -163,6 +169,7 @@ export class ElementBuilder {
         this.calcValueY = 0;
 
         updateGlobalStyle();
+        makeOnlyOnetouchable(this.element);
         break;
       case 'move':
         if (this.dragBegins) {

@@ -224,3 +224,14 @@ export const injectCSS = () => {
   document.body.appendChild(helper.element);
   updateGlobalStyle();
 };
+
+export const makeOnlyOnetouchable = draggableElement => {
+  // TODO - in future i will need improve this function for all page elements
+
+  Object.keys(Elements).forEach(elementKey => {
+    const {element} = Elements[elementKey];
+    if (element !== draggableElement && element.contains(draggableElement) === false) {
+      element.setAttribute('style', 'pointer-events: none !important;');
+    }
+  });
+};
