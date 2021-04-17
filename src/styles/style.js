@@ -159,6 +159,14 @@ export const updateHelperBubble = (
   );
 };
 
+export const fixAttributeSize = (value, cssAttribute, printMode = false) => {
+  const output = attributesHasSizeType[cssAttribute]
+    ? regex.adjut(value, regex.only_numbers, attributesHasSizeType[cssAttribute])
+    : value;
+
+  return printMode ? ` ${cssAttribute}: ${output};` : output;
+};
+
 export const styleTagUpdater = () => {
   let css = Object.values(globalStyleObject).join('');
 
@@ -169,9 +177,7 @@ export const styleTagUpdater = () => {
     const sortAttributes = [];
 
     Object.keys(style).forEach(cssAttribute => {
-      const value = attributesHasSizeType[cssAttribute]
-        ? regex.adjut(style[cssAttribute], regex.only_numbers, attributesHasSizeType[cssAttribute])
-        : style[cssAttribute];
+      const value = fixAttributeSize(style[cssAttribute], cssAttribute);
       sortAttributes.push(`\t${cssAttribute}: ${value};\n`);
     });
 

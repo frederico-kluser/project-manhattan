@@ -14,5 +14,6 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-cycle': 'off',
     'import/no-mutable-exports': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

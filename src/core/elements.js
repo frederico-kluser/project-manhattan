@@ -12,6 +12,7 @@ import {
   makeOnlyElementtouchable,
   styleTagUpdater,
   updateHelperBubble,
+  fixAttributeSize,
 } from '../styles/style.js';
 import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './drag.js';
 
@@ -76,27 +77,32 @@ export class ElementBuilder {
     }
   }
 
-  get getElement() {
-    return this.element;
-  }
-
-  // eslint-disable-next-line complexity
-  dynamicStyleAttributesTextSetter() {
+  get _modeTextRender() {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
-    const {tune, search} = enums.icons;
-    let info = '';
-    let icon = tune;
+    let output;
 
     switch (this.mode) {
       case sizeMode:
       default:
-        info = `height: ${height + this.calcValueY}px; width: ${width + this.calcValueX}px`;
+        output =
+          fixAttributeSize(height + this.calcValueY, 'height', true) +
+          fixAttributeSize(width + this.calcValueX, 'width', true);
         break;
       case moveMode:
-        info = `top: ${top + this.calcValueY}px left: ${left + this.calcValueX}px`;
+        output =
+          fixAttributeSize(top + this.calcValueY, 'top', true) +
+          fixAttributeSize(left + this.calcValueX, 'left', true);
         break;
     }
+
+    return output;
+  }
+
+  _dynamicStyleAttributesTextSetter() {
+    const {tune, search} = enums.icons;
+    let info = this._modeTextRender;
+    let icon = tune;
 
     if (!this.dragBegins) {
       info = '';
@@ -106,9 +112,7 @@ export class ElementBuilder {
     updateHelperBubble(info, icon);
   }
 
-  setTagStyleAttribute() {
-    const {sizeMode, moveMode} = enums.mod;
-    // eslint-disable-next-line prefer-const
+  _updateDynamicAttributes() {
     let {width, height, left, top} = this.style;
 
     top = parseFloat(top);
@@ -118,26 +122,17 @@ export class ElementBuilder {
       ? parseFloat(height)
       : this.element.clientHeight;
 
-    let style = '';
-
-    switch (this.mode) {
-      case sizeMode:
-      default:
-        style = `width:${width + this.calcValueX}px;height:${height + this.calcValueY}px;`;
-        break;
-      case moveMode:
-        style = `left:${left + this.calcValueX}px;top:${top + this.calcValueY}px;`;
-        break;
-    }
+    const style = this._modeTextRender;
 
     this.style.left = left;
     this.style.top = top;
     this.style.width = width;
     this.style.height = height;
+
     this.element.setAttribute('style', style);
   }
 
-  updateElementStyles() {
+  _updateElementStyles() {
     const {sizeMode, moveMode} = enums.mod;
     switch (this.mode) {
       case sizeMode:
@@ -179,14 +174,14 @@ export class ElementBuilder {
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
 
-          this.setTagStyleAttribute();
+          this._updateDynamicAttributes();
         }
         break;
       case 'end':
       default:
         this.dragBegins = false;
 
-        this.updateElementStyles();
+        this._updateElementStyles();
 
         this.calcValueX = 0;
         this.calcValueY = 0;
@@ -195,6 +190,6 @@ export class ElementBuilder {
         break;
     }
 
-    this.dynamicStyleAttributesTextSetter();
+    this._dynamicStyleAttributesTextSetter();
   }
 }
