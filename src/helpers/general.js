@@ -2,21 +2,21 @@
 
 import {enums} from './enums.js';
 
-const nameGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
+const randomIdGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
 export const unicGlobalVarNameGenerator = () => {
   let name;
   do {
-    name = nameGenerator();
+    name = randomIdGenerator();
     // eslint-disable-next-line no-prototype-builtins
   } while (window.hasOwnProperty(name));
   return name;
 };
 
-const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+const getRandomInteger = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
-export const randomColor = (intensity = 500) => {
-  const colorKey = random(1, Object.keys(enums.colors).length - 3);
+export const getRandomColor = (intensity = 500) => {
+  const colorKey = getRandomInteger(1, Object.keys(enums.colors).length - 3);
   const colorProperty = Object.keys(enums.colors)[colorKey];
   return enums.colors[colorProperty][intensity];
 };
@@ -61,7 +61,7 @@ export const createElement = ({
   return elem;
 };
 
-export const dynamicFunction = (func1, func2, conditional) => {
+export const conditionalFunctionExecute = (func1, func2, conditional) => {
   if (func1 || func2) {
     let func = func1 || func2;
 

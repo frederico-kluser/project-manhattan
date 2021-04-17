@@ -2,12 +2,12 @@ import {enums} from '../helpers/enums.js';
 import {Elements} from '../core/elements.js';
 import regex from '../helpers/regex.js';
 import {createElement} from '../helpers/general.js';
-import {cssReference} from './attributes.js';
+import {attributesHasSizeType} from './attributes.js';
 import {stopKeyboardCommandsSetter} from '../core/commands.js';
 
 const {gray, white} = enums.colors;
 
-const size = 30;
+const helperBubbleDefaultPixelSize = 30;
 const inputExtraSize = 2;
 const globalStyleObject = {
   generalConfig: `
@@ -29,10 +29,10 @@ body {
 .kluser_helper {
   background-color: ${gray[900]};
   border-radius: 10px;
-  height: ${size}px;
+  height: ${helperBubbleDefaultPixelSize}px;
   left: 25px;
-  max-width: ${size}px;
-  min-width: ${size}px;
+  max-width: ${helperBubbleDefaultPixelSize}px;
+  min-width: ${helperBubbleDefaultPixelSize}px;
   opacity: 0.1;
   overflow: hidden;
   position: fixed;
@@ -52,11 +52,11 @@ body {
 .kluser_helper .material-icons {
   background-color: ${gray[900]};
   color: ${white};
-  font-size: 20px;
+  font-helperBubbleDefaultPixelSize: 20px;
   left: 0px;
-  line-height: ${size}px;
+  line-height: ${helperBubbleDefaultPixelSize}px;
   position: absolute;
-  width: ${size}px;
+  width: ${helperBubbleDefaultPixelSize}px;
   z-index: 1;
 }
 `,
@@ -65,13 +65,13 @@ body {
   color: ${white};
   float: left;
   font-family: ${enums.font.roboto};
-  font-size: 14px;
-  height: ${size}px;
-  line-height: ${size}px;
+  font-helperBubbleDefaultPixelSize: 14px;
+  height: ${helperBubbleDefaultPixelSize}px;
+  line-height: ${helperBubbleDefaultPixelSize}px;
   padding-right: 16px;
   position: relative;
   text-align: right;
-  margin-left: ${size + 8}px;
+  margin-left: ${helperBubbleDefaultPixelSize + 8}px;
 }
 
 .kluser_text:empty {
@@ -86,8 +86,8 @@ body {
   display: none;
   float: left;
   font-family: ${enums.font.roboto};
-  height: ${size}px;
-  line-height: ${size}px;
+  height: ${helperBubbleDefaultPixelSize}px;
+  line-height: ${helperBubbleDefaultPixelSize}px;
   outline: none;
   padding: 0px;
   padding-right: 16px;
@@ -105,54 +105,61 @@ const autoReizeInput = ({target}) => {
   target.setAttribute('maxlength', length + inputExtraSize);
 };
 
-let globalStyle;
-export const globalStyleGetter = () => globalStyle;
-export const globalStyleSetter = value => {
-  globalStyle = value;
+let styleTagElement;
+export const styleTagElementGetter = () => styleTagElement;
+export const styleTagElementSetter = value => {
+  styleTagElement = value;
 };
 
-export const helper = {};
-helper.symbol = enums.icons.search;
-helper.icon = createElement({tag: 'span', className: 'material-icons', text: helper.symbol});
-helper.text = createElement({tag: 'div', className: 'kluser_text'});
-helper.input = createElement({tag: 'input', className: 'kluser_input'});
-helper.element = createElement({
+export const helperBubbleStructure = {};
+helperBubbleStructure.symbol = enums.icons.search;
+helperBubbleStructure.icon = createElement({
+  tag: 'span',
+  className: 'material-icons',
+  text: helperBubbleStructure.symbol,
+});
+helperBubbleStructure.text = createElement({tag: 'div', className: 'kluser_text'});
+helperBubbleStructure.input = createElement({tag: 'input', className: 'kluser_input'});
+helperBubbleStructure.element = createElement({
   tag: 'div',
   className: 'kluser_helper',
-  chield: [helper.icon, helper.text, helper.input],
+  chield: [helperBubbleStructure.icon, helperBubbleStructure.text, helperBubbleStructure.input],
 });
 
-export const updateHelper = (
+export const updateHelperBubble = (
   info = '',
-  icon = helper.symbol,
+  icon = helperBubbleStructure.symbol,
   inputPlaceholder = '',
   inputType = 'text',
   inputValue = ''
 ) => {
   stopKeyboardCommandsSetter(info);
-  helper.text.innerText = info;
-  helper.symbol = icon;
-  helper.icon.innerText = icon;
-  helper.input.setAttribute('placeholder', inputPlaceholder);
-  helper.input.setAttribute('type', inputType);
-  helper.input.setAttribute('size', inputValue.length + inputPlaceholder.length);
-  helper.input.setAttribute('maxlength', inputValue.length + inputPlaceholder.length);
-  helper.input.value = inputValue;
-  helper.input.setAttribute('style', inputPlaceholder ? `display: initial;` : '');
+  helperBubbleStructure.text.innerText = info;
+  helperBubbleStructure.symbol = icon;
+  helperBubbleStructure.icon.innerText = icon;
+  helperBubbleStructure.input.setAttribute('placeholder', inputPlaceholder);
+  helperBubbleStructure.input.setAttribute('type', inputType);
+  helperBubbleStructure.input.setAttribute('size', inputValue.length + inputPlaceholder.length);
+  helperBubbleStructure.input.setAttribute(
+    'maxlength',
+    inputValue.length + inputPlaceholder.length
+  );
+  helperBubbleStructure.input.value = inputValue;
+  helperBubbleStructure.input.setAttribute('style', inputPlaceholder ? `display: initial;` : '');
   if (inputPlaceholder) {
-    helper.input.setAttribute('type', inputType);
+    helperBubbleStructure.input.setAttribute('type', inputType);
     setTimeout(() => {
-      helper.input.focus();
+      helperBubbleStructure.input.focus();
     }, 1);
   }
-  helper.input.addEventListener('keydown', autoReizeInput, false);
-  helper.element.setAttribute(
+  helperBubbleStructure.input.addEventListener('keydown', autoReizeInput, false);
+  helperBubbleStructure.element.setAttribute(
     'style',
     info !== '' ? `opacity:1;max-width:500px;` : 'transition: opacity 0.25s;'
   );
 };
 
-export const updateGlobalStyle = () => {
+export const styleTagUpdater = () => {
   let css = Object.values(globalStyleObject).join('');
 
   Object.keys(Elements).forEach(elementKey => {
@@ -161,11 +168,11 @@ export const updateGlobalStyle = () => {
     element.removeAttribute('style');
     const sortAttributes = [];
 
-    Object.keys(style).forEach(cssKey => {
-      const value = cssReference[cssKey]
-        ? regex.adjut(style[cssKey], regex.only_numbers, cssReference[cssKey])
-        : style[cssKey];
-      sortAttributes.push(`\t${cssKey}: ${value};\n`);
+    Object.keys(style).forEach(cssAttribute => {
+      const value = attributesHasSizeType[cssAttribute]
+        ? regex.adjut(style[cssAttribute], regex.only_numbers, attributesHasSizeType[cssAttribute])
+        : style[cssAttribute];
+      sortAttributes.push(`\t${cssAttribute}: ${value};\n`);
     });
 
     sortAttributes.sort();
@@ -177,12 +184,12 @@ export const updateGlobalStyle = () => {
     css += '}\n';
   });
 
-  globalStyle.innerHTML = css;
-  updateHelper();
+  styleTagElement.innerHTML = css;
+  updateHelperBubble();
 };
 
-export const injectCSS = () => {
-  globalStyleSetter(
+export const injectedCssUpdater = () => {
+  styleTagElementSetter(
     createElement({
       tag: 'style',
       attributes: [{attribute: 'type', value: 'text/css'}],
@@ -218,12 +225,12 @@ export const injectCSS = () => {
 
   document.getElementsByTagName('head')[0].appendChild(linkIcons);
   document.getElementsByTagName('head')[0].appendChild(linkFonts);
-  document.getElementsByTagName('head')[0].appendChild(globalStyle);
-  document.body.appendChild(helper.element);
-  updateGlobalStyle();
+  document.getElementsByTagName('head')[0].appendChild(styleTagElement);
+  document.body.appendChild(helperBubbleStructure.element);
+  styleTagUpdater();
 };
 
-export const makeOnlyOnetouchable = draggableElement => {
+export const makeOnlyElementtouchable = draggableElement => {
   // TODO - in future i will need improve this function for all page elements
 
   Object.keys(Elements).forEach(elementKey => {

@@ -1,4 +1,4 @@
-import {setCommands} from '../core/commands.js';
+import {shortCutCommandsSetter} from '../core/commands.js';
 import {elementIdGetter, Elements} from '../core/elements.js';
 
 const setStyle = ({command, value}) => {
@@ -8,44 +8,44 @@ const setStyle = ({command, value}) => {
 
 const attributeFunctions = {
   height: {
-    attributeReference: {height: 'px'},
-    executeCommands: {height: setStyle},
-    getShiftCommands: {h: () => setCommands('height')},
+    attributeHasSizeType: {height: 'px'},
+    commandExecutor: {height: setStyle},
+    getShiftCommands: {h: () => shortCutCommandsSetter('height')},
   },
   width: {
-    attributeReference: {width: 'px'},
-    executeCommands: {width: setStyle},
-    getShiftCommands: {w: () => setCommands('width')},
+    attributeHasSizeType: {width: 'px'},
+    commandExecutor: {width: setStyle},
+    getShiftCommands: {w: () => shortCutCommandsSetter('width')},
   },
   left: {
-    attributeReference: {left: 'px'},
-    executeCommands: {left: setStyle},
-    getShiftCommands: {l: () => setCommands('left')},
+    attributeHasSizeType: {left: 'px'},
+    commandExecutor: {left: setStyle},
+    getShiftCommands: {l: () => shortCutCommandsSetter('left')},
   },
   top: {
-    attributeReference: {top: 'px'},
-    executeCommands: {top: setStyle},
-    getShiftCommands: {t: () => setCommands('top')},
+    attributeHasSizeType: {top: 'px'},
+    commandExecutor: {top: setStyle},
+    getShiftCommands: {t: () => shortCutCommandsSetter('top')},
   },
   margin: {
-    attributeReference: {margin: 'px'},
-    executeCommands: {margin: setStyle},
-    getShiftCommands: {m: () => setCommands('margin')},
+    attributeHasSizeType: {margin: 'px'},
+    commandExecutor: {margin: setStyle},
+    getShiftCommands: {m: () => shortCutCommandsSetter('margin')},
   },
   padding: {
-    attributeReference: {padding: 'px'},
-    executeCommands: {padding: setStyle},
-    getShiftCommands: {p: () => setCommands('padding')},
+    attributeHasSizeType: {padding: 'px'},
+    commandExecutor: {padding: setStyle},
+    getShiftCommands: {p: () => shortCutCommandsSetter('padding')},
   },
 };
 
 export let attributeShiftCommands = {};
-export let cssReference = {};
+export let attributesHasSizeType = {};
 export let attributeCommands = {};
 
 (() => {
   Object.values(attributeFunctions).forEach(
-    ({attributeReference, executeCommands, getShiftCommands}) => {
+    ({attributeHasSizeType, commandExecutor, getShiftCommands}) => {
       if (getShiftCommands) {
         attributeShiftCommands = {
           ...getShiftCommands,
@@ -53,16 +53,16 @@ export let attributeCommands = {};
         };
       }
 
-      if (attributeReference) {
-        cssReference = {
-          ...attributeReference,
-          ...cssReference,
+      if (attributeHasSizeType) {
+        attributesHasSizeType = {
+          ...attributeHasSizeType,
+          ...attributesHasSizeType,
         };
       }
 
-      if (executeCommands) {
+      if (commandExecutor) {
         attributeCommands = {
-          ...executeCommands,
+          ...commandExecutor,
           ...attributeCommands,
         };
       }

@@ -1,19 +1,19 @@
 import {elementIdSetter, Elements} from './elements.js';
 
-export const dragStart = e => {
+export const dragStartEventSetter = e => {
   if (e.which === 1) {
     const {id} = e.target;
     elementIdSetter(id);
-    Elements[id].drag(e, 'start');
+    Elements[id].dragEvents(e, 'start');
   }
 };
 
-export const dragMove = e => {
+export const dragMoveEventSetter = e => {
   const {id} = e.target;
-  Elements[id].drag(e, 'move');
+  Elements[id].dragEvents(e, 'move');
 };
 
-export const dragEnd = e => {
+export const dragEndEventSetter = e => {
   const {id} = e.target;
-  Elements[id].drag(e, 'end');
+  Elements[id].dragEvents(e, 'end');
 };

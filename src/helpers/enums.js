@@ -319,7 +319,7 @@ export const enums = {
   },
 };
 
-export const keyCodeLetters = {
+export const keyCodeLettersEnum = {
   65: 'a',
   66: 'b',
   67: 'c',
@@ -348,7 +348,7 @@ export const keyCodeLetters = {
   90: 'z',
 };
 
-export const keyCodeNumbers = {
+export const keyCodeNumbersEnum = {
   48: '0',
   49: '1',
   50: '2',
@@ -361,7 +361,7 @@ export const keyCodeNumbers = {
   57: '9',
 };
 
-export const keyCodeCommands = {
+export const keyCodeCommandsEnum = {
   13: 'enter',
   8: 'backspace',
 };

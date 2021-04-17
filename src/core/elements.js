@@ -2,23 +2,23 @@ import {enums} from '../helpers/enums.js';
 import {
   builderMenu,
   createElement,
-  randomColor,
+  getRandomColor,
   unicGlobalVarNameGenerator,
 } from '../helpers/general.js';
 import regex from '../helpers/regex.js';
 import {
-  globalStyleGetter,
-  injectCSS,
-  makeOnlyOnetouchable,
-  updateGlobalStyle,
-  updateHelper,
+  styleTagElementGetter,
+  injectedCssUpdater,
+  makeOnlyElementtouchable,
+  styleTagUpdater,
+  updateHelperBubble,
 } from '../styles/style.js';
-import {dragEnd, dragMove, dragStart} from './drag.js';
+import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './drag.js';
 
 export const Elements = {};
 
-const styleTemplate = () => ({
-  'background-color': randomColor(900),
+const styleNewElementTemplate = () => ({
+  'background-color': getRandomColor(900),
   border: '1px solid black',
   height: 100,
   left: 100,
@@ -40,7 +40,7 @@ export class ElementBuilder {
     this.id = unicGlobalVarNameGenerator();
     elementId = this.id;
     this.mode = sizeMode;
-    this.style = styleTemplate();
+    this.style = styleNewElementTemplate();
     this.tag = tag;
 
     this.className = className;
@@ -64,15 +64,15 @@ export class ElementBuilder {
       text,
     });
 
-    this.element.addEventListener('mousedown', dragStart, false);
-    this.element.addEventListener('mousemove', dragMove, false);
-    this.element.addEventListener('mouseup', dragEnd, false);
+    this.element.addEventListener('mousedown', dragStartEventSetter, false);
+    this.element.addEventListener('mousemove', dragMoveEventSetter, false);
+    this.element.addEventListener('mouseup', dragEndEventSetter, false);
     this.element.addEventListener('contextmenu', builderMenu);
 
     parent.appendChild(this.element);
     Elements[this.id] = this;
-    if (globalStyleGetter() === undefined) {
-      injectCSS();
+    if (styleTagElementGetter() === undefined) {
+      injectedCssUpdater();
     }
   }
 
@@ -81,7 +81,7 @@ export class ElementBuilder {
   }
 
   // eslint-disable-next-line complexity
-  setInfo() {
+  dynamicStyleAttributesTextSetter() {
     const {sizeMode, moveMode} = enums.mod;
     const {width, height, left, top} = this.style;
     const {tune, search} = enums.icons;
@@ -103,10 +103,10 @@ export class ElementBuilder {
       icon = search;
     }
 
-    updateHelper(info, icon);
+    updateHelperBubble(info, icon);
   }
 
-  setStyleTagAttribute() {
+  setTagStyleAttribute() {
     const {sizeMode, moveMode} = enums.mod;
     // eslint-disable-next-line prefer-const
     let {width, height, left, top} = this.style;
@@ -137,7 +137,7 @@ export class ElementBuilder {
     this.element.setAttribute('style', style);
   }
 
-  updateStyleElement() {
+  updateElementStyles() {
     const {sizeMode, moveMode} = enums.mod;
     switch (this.mode) {
       case sizeMode:
@@ -152,7 +152,7 @@ export class ElementBuilder {
     }
   }
 
-  drag(e, type) {
+  dragEvents(e, type) {
     //  conditional with id in all function
     // ------------------
     const x = e.clientX;
@@ -168,8 +168,8 @@ export class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        updateGlobalStyle();
-        makeOnlyOnetouchable(this.element);
+        styleTagUpdater();
+        makeOnlyElementtouchable(this.element);
         break;
       case 'move':
         if (this.dragBegins) {
@@ -179,22 +179,22 @@ export class ElementBuilder {
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
 
-          this.setStyleTagAttribute();
+          this.setTagStyleAttribute();
         }
         break;
       case 'end':
       default:
         this.dragBegins = false;
 
-        this.updateStyleElement();
+        this.updateElementStyles();
 
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        updateGlobalStyle();
+        styleTagUpdater();
         break;
     }
 
-    this.setInfo();
+    this.dynamicStyleAttributesTextSetter();
   }
 }

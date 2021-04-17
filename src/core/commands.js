@@ -1,8 +1,13 @@
 /* eslint-disable complexity */
-import {enums, keyCodeCommands, keyCodeLetters, keyCodeNumbers} from '../helpers/enums.js';
-import {dynamicFunction} from '../helpers/general.js';
+import {
+  enums,
+  keyCodeCommandsEnum,
+  keyCodeLettersEnum,
+  keyCodeNumbersEnum,
+} from '../helpers/enums.js';
+import {conditionalFunctionExecute} from '../helpers/general.js';
 import {attributeCommands, attributeShiftCommands} from '../styles/attributes.js';
-import {helper, updateGlobalStyle, updateHelper} from '../styles/style.js';
+import {helperBubbleStructure, styleTagUpdater, updateHelperBubble} from '../styles/style.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
 import recognition from './voice.js';
 
@@ -14,7 +19,7 @@ export const stopKeyboardCommandsSetter = value => {
   stopKeyboardCommands = !!value;
 };
 
-export let activeCommands = false;
+export let keyboardShortcutsListenerBool = false;
 let shortCutCommands = {
   command: '',
   icon: enums.icons.search,
@@ -27,8 +32,8 @@ const elementInfo = {
   text: '',
 };
 
-export const resetCommands = () => {
-  activeCommands = false;
+export const commandResetter = () => {
+  keyboardShortcutsListenerBool = false;
   shortCutCommands = {
     command: '',
     icon: enums.icons.search,
@@ -37,8 +42,7 @@ export const resetCommands = () => {
   };
 };
 
-// eslint-disable-next-line complexity
-const executeCommands = () => {
+const commandExecutor = () => {
   const {command} = shortCutCommands;
   const {sizeMode, moveMode} = enums.mod;
   const {className, innerText, newElement} = enums.command;
@@ -46,7 +50,7 @@ const executeCommands = () => {
   console.log('Execute command');
   console.log(command);
 
-  let resetCommandsBool = true;
+  let commandResetterBool = true;
 
   if (attributeCommands[command]) {
     attributeCommands[command](shortCutCommands);
@@ -58,14 +62,14 @@ const executeCommands = () => {
         Elements[elementIdGetter()].mode = command;
         break;
       case newElement:
-        resetCommandsBool = false;
+        commandResetterBool = false;
         shortCutCommands.command = 'className';
         shortCutCommands.icon = enums.icons.playlist_add;
         shortCutCommands.placeholder = 'classes separated by space';
         elementInfo.tag = shortCutCommands.value;
         break;
       case className:
-        resetCommandsBool = false;
+        commandResetterBool = false;
         shortCutCommands.command = 'innerText';
         shortCutCommands.placeholder = 'text thats will inserted';
         elementInfo.className = shortCutCommands.value;
@@ -80,69 +84,80 @@ const executeCommands = () => {
     }
   }
 
-  updateGlobalStyle();
+  styleTagUpdater();
 
-  if (resetCommandsBool) {
-    resetCommands();
+  if (commandResetterBool) {
+    commandResetter();
   } else {
-    updateHelper(shortCutCommands.command, shortCutCommands.icon, shortCutCommands.placeholder);
+    updateHelperBubble(
+      shortCutCommands.command,
+      shortCutCommands.icon,
+      shortCutCommands.placeholder
+    );
   }
 };
 
-export const setCommands = (command, placeholder = '...') => {
+export const shortCutCommandsSetter = (command, placeholder = '...') => {
   shortCutCommands.command = command;
   shortCutCommands.placeholder = placeholder;
   return true;
 };
 
 const getControlCommands = {
-  s: () => setCommands(enums.mod.sizeMode),
-  1: () => setCommands(enums.mod.sizeMode),
-  m: () => setCommands(enums.mod.moveMode),
-  2: () => setCommands(enums.mod.moveMode),
+  s: () => shortCutCommandsSetter(enums.mod.sizeMode),
+  1: () => shortCutCommandsSetter(enums.mod.sizeMode),
+  m: () => shortCutCommandsSetter(enums.mod.moveMode),
+  2: () => shortCutCommandsSetter(enums.mod.moveMode),
 };
 
 const getShiftCommands = {
   ...attributeShiftCommands,
-  n: () => setCommands(enums.command.newElement, 'div, h1, p'),
+  n: () => shortCutCommandsSetter(enums.command.newElement, 'div, h1, p'),
   v: () => {
     recognition.continuous = false;
     recognition.start();
   },
 };
 
-export const getCommands = e => {
+export const keyboardShortcutsListener = e => {
   key = e.which || e.keyCode;
   console.log('key :', key);
-  const letter = keyCodeLetters[key];
-  const number = keyCodeNumbers[key];
-  shortCutCommands.value = helper.input.value;
+  const letter = keyCodeLettersEnum[key];
+  const number = keyCodeNumbersEnum[key];
+  shortCutCommands.value = helperBubbleStructure.input.value;
 
-  if (activeCommands && keyCodeCommands[key] === 'enter') {
-    executeCommands();
+  if (keyboardShortcutsListenerBool && keyCodeCommandsEnum[key] === 'enter') {
+    commandExecutor();
   } else if (e.shiftKey && !stopKeyboardCommandsGetter()) {
-    activeCommands = dynamicFunction(getShiftCommands[letter], resetCommands);
-    if (activeCommands) {
-      updateHelper(shortCutCommands.command, enums.icons.shortcut, shortCutCommands.placeholder);
+    keyboardShortcutsListenerBool = conditionalFunctionExecute(
+      getShiftCommands[letter],
+      commandResetter
+    );
+    if (keyboardShortcutsListenerBool) {
+      updateHelperBubble(
+        shortCutCommands.command,
+        enums.icons.shortcut,
+        shortCutCommands.placeholder
+      );
     }
   } else if (
     e.ctrlKey &&
     !stopKeyboardCommandsGetter() &&
-    dynamicFunction(getControlCommands[letter], getControlCommands[number])
+    conditionalFunctionExecute(getControlCommands[letter], getControlCommands[number])
   ) {
     const mod = shortCutCommands.command;
-    executeCommands();
-    updateHelper(`${mod} activate`, enums.icons.mode);
+    commandExecutor();
+    updateHelperBubble(`${mod} activate`, enums.icons.mode);
   }
 };
 
-document.addEventListener('keydown', getCommands, false);
+document.addEventListener('keydown', keyboardShortcutsListener, false);
 document.addEventListener(
   'mousemove',
   () => {
-    if (activeCommands) {
-      resetCommands();
-      updateHelper();
+    if (keyboardShortcutsListenerBool) {
+      commandResetter();
+      updateHelperBubble();
     }
   },
   false
