@@ -112,6 +112,8 @@ export class ElementBuilder {
     updateHelperBubble(info, icon);
   }
 
+  // _fixSizeTypes() {}
+
   _updateDynamicAttributes() {
     let {width, height, left, top} = this.style;
 

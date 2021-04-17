@@ -6,37 +6,29 @@ const setStyle = ({command, value}) => {
   return true;
 };
 
+const attributeBuilder = (attribute, shiftCommand = true, hasSizeType = true) => {
+  const _attributeShiftCommands =
+    shiftCommand === true
+      ? {[attribute.charAt(0)]: () => shortCutCommandsSetter(attribute)}
+      : shiftCommand;
+  const _attributesHasSizeType = hasSizeType === true ? {[attribute]: hasSizeType} : hasSizeType;
+
+  return {
+    [attribute]: {
+      _attributeShiftCommands,
+      _attributesHasSizeType,
+      _attributeCommands: {[attribute]: setStyle},
+    },
+  };
+};
+
 const attributeFunctions = {
-  height: {
-    attributeHasSizeType: {height: 'px'},
-    commandExecutor: {height: setStyle},
-    getShiftCommands: {h: () => shortCutCommandsSetter('height')},
-  },
-  width: {
-    attributeHasSizeType: {width: 'px'},
-    commandExecutor: {width: setStyle},
-    getShiftCommands: {w: () => shortCutCommandsSetter('width')},
-  },
-  left: {
-    attributeHasSizeType: {left: 'px'},
-    commandExecutor: {left: setStyle},
-    getShiftCommands: {l: () => shortCutCommandsSetter('left')},
-  },
-  top: {
-    attributeHasSizeType: {top: 'px'},
-    commandExecutor: {top: setStyle},
-    getShiftCommands: {t: () => shortCutCommandsSetter('top')},
-  },
-  margin: {
-    attributeHasSizeType: {margin: 'px'},
-    commandExecutor: {margin: setStyle},
-    getShiftCommands: {m: () => shortCutCommandsSetter('margin')},
-  },
-  padding: {
-    attributeHasSizeType: {padding: 'px'},
-    commandExecutor: {padding: setStyle},
-    getShiftCommands: {p: () => shortCutCommandsSetter('padding')},
-  },
+  ...attributeBuilder('height'),
+  ...attributeBuilder('width'),
+  ...attributeBuilder('left'),
+  ...attributeBuilder('top'),
+  ...attributeBuilder('margin'),
+  ...attributeBuilder('padding'),
 };
 
 export let attributeShiftCommands = {};
@@ -45,24 +37,24 @@ export let attributeCommands = {};
 
 (() => {
   Object.values(attributeFunctions).forEach(
-    ({attributeHasSizeType, commandExecutor, getShiftCommands}) => {
-      if (getShiftCommands) {
+    ({_attributesHasSizeType, _attributeCommands, _attributeShiftCommands}) => {
+      if (_attributeShiftCommands) {
         attributeShiftCommands = {
-          ...getShiftCommands,
+          ..._attributeShiftCommands,
           ...attributeShiftCommands,
         };
       }
 
-      if (attributeHasSizeType) {
+      if (_attributesHasSizeType) {
         attributesHasSizeType = {
-          ...attributeHasSizeType,
+          ..._attributesHasSizeType,
           ...attributesHasSizeType,
         };
       }
 
-      if (commandExecutor) {
+      if (_attributeCommands) {
         attributeCommands = {
-          ...commandExecutor,
+          ..._attributeCommands,
           ...attributeCommands,
         };
       }

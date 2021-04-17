@@ -52,7 +52,7 @@ body {
 .kluser_helper .material-icons {
   background-color: ${gray[900]};
   color: ${white};
-  font-helperBubbleDefaultPixelSize: 20px;
+  font-size: 20px;
   left: 0px;
   line-height: ${helperBubbleDefaultPixelSize}px;
   position: absolute;
@@ -160,8 +160,9 @@ export const updateHelperBubble = (
 };
 
 export const fixAttributeSize = (value, cssAttribute, printMode = false) => {
+  const defaultSizeType = 'px';
   const output = attributesHasSizeType[cssAttribute]
-    ? regex.adjut(value, regex.only_numbers, attributesHasSizeType[cssAttribute])
+    ? regex.adjut(value, regex.only_numbers, defaultSizeType)
     : value;
 
   return printMode ? ` ${cssAttribute}: ${output};` : output;
