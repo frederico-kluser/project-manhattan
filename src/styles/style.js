@@ -10,6 +10,11 @@ const {gray, white} = enums.colors;
 const helperBubbleDefaultPixelSize = 30;
 const inputExtraSize = 2;
 const globalStyleObject = {
+  night: `
+  body {
+    background-color: ${gray[900]};
+  }
+`,
   generalConfig: `
 body {
   margin: 0px;
@@ -28,6 +33,7 @@ body {
   helperBubble: `
 .kluser_helper {
   background-color: ${gray[900]};
+  border: 1px solid ${white};
   border-radius: 10px;
   height: ${helperBubbleDefaultPixelSize}px;
   left: 25px;
@@ -155,7 +161,7 @@ export const updateHelperBubble = (
   helperBubbleStructure.input.addEventListener('keydown', autoReizeInput, false);
   helperBubbleStructure.element.setAttribute(
     'style',
-    info !== '' ? `opacity:1;max-width:500px;` : 'transition: opacity 0.25s;'
+    info !== '' ? `opacity:1;max-width:500px;border:none;` : 'transition: opacity 0.25s;'
   );
 };
 

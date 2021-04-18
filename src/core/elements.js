@@ -6,6 +6,7 @@ import {
   unicGlobalVarNameGenerator,
 } from '../helpers/general.js';
 import regex from '../helpers/regex.js';
+import {attributesWithDynamicSizeArr, attributeSizeInPixels} from '../styles/attributes.js';
 import {
   styleTagElementGetter,
   injectedCssUpdater,
@@ -42,6 +43,7 @@ export class ElementBuilder {
     elementId = this.id;
     this.mode = sizeMode;
     this.style = styleNewElementTemplate();
+    this.sizeInPixels = {};
     this.tag = tag;
 
     this.className = className;
@@ -112,26 +114,27 @@ export class ElementBuilder {
     updateHelperBubble(info, icon);
   }
 
-  // _fixSizeTypes() {}
+  _fixSizeTypes(attribute) {
+    let output;
+
+    if (regex.test(this.style[attribute], regex.only_numbers)) {
+      output = parseFloat(this.style[attribute]);
+    } else {
+      output = this.element[attributeSizeInPixels[attribute]];
+    }
+
+    this.style[attribute] = output;
+  }
 
   _updateDynamicAttributes() {
-    let {width, height, left, top} = this.style;
+    const styleAttribute = this._modeTextRender;
 
-    top = parseFloat(top);
-    left = parseFloat(left);
-    width = regex.test(width, regex.only_numbers) ? parseFloat(width) : this.element.clientWidth;
-    height = regex.test(height, regex.only_numbers)
-      ? parseFloat(height)
-      : this.element.clientHeight;
+    this._fixSizeTypes('height');
+    this._fixSizeTypes('width');
+    this._fixSizeTypes('top');
+    this._fixSizeTypes('left');
 
-    const style = this._modeTextRender;
-
-    this.style.left = left;
-    this.style.top = top;
-    this.style.width = width;
-    this.style.height = height;
-
-    this.element.setAttribute('style', style);
+    this.element.setAttribute('style', styleAttribute);
   }
 
   _updateElementStyles() {
@@ -147,6 +150,17 @@ export class ElementBuilder {
         this.style.top += this.calcValueY;
         break;
     }
+  }
+
+  _getDynamicSizes() {
+    Object.keys(this.style).forEach(property => {
+      if (
+        attributesWithDynamicSizeArr.indexOf(property) !== -1 &&
+        attributeSizeInPixels[property]
+      ) {
+        console.log('');
+      }
+    });
   }
 
   dragEvents(e, type) {
@@ -165,6 +179,7 @@ export class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
+        this._getDynamicSizes();
         styleTagUpdater();
         makeOnlyElementtouchable(this.element);
         break;
