@@ -6,14 +6,14 @@ import {
   unicGlobalVarNameGenerator,
 } from '../helpers/general.js';
 import regex from '../helpers/regex.js';
-import {attributesWithDynamicSizeArr, attributeSizeInPixels} from '../styles/attributes.js';
+import {propertiesWithDynamicSizeArr, propertySizeInPixels} from '../styles/cssProperties.js';
 import {
   styleTagElementGetter,
   injectedCssUpdater,
   makeOnlyElementtouchable,
   styleTagUpdater,
   updateHelperBubble,
-  fixAttributeSize,
+  fixPropertySize,
 } from '../styles/style.js';
 import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './drag.js';
 
@@ -88,20 +88,20 @@ export class ElementBuilder {
       case sizeMode:
       default:
         output =
-          fixAttributeSize(height + this.calcValueY, 'height', true) +
-          fixAttributeSize(width + this.calcValueX, 'width', true);
+          fixPropertySize(height + this.calcValueY, 'height', true) +
+          fixPropertySize(width + this.calcValueX, 'width', true);
         break;
       case moveMode:
         output =
-          fixAttributeSize(top + this.calcValueY, 'top', true) +
-          fixAttributeSize(left + this.calcValueX, 'left', true);
+          fixPropertySize(top + this.calcValueY, 'top', true) +
+          fixPropertySize(left + this.calcValueX, 'left', true);
         break;
     }
 
     return output;
   }
 
-  _dynamicStyleAttributesTextSetter() {
+  _dynamicStylePropertiesTextSetter() {
     const {tune, search} = enums.icons;
     let info = this._modeTextRender;
     let icon = tune;
@@ -114,27 +114,27 @@ export class ElementBuilder {
     updateHelperBubble(info, icon);
   }
 
-  _fixSizeTypes(attribute) {
+  _fixSizeTypes(property) {
     let output;
 
-    if (regex.test(this.style[attribute], regex.only_numbers)) {
-      output = parseFloat(this.style[attribute]);
+    if (regex.test(this.style[property], regex.only_numbers)) {
+      output = parseFloat(this.style[property]);
     } else {
-      output = this.element[attributeSizeInPixels[attribute]];
+      output = this.element[propertySizeInPixels[property]];
     }
 
-    this.style[attribute] = output;
+    this.style[property] = output;
   }
 
-  _updateDynamicAttributes() {
-    const styleAttribute = this._modeTextRender;
+  _updateDynamicProperties() {
+    const styleAttributeHTML = this._modeTextRender;
 
     this._fixSizeTypes('height');
     this._fixSizeTypes('width');
     this._fixSizeTypes('top');
     this._fixSizeTypes('left');
 
-    this.element.setAttribute('style', styleAttribute);
+    this.element.setAttribute('style', styleAttributeHTML);
   }
 
   _updateElementStyles() {
@@ -154,10 +154,7 @@ export class ElementBuilder {
 
   _getDynamicSizes() {
     Object.keys(this.style).forEach(property => {
-      if (
-        attributesWithDynamicSizeArr.indexOf(property) !== -1 &&
-        attributeSizeInPixels[property]
-      ) {
+      if (propertiesWithDynamicSizeArr.indexOf(property) !== -1 && propertySizeInPixels[property]) {
         console.log('');
       }
     });
@@ -191,7 +188,7 @@ export class ElementBuilder {
           this.calcValueX = this.PositionX - this.initialPositionX;
           this.calcValueY = this.PositionY - this.initialPositionY;
 
-          this._updateDynamicAttributes();
+          this._updateDynamicProperties();
         }
         break;
       case 'end':
@@ -207,6 +204,6 @@ export class ElementBuilder {
         break;
     }
 
-    this._dynamicStyleAttributesTextSetter();
+    this._dynamicStylePropertiesTextSetter();
   }
 }

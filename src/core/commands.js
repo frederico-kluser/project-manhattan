@@ -6,7 +6,7 @@ import {
   keyCodeNumbersEnum,
 } from '../helpers/enums.js';
 import {conditionalFunctionExecute} from '../helpers/general.js';
-import {attributeCommands, attributeShiftCommands} from '../styles/attributes.js';
+import {propertyCommands, propertyShiftCommands} from '../styles/cssProperties.js';
 import {helperBubbleStructure, styleTagUpdater, updateHelperBubble} from '../styles/style.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
 import recognition from './voice.js';
@@ -52,8 +52,8 @@ const commandExecutor = () => {
 
   let commandResetterBool = true;
 
-  if (attributeCommands[command]) {
-    attributeCommands[command](shortCutCommands);
+  if (propertyCommands[command]) {
+    propertyCommands[command](shortCutCommands);
   } else {
     // eslint-disable-next-line default-case
     switch (command) {
@@ -111,7 +111,7 @@ const getControlCommands = {
 };
 
 const getShiftCommands = {
-  ...attributeShiftCommands,
+  ...propertyShiftCommands,
   n: () => shortCutCommandsSetter(enums.command.newElement, 'div, h1, p'),
   v: () => {
     recognition.continuous = false;

@@ -2,7 +2,7 @@ import {enums} from '../helpers/enums.js';
 import {Elements} from '../core/elements.js';
 import regex from '../helpers/regex.js';
 import {createElement} from '../helpers/general.js';
-import {attributesHasSizeType} from './attributes.js';
+import {propertyHasSizeType} from './cssProperties.js';
 import {stopKeyboardCommandsSetter} from '../core/commands.js';
 
 const {gray, white} = enums.colors;
@@ -165,9 +165,9 @@ export const updateHelperBubble = (
   );
 };
 
-export const fixAttributeSize = (value, cssAttribute, printMode = false) => {
+export const fixPropertySize = (value, cssAttribute, printMode = false) => {
   const defaultSizeType = 'px';
-  const output = attributesHasSizeType[cssAttribute]
+  const output = propertyHasSizeType[cssAttribute]
     ? regex.adjut(value, regex.only_numbers, defaultSizeType)
     : value;
 
@@ -184,7 +184,7 @@ export const styleTagUpdater = () => {
     const sortAttributes = [];
 
     Object.keys(style).forEach(cssAttribute => {
-      const value = fixAttributeSize(style[cssAttribute], cssAttribute);
+      const value = fixPropertySize(style[cssAttribute], cssAttribute);
       sortAttributes.push(`\t${cssAttribute}: ${value};\n`);
     });
 
