@@ -38,7 +38,6 @@ const propertyFunctions = {
   ...propertyBuilder('padding', true, true),
 };
 
-export const propertiesWithDynamicSizeArr = ['height', 'width', 'left', 'top', 'margin', 'padding'];
 export let propertyShiftCommands = {};
 export let propertyHasSizeType = {};
 export let propertyCommands = {};

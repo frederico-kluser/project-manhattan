@@ -166,12 +166,13 @@ export const updateHelperBubble = (
 };
 
 export const fixPropertySize = (value, cssAttribute, printMode = false) => {
+  // TODO: REFACTOR - come from drag(start/end)
   const defaultSizeType = 'px';
   const output = propertyHasSizeType[cssAttribute]
     ? regex.adjut(value, regex.only_numbers, defaultSizeType)
     : value;
 
-  return printMode ? ` ${cssAttribute}: ${output};` : output;
+  return printMode ? `${cssAttribute}: ${output};` : output;
 };
 
 export const styleTagUpdater = () => {
@@ -184,8 +185,7 @@ export const styleTagUpdater = () => {
     const sortAttributes = [];
 
     Object.keys(style).forEach(cssAttribute => {
-      const value = fixPropertySize(style[cssAttribute], cssAttribute);
-      sortAttributes.push(`\t${cssAttribute}: ${value};\n`);
+      sortAttributes.push(`\t${fixPropertySize(style[cssAttribute], cssAttribute, true)}\n`);
     });
 
     sortAttributes.sort();
@@ -240,12 +240,10 @@ export const injectedCssUpdater = () => {
   document.getElementsByTagName('head')[0].appendChild(linkFonts);
   document.getElementsByTagName('head')[0].appendChild(styleTagElement);
   document.body.appendChild(helperBubbleStructure.element);
-  styleTagUpdater();
+  styleTagUpdater('injectedCssUpdater');
 };
 
 export const makeOnlyElementtouchable = draggableElement => {
-  // TODO - in future i will need improve this function for all page elements
-
   Object.keys(Elements).forEach(elementKey => {
     const {element} = Elements[elementKey];
     if (element !== draggableElement && element.contains(draggableElement) === false) {

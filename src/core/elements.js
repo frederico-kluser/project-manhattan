@@ -6,10 +6,8 @@ import {
   unicGlobalVarNameGenerator,
 } from '../helpers/general.js';
 import regex from '../helpers/regex.js';
-import {propertiesWithDynamicSizeArr, propertySizeInPixels} from '../styles/cssProperties.js';
+import {propertySizeInPixels} from '../styles/cssProperties.js';
 import {
-  styleTagElementGetter,
-  injectedCssUpdater,
   makeOnlyElementtouchable,
   styleTagUpdater,
   updateHelperBubble,
@@ -20,7 +18,7 @@ import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './d
 export const Elements = {};
 
 const styleNewElementTemplate = () => ({
-  'background-color': getRandomColor(900),
+  'background-color': getRandomColor(500),
   border: '1px solid black',
   height: 100,
   left: 100,
@@ -43,6 +41,7 @@ export class ElementBuilder {
     elementId = this.id;
     this.mode = sizeMode;
     this.style = styleNewElementTemplate();
+
     this.sizeInPixels = {};
     this.tag = tag;
 
@@ -74,9 +73,12 @@ export class ElementBuilder {
 
     parent.appendChild(this.element);
     Elements[this.id] = this;
-    if (styleTagElementGetter() === undefined) {
-      injectedCssUpdater();
-    }
+
+    this.styleDynamic = {};
+    Object.keys(propertySizeInPixels).forEach(property => {
+      this.styleDynamic[`${property}Absolute`] = this.element[propertySizeInPixels[property]];
+      this.styleDynamic[`${property}Relative`] = this.style[property] || 0;
+    });
   }
 
   get _modeTextRender() {
@@ -87,6 +89,7 @@ export class ElementBuilder {
     switch (this.mode) {
       case sizeMode:
       default:
+        // TODO: REFACTOR come from all + two from dragMove
         output =
           fixPropertySize(height + this.calcValueY, 'height', true) +
           fixPropertySize(width + this.calcValueX, 'width', true);
@@ -123,6 +126,7 @@ export class ElementBuilder {
       output = this.element[propertySizeInPixels[property]];
     }
 
+    // TODO: REFACTOR - come from dragMove
     this.style[property] = output;
   }
 
@@ -142,6 +146,7 @@ export class ElementBuilder {
     switch (this.mode) {
       case sizeMode:
       default:
+        // TODO: REFACTOR - come from dragEnd
         this.style.width += this.calcValueX;
         this.style.height += this.calcValueY;
         break;
@@ -152,20 +157,13 @@ export class ElementBuilder {
     }
   }
 
-  _getDynamicSizes() {
-    Object.keys(this.style).forEach(property => {
-      if (propertiesWithDynamicSizeArr.indexOf(property) !== -1 && propertySizeInPixels[property]) {
-        console.log('');
-      }
-    });
-  }
-
   dragEvents(e, type) {
     //  conditional with id in all function
     // ------------------
     const x = e.clientX;
     const y = e.clientY;
 
+    // eslint-disable-next-line default-case
     switch (type) {
       case 'start':
         this.dragBegins = true;
@@ -176,8 +174,7 @@ export class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        this._getDynamicSizes();
-        styleTagUpdater();
+        styleTagUpdater('dragStart');
         makeOnlyElementtouchable(this.element);
         break;
       case 'move':
@@ -192,7 +189,6 @@ export class ElementBuilder {
         }
         break;
       case 'end':
-      default:
         this.dragBegins = false;
 
         this._updateElementStyles();
@@ -200,7 +196,7 @@ export class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        styleTagUpdater();
+        styleTagUpdater('dragEnd');
         break;
     }
 
