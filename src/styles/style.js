@@ -166,10 +166,9 @@ export const updateHelperBubble = (
 };
 
 export const fixPropertySize = (value, cssAttribute, printMode = false) => {
-  // TODO: REFACTOR - come from drag(start/end)
   const defaultSizeType = 'px';
   const output = propertyHasSizeType[cssAttribute]
-    ? regex.adjut(value, regex.only_numbers, defaultSizeType)
+    ? regex.insertSizeType(value, regex.only_numbers, defaultSizeType)
     : value;
 
   return printMode ? `${cssAttribute}: ${output};` : output;
@@ -189,7 +188,6 @@ export const styleTagUpdater = () => {
     });
 
     sortAttributes.sort();
-
     sortAttributes.forEach(attribute => {
       css += attribute;
     });
@@ -240,7 +238,7 @@ export const injectedCssUpdater = () => {
   document.getElementsByTagName('head')[0].appendChild(linkFonts);
   document.getElementsByTagName('head')[0].appendChild(styleTagElement);
   document.body.appendChild(helperBubbleStructure.element);
-  styleTagUpdater('injectedCssUpdater');
+  styleTagUpdater();
 };
 
 export const makeOnlyElementtouchable = draggableElement => {

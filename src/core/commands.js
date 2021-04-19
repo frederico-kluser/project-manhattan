@@ -84,7 +84,7 @@ const commandExecutor = () => {
     }
   }
 
-  styleTagUpdater('commandExecutor');
+  styleTagUpdater();
 
   if (commandResetterBool) {
     commandResetter();

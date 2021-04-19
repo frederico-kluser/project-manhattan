@@ -48,7 +48,7 @@ export class ElementBuilder {
     this.className = className;
     this.text = text;
 
-    this.dragBegins = false;
+    this.onDraggingElement = false;
 
     this.initialPositionX = 0;
     this.initialPositionY = 0;
@@ -81,23 +81,48 @@ export class ElementBuilder {
     });
   }
 
-  get _modeTextRender() {
+  _sizeConverter(type, plus, resumeOutput = false) {
+    // eslint-disable-next-line no-restricted-globals
+    const sizeType = isNaN(this.styleDynamic[`${type}Relative`])
+      ? regex.getsizeType(this.styleDynamic[`${type}Relative`])
+      : false;
+    if (sizeType !== false) {
+      const valueType = parseFloat(this.styleDynamic[`${type}Relative`]);
+
+      const absoluteSizeBefore = this.styleDynamic[`${type}Absolute`];
+      const absoluteSizeAfter = absoluteSizeBefore + plus;
+
+      const relativeSizeAfter = (absoluteSizeAfter * valueType) / absoluteSizeBefore;
+
+      return (resumeOutput ? relativeSizeAfter.toFixed(2) : relativeSizeAfter) + sizeType;
+    }
+    return this.style[type] + (plus || '');
+  }
+
+  get _helperBubbleTextRender() {
     const {sizeMode, moveMode} = enums.mod;
-    const {width, height, left, top} = this.style;
     let output;
+    const resumeOutput = true;
 
     switch (this.mode) {
       case sizeMode:
       default:
-        // TODO: REFACTOR come from all + two from dragMove
         output =
-          fixPropertySize(height + this.calcValueY, 'height', true) +
-          fixPropertySize(width + this.calcValueX, 'width', true);
+          fixPropertySize(
+            this._sizeConverter('height', this.calcValueY, resumeOutput),
+            'height',
+            true
+          ) +
+          fixPropertySize(
+            this._sizeConverter('width', this.calcValueX, resumeOutput),
+            'width',
+            true
+          );
         break;
       case moveMode:
         output =
-          fixPropertySize(top + this.calcValueY, 'top', true) +
-          fixPropertySize(left + this.calcValueX, 'left', true);
+          fixPropertySize(this._sizeConverter('top', this.calcValueY, resumeOutput), 'top', true) +
+          fixPropertySize(this._sizeConverter('left', this.calcValueX, resumeOutput), 'left', true);
         break;
     }
 
@@ -106,10 +131,10 @@ export class ElementBuilder {
 
   _dynamicStylePropertiesTextSetter() {
     const {tune, search} = enums.icons;
-    let info = this._modeTextRender;
+    let info = this._helperBubbleTextRender;
     let icon = tune;
 
-    if (!this.dragBegins) {
+    if (!this.onDraggingElement) {
       info = '';
       icon = search;
     }
@@ -123,15 +148,14 @@ export class ElementBuilder {
     if (regex.test(this.style[property], regex.only_numbers)) {
       output = parseFloat(this.style[property]);
     } else {
-      output = this.element[propertySizeInPixels[property]];
+      output = this.style[property];
     }
 
-    // TODO: REFACTOR - come from dragMove
     this.style[property] = output;
   }
 
   _updateDynamicProperties() {
-    const styleAttributeHTML = this._modeTextRender;
+    const styleAttributeHTML = this._helperBubbleTextRender;
 
     this._fixSizeTypes('height');
     this._fixSizeTypes('width');
@@ -146,27 +170,26 @@ export class ElementBuilder {
     switch (this.mode) {
       case sizeMode:
       default:
-        // TODO: REFACTOR - come from dragEnd
-        this.style.width += this.calcValueX;
-        this.style.height += this.calcValueY;
+        this.style.width = this._sizeConverter('width', this.calcValueX);
+        this.style.height = this._sizeConverter('height', this.calcValueY);
         break;
       case moveMode:
-        this.style.left += this.calcValueX;
-        this.style.top += this.calcValueY;
+        this.style.left = this._sizeConverter('left', this.calcValueX);
+        this.style.top = this._sizeConverter('top', this.calcValueY);
         break;
     }
   }
 
+  // TODO: create sub dragMethods
+  // eslint-disable-next-line complexity
   dragEvents(e, type) {
-    //  conditional with id in all function
-    // ------------------
     const x = e.clientX;
     const y = e.clientY;
 
     // eslint-disable-next-line default-case
     switch (type) {
       case 'start':
-        this.dragBegins = true;
+        this.onDraggingElement = true;
 
         this.initialPositionX = x;
         this.initialPositionY = y;
@@ -174,11 +197,19 @@ export class ElementBuilder {
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        styleTagUpdater('dragStart');
+        Object.keys(propertySizeInPixels).forEach(property => {
+          this.styleDynamic[`${property}Absolute`] = this.element[propertySizeInPixels[property]];
+          this.styleDynamic[`${property}Relative`] = this.style[property] || 0;
+        });
+
+        console.log('this.styleDynamic');
+        console.log('this.styleDynamic :', this.styleDynamic);
+
+        styleTagUpdater();
         makeOnlyElementtouchable(this.element);
         break;
       case 'move':
-        if (this.dragBegins) {
+        if (this.onDraggingElement) {
           this.PositionX = x;
           this.PositionY = y;
 
@@ -189,14 +220,16 @@ export class ElementBuilder {
         }
         break;
       case 'end':
-        this.dragBegins = false;
+        this.onDraggingElement = false;
 
         this._updateElementStyles();
+
+        console.log('this.style.width :', this.style.width);
 
         this.calcValueX = 0;
         this.calcValueY = 0;
 
-        styleTagUpdater('dragEnd');
+        styleTagUpdater();
         break;
     }
 
