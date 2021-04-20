@@ -186,7 +186,6 @@ export class ElementBuilder {
     const x = e.clientX;
     const y = e.clientY;
 
-    // eslint-disable-next-line default-case
     switch (type) {
       case 'start':
         this.onDraggingElement = true;

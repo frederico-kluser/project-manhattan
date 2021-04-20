@@ -9,7 +9,7 @@ import {conditionalFunctionExecute} from '../helpers/general.js';
 import {propertyCommands, propertyShiftCommands} from '../styles/cssProperties.js';
 import {helperBubbleStructure, styleTagUpdater, updateHelperBubble} from '../styles/style.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
-import recognition from './voice.js';
+// import recognition from './voice.js';
 
 let key;
 
@@ -114,8 +114,9 @@ const getShiftCommands = {
   ...propertyShiftCommands,
   n: () => shortCutCommandsSetter(enums.command.newElement, 'div, h1, p'),
   v: () => {
-    recognition.continuous = false;
-    recognition.start();
+    // recognition.continuous = false;
+    // recognition.start();
+    console.log('I will add voice');
   },
 };
 
