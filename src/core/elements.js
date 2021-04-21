@@ -17,15 +17,14 @@ import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './d
 
 export const Elements = {};
 
-const styleNewElementTemplate = () => ({
-  'background-color': getRandomColor(500),
+const stylePropertyDefault = {
   border: '1px solid black',
   height: 100,
   left: 100,
   position: 'relative',
   top: 100,
   width: 100,
-});
+};
 
 let elementId;
 export const elementIdGetter = () => elementId;
@@ -36,11 +35,13 @@ export const elementIdSetter = value => {
 export class ElementBuilder {
   constructor(parent, tag, className = '', text = '') {
     const {sizeMode} = enums.mod;
+    const {backgroundColor} = enums.style;
 
     this.id = unicGlobalVarNameGenerator();
     elementIdSetter(this.id);
     this.mode = sizeMode;
-    this.style = styleNewElementTemplate();
+    this.style = stylePropertyDefault;
+    this.style[backgroundColor] = getRandomColor(500);
 
     this.sizeInPixels = {};
     this.tag = tag;

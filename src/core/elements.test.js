@@ -10,12 +10,7 @@ jest
   .mockReturnValueOnce('mockId1')
   .mockReturnValueOnce('mockId2')
   .mockReturnValueOnce('mockId3');
-jest
-  .spyOn(general, 'getRandomColor')
-  .mockImplementation()
-  .mockReturnValueOnce('red')
-  .mockReturnValueOnce('green')
-  .mockReturnValueOnce('blue');
+jest.spyOn(general, 'getRandomColor').mockImplementation().mockReturnValue('#FFFFFF');
 
 describe('class ElementBuilder', () => {
   it('object Elements start a empty object', () => {
@@ -31,6 +26,15 @@ describe('class ElementBuilder', () => {
     const quantOfElements = Object.keys(Elements).length;
 
     expect(quantOfElements).toStrictEqual(1);
+  });
+
+  it('test new ElementBuider instance default values', () => {
+    expect.assertions(2);
+
+    const {style, onDraggingElement} = Elements[elementIdGetter()];
+
+    expect(style['background-color']).toStrictEqual('#FFFFFF');
+    expect(onDraggingElement).toStrictEqual(false);
   });
 
   it('class ElementBuilder inject children on Elements', () => {

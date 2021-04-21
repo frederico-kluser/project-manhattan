@@ -317,6 +317,9 @@ export const enums = {
     className: 'className',
     innerText: 'innerText',
   },
+  style: {
+    backgroundColor: 'background-color',
+  },
 };
 
 export const keyCodeLettersEnum = {
