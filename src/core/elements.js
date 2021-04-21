@@ -84,7 +84,7 @@ export class ElementBuilder {
   _sizeConverter(type, plus, resumeOutput = false) {
     // eslint-disable-next-line no-restricted-globals
     const sizeType = isNaN(this.styleDynamic[`${type}Relative`])
-      ? regex.getsizeType(this.styleDynamic[`${type}Relative`])
+      ? regex.getSizeType(this.styleDynamic[`${type}Relative`])
       : false;
     if (sizeType !== false) {
       const valueType = parseFloat(this.styleDynamic[`${type}Relative`]);
@@ -145,7 +145,7 @@ export class ElementBuilder {
   _fixSizeTypes(property) {
     let output;
 
-    if (regex.test(this.style[property], regex.only_numbers)) {
+    if (regex.test(this.style[property], regex.onlyNumbers)) {
       output = parseFloat(this.style[property]);
     } else {
       output = this.style[property];

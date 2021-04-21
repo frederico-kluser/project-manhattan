@@ -168,7 +168,7 @@ export const updateHelperBubble = (
 export const fixPropertySize = (value, cssAttribute, printMode = false) => {
   const defaultSizeType = 'px';
   const output = propertyHasSizeType[cssAttribute]
-    ? regex.insertSizeType(value, regex.only_numbers, defaultSizeType)
+    ? regex.insertSizeType(value, regex.onlyNumbers, defaultSizeType)
     : value;
 
   return printMode ? `${cssAttribute}: ${output};` : output;
