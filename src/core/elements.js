@@ -38,7 +38,7 @@ export class ElementBuilder {
     const {sizeMode} = enums.mod;
 
     this.id = unicGlobalVarNameGenerator();
-    elementId = this.id;
+    elementIdSetter(this.id);
     this.mode = sizeMode;
     this.style = styleNewElementTemplate();
 
@@ -201,9 +201,6 @@ export class ElementBuilder {
           this.styleDynamic[`${property}Relative`] = this.style[property] || 0;
         });
 
-        console.log('this.styleDynamic');
-        console.log('this.styleDynamic :', this.styleDynamic);
-
         styleTagUpdater();
         makeOnlyElementtouchable(this.element);
         break;
@@ -222,8 +219,6 @@ export class ElementBuilder {
         this.onDraggingElement = false;
 
         this._updateElementStyles();
-
-        console.log('this.style.width :', this.style.width);
 
         this.calcValueX = 0;
         this.calcValueY = 0;

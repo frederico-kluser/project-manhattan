@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`class ElementBuilder take a snapshot of Elements 1`] = `
+Object {
+  "mockId1": ElementBuilder {
+    "calcValueX": 0,
+    "calcValueY": 0,
+    "className": "",
+    "element": <div
+      id="mockId1"
+    >
+      <div
+        id="mockId2"
+      />
+      <div
+        id="mockId3"
+      />
+    </div>,
+    "id": "mockId1",
+    "initialPositionX": 0,
+    "initialPositionY": 0,
+    "mode": "sizeMode",
+    "onDraggingElement": false,
+    "positionX": 0,
+    "positionY": 0,
+    "sizeInPixels": Object {},
+    "style": Object {
+      "background-color": "red",
+      "border": "1px solid black",
+      "height": 100,
+      "left": 100,
+      "position": "relative",
+      "top": 100,
+      "width": 100,
+    },
+    "styleDynamic": Object {
+      "heightAbsolute": 0,
+      "heightRelative": 100,
+      "leftAbsolute": 0,
+      "leftRelative": 100,
+      "topAbsolute": 0,
+      "topRelative": 100,
+      "widthAbsolute": 0,
+      "widthRelative": 100,
+    },
+    "tag": "div",
+    "text": "",
+  },
+  "mockId2": ElementBuilder {
+    "calcValueX": 0,
+    "calcValueY": 0,
+    "className": "",
+    "element": <div
+      id="mockId2"
+    />,
+    "id": "mockId2",
+    "initialPositionX": 0,
+    "initialPositionY": 0,
+    "mode": "sizeMode",
+    "onDraggingElement": false,
+    "positionX": 0,
+    "positionY": 0,
+    "sizeInPixels": Object {},
+    "style": Object {
+      "background-color": "green",
+      "border": "1px solid black",
+      "height": 100,
+      "left": 100,
+      "position": "relative",
+      "top": 100,
+      "width": 100,
+    },
+    "styleDynamic": Object {
+      "heightAbsolute": 0,
+      "heightRelative": 100,
+      "leftAbsolute": 0,
+      "leftRelative": 100,
+      "topAbsolute": 0,
+      "topRelative": 100,
+      "widthAbsolute": 0,
+      "widthRelative": 100,
+    },
+    "tag": "div",
+    "text": "",
+  },
+  "mockId3": ElementBuilder {
+    "calcValueX": 0,
+    "calcValueY": 0,
+    "className": "",
+    "element": <div
+      id="mockId3"
+    />,
+    "id": "mockId3",
+    "initialPositionX": 0,
+    "initialPositionY": 0,
+    "mode": "sizeMode",
+    "onDraggingElement": false,
+    "positionX": 0,
+    "positionY": 0,
+    "sizeInPixels": Object {},
+    "style": Object {
+      "background-color": "blue",
+      "border": "1px solid black",
+      "height": 100,
+      "left": 100,
+      "position": "relative",
+      "top": 100,
+      "width": 100,
+    },
+    "styleDynamic": Object {
+      "heightAbsolute": 0,
+      "heightRelative": 100,
+      "leftAbsolute": 0,
+      "leftRelative": 100,
+      "topAbsolute": 0,
+      "topRelative": 100,
+      "widthAbsolute": 0,
+      "widthRelative": 100,
+    },
+    "tag": "div",
+    "text": "",
+  },
+}
+`;

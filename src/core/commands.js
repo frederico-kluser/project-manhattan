@@ -20,12 +20,19 @@ export const stopKeyboardCommandsSetter = value => {
 };
 
 export let keyboardShortcutsListenerBool = false;
+
 let shortCutCommands = {
   command: '',
   icon: enums.icons.search,
   placeholder: '',
   value: '',
 };
+export const shortCutCommandsSetter = (command, placeholder = '...') => {
+  shortCutCommands.command = command;
+  shortCutCommands.placeholder = placeholder;
+  return true;
+};
+
 const elementInfo = {
   tag: '',
   className: '',
@@ -55,7 +62,6 @@ const commandExecutor = () => {
   if (propertyCommands[command]) {
     propertyCommands[command](shortCutCommands);
   } else {
-    // eslint-disable-next-line default-case
     switch (command) {
       case sizeMode:
       case moveMode:
@@ -95,12 +101,6 @@ const commandExecutor = () => {
       shortCutCommands.placeholder
     );
   }
-};
-
-export const shortCutCommandsSetter = (command, placeholder = '...') => {
-  shortCutCommands.command = command;
-  shortCutCommands.placeholder = placeholder;
-  return true;
 };
 
 const getControlCommands = {
