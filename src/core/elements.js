@@ -61,12 +61,11 @@ export class ElementBuilder {
     this.calcValueY = 0;
 
     this.element = createElement({
-      tag: this.tag,
+      tag,
       id: this.id,
       className,
       text,
     });
-
     this.element.addEventListener('mousedown', dragStartEventSetter, false);
     this.element.addEventListener('mousemove', dragMoveEventSetter, false);
     this.element.addEventListener('mouseup', dragEndEventSetter, false);

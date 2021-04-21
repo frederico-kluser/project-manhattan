@@ -19,22 +19,32 @@ describe('class ElementBuilder', () => {
     expect(Elements).toStrictEqual({});
   });
 
+  it('test new ElementBuider instance default values', () => {
+    expect.assertions(5);
+
+    jest.spyOn(general, 'createElement');
+    const {className, id, onDraggingElement, style, tag, text} = new ElementBuilder(
+      document.body,
+      'div'
+    );
+
+    expect(general.createElement).toHaveBeenCalledWith({
+      tag,
+      id,
+      className,
+      text,
+    });
+    expect(className).toStrictEqual('');
+    expect(onDraggingElement).toStrictEqual(false);
+    expect(style['background-color']).toStrictEqual('#FFFFFF');
+    expect(text).toStrictEqual('');
+  });
+
   it('class ElementBuider change Elements content', () => {
     expect.assertions(1);
 
-    new ElementBuilder(document.body, 'div');
     const quantOfElements = Object.keys(Elements).length;
-
     expect(quantOfElements).toStrictEqual(1);
-  });
-
-  it('test new ElementBuider instance default values', () => {
-    expect.assertions(2);
-
-    const {style, onDraggingElement} = Elements[elementIdGetter()];
-
-    expect(style['background-color']).toStrictEqual('#FFFFFF');
-    expect(onDraggingElement).toStrictEqual(false);
   });
 
   it('class ElementBuilder inject children on Elements', () => {
