@@ -6,10 +6,12 @@ const randomIdGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
 
 export const unicGlobalVarNameGenerator = () => {
   let name;
+
   do {
     name = randomIdGenerator();
     // eslint-disable-next-line no-prototype-builtins
   } while (window.hasOwnProperty(name));
+
   return name;
 };
 

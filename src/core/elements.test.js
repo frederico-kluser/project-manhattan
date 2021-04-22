@@ -3,7 +3,6 @@ import {injectedCssUpdater} from '../styles/style';
 import {ElementBuilder, Elements, elementIdGetter} from './elements';
 import * as general from '../helpers/general';
 
-// const general = jest.createMockFromModule('../helpers/general.js');
 jest
   .spyOn(general, 'unicGlobalVarNameGenerator')
   .mockImplementation()
@@ -74,7 +73,3 @@ describe('class ElementBuilder', () => {
     expect(Elements).toMatchSnapshot();
   });
 });
-
-// const { element } = Elements[elementIdGetter()];
-// element.dispatchEvent(new Event('mousedown'));
-// element.dispatchEvent(new Event('mousemove'));

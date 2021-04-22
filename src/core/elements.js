@@ -17,14 +17,14 @@ import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './d
 
 export const Elements = {};
 
-const stylePropertyDefault = {
+const stylePropertyDefault = () => ({
   border: '1px solid black',
   height: 100,
   left: 100,
   position: 'relative',
   top: 100,
   width: 100,
-};
+});
 
 let elementId;
 export const elementIdGetter = () => elementId;
@@ -40,7 +40,7 @@ export class ElementBuilder {
     this.id = unicGlobalVarNameGenerator();
     elementIdSetter(this.id);
     this.mode = sizeMode;
-    this.style = stylePropertyDefault;
+    this.style = stylePropertyDefault();
     this.style[backgroundColor] = getRandomColor(500);
 
     this.sizeInPixels = {};
