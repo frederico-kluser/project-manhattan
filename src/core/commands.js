@@ -65,7 +65,7 @@ const commandExecutor = () => {
     switch (command) {
       case sizeMode:
       case moveMode:
-        Elements[elementIdGetter()].mode = command;
+        Elements[elementIdGetter()].modeSetter(command);
         break;
       case newElement:
         commandResetterBool = false;
@@ -83,7 +83,7 @@ const commandExecutor = () => {
       case innerText:
         elementInfo.text = shortCutCommands.value;
         // eslint-disable-next-line no-case-declarations
-        const {element} = Elements[elementIdGetter()];
+        const element = Elements[elementIdGetter()].elementGetter();
         // eslint-disable-next-line no-new
         new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
         break;

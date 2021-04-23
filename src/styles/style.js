@@ -179,7 +179,9 @@ export const styleTagUpdater = () => {
 
   Object.keys(Elements).forEach(elementKey => {
     css += `\n#${elementKey} {\n`;
-    const {element, style} = Elements[elementKey];
+    const element = Elements[elementKey].elementGetter();
+    const style = Elements[elementKey].styleGetter();
+
     element.removeAttribute('style');
     const sortAttributes = [];
 
@@ -243,7 +245,7 @@ export const injectedCssUpdater = () => {
 
 export const makeOnlyElementtouchable = draggableElement => {
   Object.keys(Elements).forEach(elementKey => {
-    const {element} = Elements[elementKey];
+    const element = Elements[elementKey].elementGetter();
     if (element !== draggableElement && element.contains(draggableElement) === false) {
       element.setAttribute('style', 'pointer-events: none !important;');
     }

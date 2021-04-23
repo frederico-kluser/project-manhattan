@@ -2,7 +2,7 @@ import {shortCutCommandsSetter} from '../core/commands.js';
 import {elementIdGetter, Elements} from '../core/elements.js';
 
 const setStyle = ({command, value}) => {
-  Elements[elementIdGetter()].style[command] = value;
+  Elements[elementIdGetter()].styleSetter(command, value);
   return true;
 };
 

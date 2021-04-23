@@ -32,201 +32,193 @@ export const elementIdSetter = value => {
   elementId = value;
 };
 
-export class ElementBuilder {
-  constructor(parent, tag, className = '', text = '') {
-    const {sizeMode} = enums.mod;
-    const {backgroundColor} = enums.style;
+export const ElementConfig = (id, element) => {
+  const {sizeMode} = enums.mod;
+  const {backgroundColor} = enums.style;
 
-    this.id = unicGlobalVarNameGenerator();
-    elementIdSetter(this.id);
-    this.mode = sizeMode;
-    this.style = stylePropertyDefault();
-    this.style[backgroundColor] = getRandomColor(500);
+  elementIdSetter(id);
+  let _mode = sizeMode;
+  const _style = stylePropertyDefault();
+  _style[backgroundColor] = getRandomColor(500);
 
-    this.sizeInPixels = {};
-    this.tag = tag;
+  let _onDraggingElement = false;
 
-    this.className = className;
-    this.text = text;
+  let _initialPositionX = 0;
+  let _initialPositionY = 0;
 
-    this.onDraggingElement = false;
+  let _positionX = 0;
+  let _positionY = 0;
 
-    this.initialPositionX = 0;
-    this.initialPositionY = 0;
+  let _calcValueX = 0;
+  let _calcValueY = 0;
 
-    this.positionX = 0;
-    this.positionY = 0;
+  const _element = element;
 
-    this.calcValueX = 0;
-    this.calcValueY = 0;
+  const _styleDynamic = {};
+  Object.keys(propertySizeInPixels).forEach(property => {
+    _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
+    _styleDynamic[`${property}Relative`] = _style[property] || 0;
+  });
 
-    this.element = createElement({
-      tag,
-      id: this.id,
-      className,
-      text,
-    });
-    this.element.addEventListener('mousedown', dragStartEventSetter, false);
-    this.element.addEventListener('mousemove', dragMoveEventSetter, false);
-    this.element.addEventListener('mouseup', dragEndEventSetter, false);
-    this.element.addEventListener('contextmenu', builderMenu);
-
-    parent.appendChild(this.element);
-    Elements[this.id] = this;
-
-    this.styleDynamic = {};
-    Object.keys(propertySizeInPixels).forEach(property => {
-      this.styleDynamic[`${property}Absolute`] = this.element[propertySizeInPixels[property]];
-      this.styleDynamic[`${property}Relative`] = this.style[property] || 0;
-    });
-  }
-
-  _sizeConverter(type, plus, resumeOutput = false) {
+  const _sizeConverter = (type, plus, resumeOutput = false) => {
     // eslint-disable-next-line no-restricted-globals
-    const sizeType = isNaN(this.styleDynamic[`${type}Relative`])
-      ? regex.getSizeType(this.styleDynamic[`${type}Relative`])
+    const sizeType = isNaN(_styleDynamic[`${type}Relative`])
+      ? regex.getSizeType(_styleDynamic[`${type}Relative`])
       : false;
     if (sizeType !== false) {
-      const valueType = parseFloat(this.styleDynamic[`${type}Relative`]);
+      const valueType = parseFloat(_styleDynamic[`${type}Relative`]);
 
-      const absoluteSizeBefore = this.styleDynamic[`${type}Absolute`];
+      const absoluteSizeBefore = _styleDynamic[`${type}Absolute`];
       const absoluteSizeAfter = absoluteSizeBefore + plus;
 
       const relativeSizeAfter = (absoluteSizeAfter * valueType) / absoluteSizeBefore;
 
       return (resumeOutput ? relativeSizeAfter.toFixed(2) : relativeSizeAfter) + sizeType;
     }
-    return this.style[type] + (plus || '');
-  }
+    return _style[type] + (plus || '');
+  };
 
-  get _helperBubbleTextRender() {
-    const {sizeMode, moveMode} = enums.mod;
+  const _helperBubbleTextRender = () => {
+    const {moveMode} = enums.mod;
     let output;
     const resumeOutput = true;
 
-    switch (this.mode) {
+    switch (_mode) {
       case sizeMode:
       default:
         output =
-          fixPropertySize(
-            this._sizeConverter('height', this.calcValueY, resumeOutput),
-            'height',
-            true
-          ) +
-          fixPropertySize(
-            this._sizeConverter('width', this.calcValueX, resumeOutput),
-            'width',
-            true
-          );
+          fixPropertySize(_sizeConverter('height', _calcValueY, resumeOutput), 'height', true) +
+          fixPropertySize(_sizeConverter('width', _calcValueX, resumeOutput), 'width', true);
         break;
       case moveMode:
         output =
-          fixPropertySize(this._sizeConverter('top', this.calcValueY, resumeOutput), 'top', true) +
-          fixPropertySize(this._sizeConverter('left', this.calcValueX, resumeOutput), 'left', true);
+          fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
+          fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true);
         break;
     }
 
     return output;
-  }
+  };
 
-  _dynamicStylePropertiesTextSetter() {
+  const _dynamicStylePropertiesTextSetter = () => {
     const {tune, search} = enums.icons;
-    let info = this._helperBubbleTextRender;
+    let info = _helperBubbleTextRender();
     let icon = tune;
 
-    if (!this.onDraggingElement) {
+    if (!_onDraggingElement) {
       info = '';
       icon = search;
     }
 
     updateHelperBubble(info, icon);
-  }
+  };
 
-  _fixSizeTypes(property) {
+  const _fixSizeTypes = property => {
     let output;
 
-    if (regex.test(this.style[property], regex.onlyNumbers)) {
-      output = parseFloat(this.style[property]);
+    if (regex.test(_style[property], regex.onlyNumbers)) {
+      output = parseFloat(_style[property]);
     } else {
-      output = this.style[property];
+      output = _style[property];
     }
 
-    this.style[property] = output;
-  }
+    _style[property] = output;
+  };
 
-  _updateDynamicProperties() {
-    const styleAttributeHTML = this._helperBubbleTextRender;
+  const _updateDynamicProperties = () => {
+    const styleAttributeHTML = _helperBubbleTextRender();
 
-    this._fixSizeTypes('height');
-    this._fixSizeTypes('width');
-    this._fixSizeTypes('top');
-    this._fixSizeTypes('left');
+    _fixSizeTypes('height');
+    _fixSizeTypes('width');
+    _fixSizeTypes('top');
+    _fixSizeTypes('left');
 
-    this.element.setAttribute('style', styleAttributeHTML);
-  }
+    _element.setAttribute('style', styleAttributeHTML);
+  };
 
-  _updateElementStyles() {
-    const {sizeMode, moveMode} = enums.mod;
-    switch (this.mode) {
+  const _updateElementStyles = () => {
+    const {moveMode} = enums.mod;
+
+    switch (_mode) {
       case sizeMode:
       default:
-        this.style.width = this._sizeConverter('width', this.calcValueX);
-        this.style.height = this._sizeConverter('height', this.calcValueY);
+        _style.width = _sizeConverter('width', _calcValueX);
+        _style.height = _sizeConverter('height', _calcValueY);
         break;
       case moveMode:
-        this.style.left = this._sizeConverter('left', this.calcValueX);
-        this.style.top = this._sizeConverter('top', this.calcValueY);
+        _style.left = _sizeConverter('left', _calcValueX);
+        _style.top = _sizeConverter('top', _calcValueY);
         break;
     }
-  }
+  };
 
-  // TODO: create sub dragMethods
-  // eslint-disable-next-line complexity
-  dragEvents(e, type) {
-    const x = e.clientX;
-    const y = e.clientY;
+  return {
+    elementGetter: () => _element,
+    dragEvents: (e, type) => {
+      const x = e.clientX;
+      const y = e.clientY;
 
-    switch (type) {
-      case 'start':
-        this.onDraggingElement = true;
+      switch (type) {
+        case 'start':
+          _onDraggingElement = true;
 
-        this.initialPositionX = x;
-        this.initialPositionY = y;
+          _initialPositionX = x;
+          _initialPositionY = y;
 
-        this.calcValueX = 0;
-        this.calcValueY = 0;
+          _calcValueX = 0;
+          _calcValueY = 0;
 
-        Object.keys(propertySizeInPixels).forEach(property => {
-          this.styleDynamic[`${property}Absolute`] = this.element[propertySizeInPixels[property]];
-          this.styleDynamic[`${property}Relative`] = this.style[property] || 0;
-        });
+          Object.keys(propertySizeInPixels).forEach(property => {
+            _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
+            _styleDynamic[`${property}Relative`] = _style[property] || 0;
+          });
 
-        styleTagUpdater();
-        makeOnlyElementtouchable(this.element);
-        break;
-      case 'move':
-        if (this.onDraggingElement) {
-          this.PositionX = x;
-          this.PositionY = y;
+          styleTagUpdater();
+          makeOnlyElementtouchable(_element);
+          break;
+        case 'move':
+          if (_onDraggingElement) {
+            _positionX = x;
+            _positionY = y;
 
-          this.calcValueX = this.PositionX - this.initialPositionX;
-          this.calcValueY = this.PositionY - this.initialPositionY;
+            _calcValueX = _positionX - _initialPositionX;
+            _calcValueY = _positionY - _initialPositionY;
 
-          this._updateDynamicProperties();
-        }
-        break;
-      case 'end':
-        this.onDraggingElement = false;
+            _updateDynamicProperties();
+          }
+          break;
+        case 'end':
+          _onDraggingElement = false;
 
-        this._updateElementStyles();
+          _updateElementStyles();
 
-        this.calcValueX = 0;
-        this.calcValueY = 0;
+          _calcValueX = 0;
+          _calcValueY = 0;
 
-        styleTagUpdater();
-        break;
-    }
+          styleTagUpdater();
+          break;
+      }
 
-    this._dynamicStylePropertiesTextSetter();
-  }
-}
+      _dynamicStylePropertiesTextSetter();
+    },
+    modeSetter: mode => {
+      _mode = mode;
+    },
+    styleGetter: () => _style,
+    styleSetter: (command, value) => {
+      _style[command] = value;
+    },
+  };
+};
+
+export const ElementBuilder = (parent, tag, className = '', text = '') => {
+  const id = unicGlobalVarNameGenerator();
+  const element = createElement({className, id, tag, text});
+  element.addEventListener('mousedown', dragStartEventSetter, false);
+  element.addEventListener('mousemove', dragMoveEventSetter, false);
+  element.addEventListener('mouseup', dragEndEventSetter, false);
+  element.addEventListener('contextmenu', builderMenu);
+  parent.appendChild(element);
+
+  Elements[id] = ElementConfig(id, element);
+};
