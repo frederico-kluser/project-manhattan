@@ -6,4 +6,5 @@ module.exports = {
   reporters: ['html', 'clear-text', 'progress'],
   testRunner: 'jest',
   coverageAnalysis: 'perTest',
+  mutator: {excludedMutations: ['ConditionalExpression', 'ArithmeticOperator']},
 };

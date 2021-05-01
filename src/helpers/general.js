@@ -2,15 +2,12 @@
 
 import {enums} from './enums.js';
 
-const randomIdGenerator = () => `_${Math.random().toString(36).substr(2, 9)}`;
-
 export const unicGlobalVarNameGenerator = () => {
   let name;
 
   do {
-    name = randomIdGenerator();
-    // eslint-disable-next-line no-prototype-builtins
-  } while (window.hasOwnProperty(name));
+    name = `_${Math.random().toString(36).substr(2, 9)}`;
+  } while (document.getElementById(name) !== null);
 
   return name;
 };
@@ -63,17 +60,7 @@ export const createElement = ({
   return elem;
 };
 
-export const conditionalFunctionExecute = (func1, func2, conditional) => {
-  if (func1 || func2) {
-    let func = func1 || func2;
-
-    if (conditional === false) {
-      func = func2;
-    }
-    return !!func();
-  }
-  return false;
-};
+export const conditionalFunctionExecute = (func1, func2) => !!(func1() || func2());
 
 export const builderMenu = e => {
   console.log(e);
