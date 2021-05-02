@@ -7,7 +7,11 @@ import {
 } from '../helpers/enums.js';
 import {conditionalFunctionExecute} from '../helpers/general.js';
 import {propertyCommands, propertyShiftCommands} from '../styles/cssProperties.js';
-import {helperBubbleStructure, styleTagUpdater, updateHelperBubble} from '../styles/style.js';
+import {
+  helperBubbleStructure,
+  styleTagUpdater,
+  updateHelperBubble,
+} from '../styles/styleGeneral.js';
 import {ElementBuilder, elementIdGetter, Elements} from './elements.js';
 // import recognition from './voice.js';
 

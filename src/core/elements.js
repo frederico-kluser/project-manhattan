@@ -12,7 +12,7 @@ import {
   styleTagUpdater,
   updateHelperBubble,
   fixPropertySize,
-} from '../styles/style.js';
+} from '../styles/styleGeneral.js';
 import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './drag.js';
 
 export const Elements = {};

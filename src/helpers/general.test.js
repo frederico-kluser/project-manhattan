@@ -158,7 +158,7 @@ describe('function conditionalFunctionExecute', () => {
     expect.assertions(1);
 
     const firstFunction = () => 'first';
-    const secondFunction = () => 'second';
+    const secondFunction = () => '';
 
     expect(conditionalFunctionExecute(firstFunction, secondFunction)).toBeTruthy();
   });

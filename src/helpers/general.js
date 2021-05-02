@@ -60,7 +60,19 @@ export const createElement = ({
   return elem;
 };
 
-export const conditionalFunctionExecute = (func1, func2) => !!(func1() || func2());
+export const conditionalFunctionExecute = (func1, func2) => {
+  let result;
+
+  if (func1) {
+    result = func1();
+  }
+
+  if (func2 && !result) {
+    result = func2();
+  }
+
+  return !!result;
+};
 
 export const builderMenu = e => {
   console.log(e);

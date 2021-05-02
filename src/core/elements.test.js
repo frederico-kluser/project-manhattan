@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import {injectedCssUpdater} from '../styles/style';
+import {injectedCssUpdater} from '../styles/styleGeneral';
 import {ElementBuilder, Elements, elementIdGetter} from './elements';
 import * as general from '../helpers/general';
 
