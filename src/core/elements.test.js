@@ -75,9 +75,6 @@ describe('class ElementBuilder', () => {
   it('take a snapshot of Elements', () => {
     expect.assertions(1);
 
-    console.log('Elements');
-    console.log(Elements);
-
     expect(Elements).toMatchSnapshot();
   });
 });

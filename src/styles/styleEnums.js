@@ -1,6 +1,7 @@
 import {enums} from '../helpers/enums.js';
 
 const {gray, white} = enums.colors;
+const {helperBubble, helperInput, helperText} = enums.helperBubble;
 
 const helperBubbleDefaultPixelSize = 30;
 
@@ -8,9 +9,9 @@ export const inputExtraSize = 2;
 
 export const globalStyleObject = {
   night: `
-  body {
-    background-color: ${gray[900]};
-  }
+body {
+  background-color: ${gray[900]};
+}
 `,
   generalConfig: `
 body {
@@ -28,7 +29,7 @@ body {
 }
 `,
   helperBubble: `
-.kluser_helper {
+.${helperBubble} {
   background-color: ${gray[900]};
   border-radius: 10px;
   border: 1px solid ${white};
@@ -47,12 +48,12 @@ body {
   width: auto;
 }
 
-.kluser_helper:hover {
+.${helperBubble}:hover {
   opacity: 1;
 }
 `,
   helperIcons: `
-.kluser_helper .material-icons {
+.${helperBubble} .material-icons {
   background-color: ${gray[900]};
   color: ${white};
   font-size: 20px;
@@ -64,7 +65,7 @@ body {
 }
 `,
   helperText: `
-.kluser_text {
+.${helperText} {
   color: ${white};
   float: left;
   font-family: ${enums.font.roboto};
@@ -77,12 +78,12 @@ body {
   text-align: right;
 }
 
-.kluser_text:empty {
+.${helperText}:empty {
   display: none;
 }
 `,
   helperInput: `
-.kluser_input {
+.${helperInput} {
   background-color: transparent;
   border: none;
   color: ${gray[200]};
@@ -96,7 +97,7 @@ body {
   padding: 0px;
 }
 
-.kluser_input::placeholder {
+.${helperInput}::placeholder {
   color: ${gray[400]};
 }
 `,

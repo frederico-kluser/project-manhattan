@@ -326,6 +326,11 @@ describe('variable enums', () => {
       style: {
         backgroundColor: 'background-color',
       },
+      helperBubble: {
+        helperBubble: 'kluser_helper',
+        helperInput: 'kluser_input',
+        helperText: 'kluser_text',
+      },
     };
 
     expect(enums).toMatchObject(localEnums);

@@ -75,6 +75,5 @@ export const conditionalFunctionExecute = (func1, func2) => {
 };
 
 export const builderMenu = e => {
-  console.log(e);
   e.preventDefault();
 };

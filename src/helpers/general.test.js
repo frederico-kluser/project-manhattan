@@ -154,7 +154,7 @@ describe('function createElement', () => {
 });
 
 describe('function conditionalFunctionExecute', () => {
-  it('text execute first function', () => {
+  it('test execute first function', () => {
     expect.assertions(1);
 
     const firstFunction = () => 'first';
@@ -163,7 +163,7 @@ describe('function conditionalFunctionExecute', () => {
     expect(conditionalFunctionExecute(firstFunction, secondFunction)).toBeTruthy();
   });
 
-  it('text execute second function', () => {
+  it('test execute second function', () => {
     expect.assertions(1);
 
     const firstFunction = () => '';
@@ -172,7 +172,7 @@ describe('function conditionalFunctionExecute', () => {
     expect(conditionalFunctionExecute(firstFunction, secondFunction)).toBeTruthy();
   });
 
-  it('text execute two false functions', () => {
+  it('test execute two false functions', () => {
     expect.assertions(1);
 
     const firstFunction = () => '';
@@ -183,18 +183,17 @@ describe('function conditionalFunctionExecute', () => {
 });
 
 describe('function builderMenu', () => {
-  it('text execute function', () => {
+  it('test execute function', () => {
     expect.assertions(2);
 
     const argument = {
       preventDefault: () => true,
     };
-    const spyBuilderMenu = jest.spyOn(general, 'builderMenu');
-    const spyArgument = jest.spyOn(argument, 'preventDefault');
+    const builderMenuSpied = jest.spyOn(general, 'builderMenu');
+    const ArgumentSpied = jest.spyOn(argument, 'preventDefault');
     builderMenu(argument);
 
-    expect(spyBuilderMenu).toHaveBeenCalledWith(argument);
-    // eslint-disable-next-line jest/prefer-called-with
-    expect(spyArgument).toHaveBeenCalled();
+    expect(builderMenuSpied).toHaveBeenCalledWith(argument);
+    expect(ArgumentSpied).toHaveBeenCalledTimes(1);
   });
 });

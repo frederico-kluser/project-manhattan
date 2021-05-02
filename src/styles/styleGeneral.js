@@ -6,6 +6,8 @@ import {propertyHasSizeType} from './cssProperties.js';
 import {stopKeyboardCommandsSetter} from '../core/commands.js';
 import {globalStyleObject, inputExtraSize} from './styleEnums.js';
 
+const {helperBubble, helperInput, helperText} = enums.helperBubble;
+
 const autoReizeInput = ({target}) => {
   const {length} = target.value;
   target.setAttribute('size', length + inputExtraSize);
@@ -25,11 +27,11 @@ helperBubbleStructure.icon = createElement({
   className: 'material-icons',
   text: helperBubbleStructure.symbol,
 });
-helperBubbleStructure.text = createElement({tag: 'div', className: 'kluser_text'});
-helperBubbleStructure.input = createElement({tag: 'input', className: 'kluser_input'});
+helperBubbleStructure.text = createElement({tag: 'div', className: helperText});
+helperBubbleStructure.input = createElement({tag: 'input', className: helperInput});
 helperBubbleStructure.element = createElement({
   tag: 'div',
-  className: 'kluser_helper',
+  className: helperBubble,
   chield: [helperBubbleStructure.icon, helperBubbleStructure.text, helperBubbleStructure.input],
 });
 
@@ -40,26 +42,24 @@ export const updateHelperBubble = (
   inputType = 'text',
   inputValue = ''
 ) => {
+  const size = inputValue.length + inputPlaceholder.length;
   stopKeyboardCommandsSetter(info);
   helperBubbleStructure.text.innerText = info;
   helperBubbleStructure.symbol = icon;
   helperBubbleStructure.icon.innerText = icon;
   helperBubbleStructure.input.setAttribute('placeholder', inputPlaceholder);
   helperBubbleStructure.input.setAttribute('type', inputType);
-  helperBubbleStructure.input.setAttribute('size', inputValue.length + inputPlaceholder.length);
-  helperBubbleStructure.input.setAttribute(
-    'maxlength',
-    inputValue.length + inputPlaceholder.length
-  );
+  helperBubbleStructure.input.setAttribute('size', size);
+  helperBubbleStructure.input.setAttribute('maxlength', size);
   helperBubbleStructure.input.value = inputValue;
   helperBubbleStructure.input.setAttribute('style', inputPlaceholder ? `display: initial;` : '');
   if (inputPlaceholder) {
-    helperBubbleStructure.input.setAttribute('type', inputType);
+    // refactor this
     setTimeout(() => {
       helperBubbleStructure.input.focus();
     }, 1);
   }
-  helperBubbleStructure.input.addEventListener('keydown', autoReizeInput, false);
+  helperBubbleStructure.input.addEventListener('keydown', autoReizeInput);
   helperBubbleStructure.element.setAttribute(
     'style',
     info !== '' ? `opacity:1;max-width:500px;border:none;` : 'transition: opacity 0.25s;'
@@ -98,7 +98,7 @@ export const styleTagUpdater = () => {
     css += '}\n';
   });
 
-  styleTagElement.innerHTML = css;
+  styleTagElementGetter().innerHTML = css;
   updateHelperBubble();
 };
 
@@ -139,7 +139,7 @@ export const injectedCssUpdater = () => {
 
   document.getElementsByTagName('head')[0].appendChild(linkIcons);
   document.getElementsByTagName('head')[0].appendChild(linkFonts);
-  document.getElementsByTagName('head')[0].appendChild(styleTagElement);
+  document.getElementsByTagName('head')[0].appendChild(styleTagElementGetter());
   document.body.appendChild(helperBubbleStructure.element);
   styleTagUpdater();
 };
