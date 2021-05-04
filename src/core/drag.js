@@ -1,9 +1,6 @@
 import {elementIdSetter, Elements} from './elements.js';
 
 export const dragStartEventSetter = e => {
-  console.log('e.which');
-  console.log(e.which);
-
   if (e.which === 1) {
     const {id} = e.target;
     elementIdSetter(id);

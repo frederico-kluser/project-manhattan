@@ -8,20 +8,11 @@ import {
 
 describe('object propertyShiftCommands', () => {
   it('default value', () => {
-    expect.assertions(12);
+    expect.assertions(3);
 
     expect(propertyShiftCommands.h).not.toBeUndefined();
     expect(propertyShiftCommands.h()).not.toBeUndefined();
-    expect(propertyShiftCommands.l).not.toBeUndefined();
-    expect(propertyShiftCommands.l()).not.toBeUndefined();
-    expect(propertyShiftCommands.m).not.toBeUndefined();
-    expect(propertyShiftCommands.m()).not.toBeUndefined();
-    expect(propertyShiftCommands.p).not.toBeUndefined();
-    expect(propertyShiftCommands.p()).not.toBeUndefined();
-    expect(propertyShiftCommands.t).not.toBeUndefined();
-    expect(propertyShiftCommands.t()).not.toBeUndefined();
-    expect(propertyShiftCommands.w).not.toBeUndefined();
-    expect(propertyShiftCommands.w()).not.toBeUndefined();
+    expect(propertyShiftCommands).toMatchSnapshot();
   });
 });
 

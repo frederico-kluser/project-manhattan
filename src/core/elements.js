@@ -214,9 +214,9 @@ export const ElementConfig = (id, element) => {
 export const ElementBuilder = (parent, tag, className = '', text = '') => {
   const id = unicGlobalVarNameGenerator();
   const element = createElement({className, id, tag, text});
-  element.addEventListener('mousedown', dragStartEventSetter, false);
-  element.addEventListener('mousemove', dragMoveEventSetter, false);
-  element.addEventListener('mouseup', dragEndEventSetter, false);
+  element.addEventListener('mousedown', dragStartEventSetter);
+  element.addEventListener('mousemove', dragMoveEventSetter);
+  element.addEventListener('mouseup', dragEndEventSetter);
   element.addEventListener('contextmenu', builderMenu);
   parent.appendChild(element);
 
