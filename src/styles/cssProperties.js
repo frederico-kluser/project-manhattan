@@ -6,12 +6,7 @@ const setStyle = ({command, value}) => {
   return true;
 };
 
-const propertyBuilder = (
-  property,
-  shiftCommand = false,
-  hasSizeType = false,
-  sizeInPixels = false
-) => {
+const propertyBuilder = (property, shiftCommand, hasSizeType, sizeInPixels = false) => {
   const _propertyShiftCommands =
     shiftCommand === true
       ? {[property.charAt(0)]: () => shortCutCommandsSetter(property)}
