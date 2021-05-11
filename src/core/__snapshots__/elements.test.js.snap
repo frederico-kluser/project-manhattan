@@ -24,6 +24,8 @@ body {
 }
 
 .kluser_helper {
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  -webkit-user-select: none; /* Safari */
   background-color: #212121;
   border-radius: 10px;
   border: 1px solid #FFFFFF;
@@ -39,6 +41,7 @@ body {
   transition-timing-function: linear;
   transition: all 0.25s;
   transition: opacity 0.25s, max-width 0.5s;
+  user-select: none; /* Standard syntax */
   width: auto;
 }
 

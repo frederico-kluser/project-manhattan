@@ -30,6 +30,8 @@ body {
 `,
   helperBubble: `
 .${helperBubble} {
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  -webkit-user-select: none; /* Safari */
   background-color: ${gray[900]};
   border-radius: 10px;
   border: 1px solid ${white};
@@ -45,6 +47,7 @@ body {
   transition-timing-function: linear;
   transition: all 0.25s;
   transition: opacity 0.25s, max-width 0.5s;
+  user-select: none; /* Standard syntax */
   width: auto;
 }
 

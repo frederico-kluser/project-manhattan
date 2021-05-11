@@ -13,106 +13,6 @@ import {ElementBuilder, Elements} from '../core/elements';
 import * as general from '../helpers/general';
 
 const {helperBubble, helperInput, helperText} = enums.helperBubble;
-const baseStyle = `
-body {
-  background-color: #212121;
-}
-
-body {
-  margin: 0px;
-  padding: 0px;
-}
-
-.noselect {
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-}
-
-.kluser_helper {
-  background-color: #212121;
-  border-radius: 10px;
-  border: 1px solid #FFFFFF;
-  height: 30px;
-  left: 25px;
-  max-width: 30px;
-  min-width: 30px;
-  opacity: 0.1;
-  overflow: hidden;
-  position: fixed;
-  text-align: center;
-  top: 25px;
-  transition-timing-function: linear;
-  transition: all 0.25s;
-  transition: opacity 0.25s, max-width 0.5s;
-  width: auto;
-}
-
-.kluser_helper:hover {
-  opacity: 1;
-}
-
-.kluser_helper .material-icons {
-  background-color: #212121;
-  color: #FFFFFF;
-  font-size: 20px;
-  left: 0px;
-  line-height: 30px;
-  position: absolute;
-  width: 30px;
-  z-index: 1;
-}
-
-.kluser_text {
-  color: #FFFFFF;
-  float: left;
-  font-family: 'Roboto Mono', monospace;
-  font-helperBubbleDefaultPixelSize: 14px;
-  height: 30px;
-  line-height: 30px;
-  margin-left: 38px;
-  padding-right: 16px;
-  position: relative;
-  text-align: right;
-}
-
-.kluser_text:empty {
-  display: none;
-}
-
-.kluser_input {
-  background-color: transparent;
-  border: none;
-  color: #EEEEEE;
-  display: none;
-  float: left;
-  font-family: 'Roboto Mono', monospace;
-  height: 30px;
-  line-height: 30px;
-  outline: none;
-  padding-right: 16px;
-  padding: 0px;
-}
-
-.kluser_input::placeholder {
-  color: #BDBDBD;
-}
-`;
-const baseStyleWithMockId1 = `${baseStyle}
-#mockId1 {
-	background-color: #FFFFFF;
-	border: 1px solid black;
-	height: 100px;
-	left: 100px;
-	position: relative;
-	top: 100px;
-	width: 100px;
-}
-`;
-const baseStyleWithLinks = `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"><style type="text/css">${baseStyle}</style>`;
 
 describe('object styleGeneral', () => {
   it('property symbol', () => {
@@ -274,8 +174,8 @@ describe('function styleTagUpdater and injectedCssUpdater', () => {
     injectedCssUpdater();
     styleTagUpdater();
 
-    expect(styleTagElementGetter().innerHTML).toStrictEqual(baseStyle);
-    expect(document.getElementsByTagName('head')[0].innerHTML).toStrictEqual(baseStyleWithLinks);
+    expect(styleTagElementGetter().innerHTML).toMatchSnapshot();
+    expect(document.getElementsByTagName('head')[0].innerHTML).toMatchSnapshot();
   });
 
   it('execute function having element', () => {
@@ -291,7 +191,7 @@ describe('function styleTagUpdater and injectedCssUpdater', () => {
 
     styleTagUpdater();
 
-    expect(styleTagElementGetter().innerHTML).toStrictEqual(baseStyleWithMockId1);
+    expect(styleTagElementGetter().innerHTML).toMatchSnapshot();
   });
 });
 
