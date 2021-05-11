@@ -13,7 +13,12 @@ import {
   updateHelperBubble,
   fixPropertySize,
 } from '../styles/styleGeneral.js';
-import {dragEndEventSetter, dragMoveEventSetter, dragStartEventSetter} from './drag.js';
+import {
+  dragEndEventSetter,
+  dragMoveEventSetter,
+  dragStartEventSetter,
+  positionGetter,
+} from './drag.js';
 
 export const Elements = {};
 
@@ -154,9 +159,9 @@ export const ElementConfig = (id, element) => {
 
   return {
     elementGetter: () => _element,
-    dragEvents: (e, type) => {
-      const x = e.clientX;
-      const y = e.clientY;
+    // eslint-disable-next-line complexity
+    dragEvents: type => {
+      const {x, y} = positionGetter();
 
       switch (type) {
         case 'start':
@@ -188,14 +193,16 @@ export const ElementConfig = (id, element) => {
           }
           break;
         case 'end':
-          _onDraggingElement = false;
+          if (_onDraggingElement) {
+            _onDraggingElement = false;
 
-          _updateElementStyles();
+            _updateElementStyles();
 
-          _calcValueX = 0;
-          _calcValueY = 0;
+            _calcValueX = 0;
+            _calcValueY = 0;
 
-          styleTagUpdater();
+            styleTagUpdater();
+          }
           break;
       }
 
