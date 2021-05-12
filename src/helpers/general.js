@@ -2,12 +2,20 @@
 
 import {enums} from './enums.js';
 
+export const getClassUnicName = className => {
+  const unicNameLocation = className.indexOf('kluser_');
+  if (unicNameLocation === -1) {
+    throw new Error("Don't exist unic kluser_ class");
+  }
+  return className.substring(unicNameLocation, unicNameLocation + 16);
+};
+
 export const unicGlobalVarNameGenerator = () => {
   let name;
 
   do {
-    name = `_${Math.random().toString(36).substr(2, 9)}`;
-  } while (document.getElementById(name) !== null);
+    name = `kluser_${Math.random().toString(36).substr(2, 9)}`;
+  } while (document.getElementsByClassName(name).length);
 
   return name;
 };

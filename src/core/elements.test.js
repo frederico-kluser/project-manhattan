@@ -1,15 +1,15 @@
 /* eslint-disable no-new */
 import {injectedCssUpdater} from '../styles/styleGeneral';
-import {ElementBuilder, Elements, elementIdGetter, ElementConfig} from './elements';
+import {ElementBuilder, Elements, elementIdGetter, ElementClass} from './elements';
 import * as general from '../helpers/general';
 import * as drag from './drag';
 
 jest
   .spyOn(general, 'unicGlobalVarNameGenerator')
   .mockImplementation()
-  .mockReturnValueOnce('mockId1')
-  .mockReturnValueOnce('mockId2')
-  .mockReturnValueOnce('mockId3');
+  .mockReturnValueOnce('kluser_mockId001')
+  .mockReturnValueOnce('kluser_mockId002')
+  .mockReturnValueOnce('kluser_mockId003');
 jest.spyOn(general, 'getRandomColor').mockImplementation().mockReturnValue('#FFFFFF');
 
 describe('function ElementBuilder', () => {
@@ -80,9 +80,9 @@ describe('function ElementBuilder', () => {
     // element.dispatchEvent(new Event('contextmenu'));
   });
 
-  it('take a snapshot of constructor ElementConfig', () => {
+  it('take a snapshot of constructor ElementClass', () => {
     expect.assertions(1);
 
-    expect(ElementConfig).toMatchSnapshot();
+    expect(ElementClass).toMatchSnapshot();
   });
 });

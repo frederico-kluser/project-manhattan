@@ -5,7 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Component Builder</title>
+    <style>
+      body {
+        padding-top: 150px;
+      }
+
+      #h {
+        width: 25vw;
+      }
+
+      body > header {
+        width: 75vw;
+      }
+
+      body .mock-header {
+        width: 85vw;
+      }
+
+      .mock-header {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100px;
+        background-color: white;
+      }
+
+      header {
+        width: 50vw !important;
+      }
+
+      .mock-header > h1 {
+        text-align: center;
+        color: black;
+        line-height: 100px;
+        margin: 0px;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <header id="h" class="mock-header">
+      <h1>Mock Site</h1>
+    </header>
+  </body>
   <script type="module" src="index.js"></script>
 </html>

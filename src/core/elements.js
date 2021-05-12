@@ -12,6 +12,7 @@ import {
   styleTagUpdater,
   updateHelperBubble,
   fixPropertySize,
+  getAllStyles,
 } from '../styles/styleGeneral.js';
 import {
   dragEndEventSetter,
@@ -23,6 +24,7 @@ import {
 export const Elements = {};
 
 const stylePropertyDefault = () => ({
+  'background-color': getRandomColor(500),
   border: '1px solid black',
   height: 100,
   left: 100,
@@ -37,14 +39,30 @@ export const elementIdSetter = value => {
   elementId = value;
 };
 
-export const ElementConfig = (id, element) => {
+const domElements = [];
+export const domElementsGetter = () => domElements;
+export const domElementsSetter = value => {
+  domElements.push(value);
+};
+export const initialConfigDomElements = (parent = document.body.children) => {
+  Object.values(parent).forEach(element => {
+    if (element.className !== enums.helperBubble.helperBubble && element.tagName !== 'SCRIPT') {
+      if (element.className.indexOf('kluser_') === -1) {
+        // eslint-disable-next-line no-use-before-define
+        ElementConfig(element, false);
+      }
+      domElementsSetter(element);
+      initialConfigDomElements(element.children);
+    }
+  });
+};
+
+export const ElementClass = (id, element, newElement) => {
   const {sizeMode} = enums.mod;
-  const {backgroundColor} = enums.style;
 
   elementIdSetter(id);
   let _mode = sizeMode;
-  const _style = stylePropertyDefault();
-  _style[backgroundColor] = getRandomColor(500);
+  const _style = newElement ? stylePropertyDefault() : {};
 
   let _onDraggingElement = false;
 
@@ -58,6 +76,9 @@ export const ElementConfig = (id, element) => {
   let _calcValueY = 0;
 
   const _element = element;
+  if (!newElement) {
+    getAllStyles(element);
+  }
 
   const _styleDynamic = {};
   Object.keys(propertySizeInPixels).forEach(property => {
@@ -218,14 +239,20 @@ export const ElementConfig = (id, element) => {
   };
 };
 
-export const ElementBuilder = (parent, tag, className = '', text = '') => {
-  const id = unicGlobalVarNameGenerator();
-  const element = createElement({className, id, tag, text});
+// create a new parameter to put in conditional, when comes from DOM just skip default style
+const ElementConfig = (element, newElement = true) => {
+  const unicClass = unicGlobalVarNameGenerator();
+  const {className} = element;
+  element.setAttribute('class', className ? `${className} ${unicClass}` : unicClass);
   element.addEventListener('mousedown', dragStartEventSetter);
   element.addEventListener('mousemove', dragMoveEventSetter);
   element.addEventListener('mouseup', dragEndEventSetter);
   element.addEventListener('contextmenu', builderMenu);
-  parent.appendChild(element);
+  Elements[unicClass] = ElementClass(unicClass, element, newElement);
+};
 
-  Elements[id] = ElementConfig(id, element);
+export const ElementBuilder = (parent, tag, className = '', text = '') => {
+  const element = createElement({className, tag, text});
+  ElementConfig(element);
+  parent.appendChild(element);
 };

@@ -95,7 +95,7 @@ body {
   color: #BDBDBD;
 }
 
-#mockId1 {
+.kluser_mockId001 {
 	background-color: #FFFFFF;
 	border: 1px solid black;
 	height: 100px;
@@ -105,7 +105,7 @@ body {
 	width: 100px;
 }
 
-#mockId2 {
+.kluser_mockId002 {
 	background-color: #FFFFFF;
 	border: 1px solid black;
 	height: 100px;
@@ -115,7 +115,7 @@ body {
 	width: 100px;
 }
 
-#mockId3 {
+.kluser_mockId003 {
 	background-color: #FFFFFF;
 	border: 1px solid black;
 	height: 100px;
@@ -130,21 +130,21 @@ body {
 
 exports[`function ElementBuilder take a snapshot of Elements 1`] = `
 Object {
-  "mockId1": Object {
+  "kluser_mockId001": Object {
     "dragEvents": [Function],
     "elementGetter": [Function],
     "modeSetter": [Function],
     "styleGetter": [Function],
     "styleSetter": [Function],
   },
-  "mockId2": Object {
+  "kluser_mockId002": Object {
     "dragEvents": [Function],
     "elementGetter": [Function],
     "modeSetter": [Function],
     "styleGetter": [Function],
     "styleSetter": [Function],
   },
-  "mockId3": Object {
+  "kluser_mockId003": Object {
     "dragEvents": [Function],
     "elementGetter": [Function],
     "modeSetter": [Function],
@@ -154,10 +154,10 @@ Object {
 }
 `;
 
-exports[`function ElementBuilder take a snapshot of constructor ElementConfig 1`] = `[Function]`;
+exports[`function ElementBuilder take a snapshot of constructor ElementClass 1`] = `[Function]`;
 
 exports[`function ElementBuilder test created elements 1`] = `
 <div
-  id="mockId3"
+  class="kluser_mockId003"
 />
 `;

@@ -4,8 +4,14 @@ import {
   keyboardShortcutsListener,
   commandResetter,
 } from './src/core/commands.js';
-import {positionSetter} from './src/core/drag.js';
-import {ElementBuilder, elementIdGetter, Elements} from './src/core/elements.js';
+import {mouseMoveEvent, positionSetter} from './src/core/drag.js';
+import {
+  // domElementsGetter,
+  ElementBuilder,
+  elementIdGetter,
+  Elements,
+  initialConfigDomElements,
+} from './src/core/elements.js';
 import {injectedCssUpdater, updateHelperBubble} from './src/styles/styleGeneral.js';
 
 ElementBuilder(document.body, 'div');
@@ -26,7 +32,10 @@ document.addEventListener(
   },
   false
 );
+document.addEventListener('mousemove', mouseMoveEvent, false);
 
 document.addEventListener('mousedown', positionSetter);
 document.addEventListener('mousemove', positionSetter);
 document.addEventListener('mouseup', positionSetter);
+
+initialConfigDomElements();

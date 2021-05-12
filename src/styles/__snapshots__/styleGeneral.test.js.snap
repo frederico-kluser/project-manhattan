@@ -280,7 +280,7 @@ body {
   color: #BDBDBD;
 }
 
-#mockId1 {
+.mockId1 {
 	background-color: #FFFFFF;
 	border: 1px solid black;
 	height: 100px;

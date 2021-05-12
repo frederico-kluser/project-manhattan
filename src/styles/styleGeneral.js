@@ -79,7 +79,7 @@ export const styleTagUpdater = () => {
   let css = Object.values(globalStyleObject).join('');
 
   Object.keys(Elements).forEach(elementKey => {
-    css += `\n#${elementKey} {\n`;
+    css += `\n.${elementKey} {\n`;
     const element = Elements[elementKey].elementGetter();
     const style = Elements[elementKey].styleGetter();
 
@@ -151,4 +151,42 @@ export const makeOnlyElementtouchable = draggableElement => {
       element.setAttribute('style', 'pointer-events: none !important;');
     }
   });
+};
+
+// eslint-disable-next-line no-unused-vars
+const elementCssSelectors = element => {
+  const sheets = document.styleSheets;
+  const apliedCSS = [];
+
+  // eslint-disable-next-line no-param-reassign
+  element.matches =
+    element.matches ||
+    element.webkitMatchesSelector ||
+    element.mozMatchesSelector ||
+    element.msMatchesSelector ||
+    element.oMatchesSelector;
+  Object.values(sheets).forEach(sheet => {
+    const rules = sheet.rules || sheet.cssRules;
+    Object.values(rules).forEach(rule => {
+      if (element.matches(rule.selectorText)) {
+        apliedCSS.push(rule.cssText);
+      }
+    });
+  });
+
+  return apliedCSS;
+};
+
+// eslint-disable-next-line complexity
+export const getAllStyles = element => {
+  if (!element) return {}; // Element does not exist, empty list.
+  const win = document.defaultView || window;
+  const styleNode = {};
+  const style = win.getComputedStyle(element, '');
+  Object.values(style).forEach(property => {
+    styleNode[property] = style.getPropertyValue(property);
+  });
+
+  // https://stackoverflow.com/questions/2952667/find-all-css-rules-that-apply-to-an-element
+  return styleNode;
 };

@@ -14,8 +14,8 @@ describe('funcion unicGlobalVarNameGenerator', () => {
 
     expect(unicGlobalVarNameGenerator()).not.toBeUndefined();
     expect(typeof unicGlobalVarNameGenerator()).toStrictEqual('string');
-    expect(unicGlobalVarNameGenerator().charAt(0)).toStrictEqual('_');
-    expect(unicGlobalVarNameGenerator()).toHaveLength(10);
+    expect(unicGlobalVarNameGenerator().charAt(0)).toStrictEqual('k');
+    expect(unicGlobalVarNameGenerator()).toHaveLength(16);
   });
 });
 

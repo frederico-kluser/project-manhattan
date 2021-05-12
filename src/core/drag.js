@@ -1,24 +1,25 @@
+import {getClassUnicName} from '../helpers/general.js';
 import {elementIdGetter, elementIdSetter, Elements} from './elements.js';
 
 let startDrag = false;
 
 export const dragStartEventSetter = e => {
   if (e.which === 1) {
-    const {id} = e.target;
-    elementIdSetter(id);
-    Elements[id].dragEvents('start');
+    const className = getClassUnicName(e.target.className);
+    elementIdSetter(className);
+    Elements[className].dragEvents('start');
     startDrag = true;
   }
 };
 
 export const dragMoveEventSetter = e => {
-  const {id} = e.target;
-  Elements[id].dragEvents('move');
+  const className = getClassUnicName(e.target.className);
+  Elements[className].dragEvents('move');
 };
 
 export const dragEndEventSetter = e => {
-  const {id} = e.target;
-  Elements[id].dragEvents('end');
+  const className = getClassUnicName(e.target.className);
+  Elements[className].dragEvents('end');
   startDrag = false;
 };
 
@@ -30,4 +31,9 @@ export const positionSetter = ({clientX, clientY, type}) => {
   if (type === 'mousemove' && startDrag) {
     Elements[elementIdGetter()].dragEvents('move');
   }
+};
+
+// eslint-disable-next-line no-unused-vars
+export const mouseMoveEvent = e => {
+  // console.log(e);
 };
