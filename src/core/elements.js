@@ -178,64 +178,74 @@ export const ElementClass = (id, element, newElement) => {
     }
   };
 
-  return {
-    elementGetter: () => _element,
-    // eslint-disable-next-line complexity
-    dragEvents: type => {
-      const {x, y} = positionGetter();
+  const elementGetter = () => _element;
 
-      switch (type) {
-        case 'start':
-          _onDraggingElement = true;
+  // eslint-disable-next-line complexity
+  const dragEvents = type => {
+    const {x, y} = positionGetter();
 
-          _initialPositionX = x;
-          _initialPositionY = y;
+    switch (type) {
+      case 'start':
+        _onDraggingElement = true;
+
+        _initialPositionX = x;
+        _initialPositionY = y;
+
+        _calcValueX = 0;
+        _calcValueY = 0;
+
+        Object.keys(propertySizeInPixels).forEach(property => {
+          _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
+          _styleDynamic[`${property}Relative`] = _style[property] || 0;
+        });
+
+        styleTagUpdater();
+        makeOnlyElementtouchable(_element);
+        break;
+      case 'move':
+        if (_onDraggingElement) {
+          _positionX = x;
+          _positionY = y;
+
+          _calcValueX = _positionX - _initialPositionX;
+          _calcValueY = _positionY - _initialPositionY;
+
+          _updateDynamicProperties();
+        }
+        break;
+      case 'end':
+        if (_onDraggingElement) {
+          _onDraggingElement = false;
+
+          _updateElementStyles();
 
           _calcValueX = 0;
           _calcValueY = 0;
 
-          Object.keys(propertySizeInPixels).forEach(property => {
-            _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
-            _styleDynamic[`${property}Relative`] = _style[property] || 0;
-          });
-
           styleTagUpdater();
-          makeOnlyElementtouchable(_element);
-          break;
-        case 'move':
-          if (_onDraggingElement) {
-            _positionX = x;
-            _positionY = y;
+        }
+        break;
+    }
 
-            _calcValueX = _positionX - _initialPositionX;
-            _calcValueY = _positionY - _initialPositionY;
+    _dynamicStylePropertiesTextSetter();
+  };
 
-            _updateDynamicProperties();
-          }
-          break;
-        case 'end':
-          if (_onDraggingElement) {
-            _onDraggingElement = false;
+  const modeSetter = mode => {
+    _mode = mode;
+  };
 
-            _updateElementStyles();
+  const styleGetter = () => _style;
 
-            _calcValueX = 0;
-            _calcValueY = 0;
+  const styleSetter = (command, value) => {
+    _style[command] = value;
+  };
 
-            styleTagUpdater();
-          }
-          break;
-      }
-
-      _dynamicStylePropertiesTextSetter();
-    },
-    modeSetter: mode => {
-      _mode = mode;
-    },
-    styleGetter: () => _style,
-    styleSetter: (command, value) => {
-      _style[command] = value;
-    },
+  return {
+    elementGetter,
+    dragEvents,
+    modeSetter,
+    styleGetter,
+    styleSetter,
   };
 };
 
