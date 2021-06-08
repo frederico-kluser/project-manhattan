@@ -85,3 +85,47 @@ export const conditionalFunctionExecute = (func1, func2) => {
 export const builderMenu = e => {
   e.preventDefault();
 };
+
+const distanceBetweenTwoPoints = (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1);
+
+export const closestDistance = e => {
+  let point = {};
+
+  const {offsetHeight, offsetWidth} = e.target;
+  const {layerX, layerY} = e;
+
+  const {
+    quadrant1,
+    quadrant2,
+    quadrant3,
+    quadrant4,
+    quadrantCenter,
+    quadrantCenterBottom,
+    quadrantCenterTop,
+    quadrantCenterLeft,
+    quadrantCenterRight,
+  } = enums.quadrants;
+
+  const points = [
+    {name: quadrant2, x: 0, y: 0},
+    {name: quadrant1, x: offsetWidth, y: 0},
+    {name: quadrant3, x: 0, y: offsetHeight},
+    {name: quadrant4, x: offsetWidth, y: offsetHeight},
+    {name: quadrantCenter, x: parseInt(offsetWidth / 2), y: parseInt(offsetHeight / 2)},
+    {name: quadrantCenterBottom, x: parseInt(offsetWidth / 2), y: offsetHeight},
+    {name: quadrantCenterTop, x: parseInt(offsetWidth / 2), y: 0},
+    {name: quadrantCenterLeft, x: 0, y: parseInt(offsetHeight / 2)},
+    {name: quadrantCenterRight, x: offsetWidth, y: parseInt(offsetHeight / 2)},
+  ];
+
+  points.forEach(({name, x, y}, index) => {
+    const distance = distanceBetweenTwoPoints(layerX, layerY, x, y);
+    if (!index) {
+      point = {name, distance};
+    } else if (distance < point.distance) {
+      point = {name, distance};
+    }
+  });
+
+  return point.name;
+};

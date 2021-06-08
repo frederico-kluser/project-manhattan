@@ -322,8 +322,20 @@ Object {
     "tune": "tune",
   },
   "mod": Object {
+    "freeMode": "freeMode",
     "moveMode": "moveMode",
     "sizeMode": "sizeMode",
+  },
+  "quadrants": Object {
+    "quadrant1": "quadrant1",
+    "quadrant2": "quadrant2",
+    "quadrant3": "quadrant3",
+    "quadrant4": "quadrant4",
+    "quadrantCenter": "quadrantCenter",
+    "quadrantCenterBottom": "quadrantCenterBottom",
+    "quadrantCenterLeft": "quadrantCenterLeft",
+    "quadrantCenterRight": "quadrantCenterRight",
+    "quadrantCenterTop": "quadrantCenterTop",
   },
   "style": Object {
     "backgroundColor": "background-color",

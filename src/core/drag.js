@@ -1,13 +1,17 @@
-import {getClassUnicName} from '../helpers/general.js';
+import {closestDistance, getClassUnicName} from '../helpers/general.js';
 import {elementIdGetter, elementIdSetter, Elements} from './elements.js';
 
 let startDrag = false;
+let quadrant;
+
+export const quadrantGetter = () => quadrant;
 
 export const dragStartEventSetter = e => {
   if (e.which === 1) {
     const className = getClassUnicName(e.target.className);
     elementIdSetter(className);
     Elements[className].dragEvents('start');
+    Elements[className].quadrantSetter(closestDistance(e));
     startDrag = true;
   }
 };

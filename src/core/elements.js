@@ -58,11 +58,13 @@ export const initialConfigDomElements = (parent = document.body.children) => {
 };
 
 export const ElementClass = (id, element, newElement) => {
-  const {sizeMode} = enums.mod;
+  const {freeMode, moveMode, sizeMode} = enums.mod;
 
   elementIdSetter(id);
-  let _mode = sizeMode;
+  let _mode = freeMode;
   const _style = newElement ? stylePropertyDefault() : {};
+
+  let _quadrant;
 
   let _onDraggingElement = false;
 
@@ -104,8 +106,8 @@ export const ElementClass = (id, element, newElement) => {
     return _style[type] + (plus || '');
   };
 
-  const _helperBubbleTextRender = () => {
-    const {moveMode} = enums.mod;
+  // eslint-disable-next-line complexity
+  const _dynamicCssRender = () => {
     let output;
     const resumeOutput = true;
 
@@ -121,6 +123,87 @@ export const ElementClass = (id, element, newElement) => {
           fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
           fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true);
         break;
+      case freeMode:
+        switch (_quadrant) {
+          case enums.quadrants.quadrant1:
+            output =
+              fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
+              fixPropertySize(
+                _sizeConverter('height', _calcValueY * -1, resumeOutput),
+                'height',
+                true
+              ) +
+              fixPropertySize(_sizeConverter('width', _calcValueX, resumeOutput), 'width', true);
+            break;
+          case enums.quadrants.quadrant2:
+            output =
+              fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true) +
+              fixPropertySize(
+                _sizeConverter('width', _calcValueX * -1, resumeOutput),
+                'width',
+                true
+              ) +
+              fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
+              fixPropertySize(
+                _sizeConverter('height', _calcValueY * -1, resumeOutput),
+                'height',
+                true
+              );
+            break;
+          case enums.quadrants.quadrant3:
+            output =
+              fixPropertySize(_sizeConverter('height', _calcValueY, resumeOutput), 'height', true) +
+              fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true) +
+              fixPropertySize(
+                _sizeConverter('width', _calcValueX * -1, resumeOutput),
+                'width',
+                true
+              );
+            break;
+          case enums.quadrants.quadrant4:
+            output =
+              fixPropertySize(_sizeConverter('height', _calcValueY, resumeOutput), 'height', true) +
+              fixPropertySize(_sizeConverter('width', _calcValueX, resumeOutput), 'width', true);
+            break;
+          case enums.quadrants.quadrantCenter:
+            output =
+              fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
+              fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true);
+            break;
+          case enums.quadrants.quadrantCenterBottom:
+            output = fixPropertySize(
+              _sizeConverter('height', _calcValueY, resumeOutput),
+              'height',
+              true
+            );
+            break;
+          case enums.quadrants.quadrantCenterTop:
+            output =
+              fixPropertySize(_sizeConverter('top', _calcValueY, resumeOutput), 'top', true) +
+              fixPropertySize(
+                _sizeConverter('height', _calcValueY * -1, resumeOutput),
+                'height',
+                true
+              );
+            break;
+          case enums.quadrants.quadrantCenterLeft:
+            output =
+              fixPropertySize(_sizeConverter('left', _calcValueX, resumeOutput), 'left', true) +
+              fixPropertySize(
+                _sizeConverter('width', _calcValueX * -1, resumeOutput),
+                'width',
+                true
+              );
+            break;
+          case enums.quadrants.quadrantCenterRight:
+            output = fixPropertySize(
+              _sizeConverter('width', _calcValueX, resumeOutput),
+              'width',
+              true
+            );
+            break;
+        }
+        break;
     }
 
     return output;
@@ -128,7 +211,7 @@ export const ElementClass = (id, element, newElement) => {
 
   const _dynamicStylePropertiesTextSetter = () => {
     const {tune, search} = enums.icons;
-    let info = _helperBubbleTextRender();
+    let info = _dynamicCssRender();
     let icon = tune;
 
     if (!_onDraggingElement) {
@@ -152,7 +235,7 @@ export const ElementClass = (id, element, newElement) => {
   };
 
   const _updateDynamicProperties = () => {
-    const styleAttributeHTML = _helperBubbleTextRender();
+    const styleAttributeHTML = _dynamicCssRender();
 
     _fixSizeTypes('height');
     _fixSizeTypes('width');
@@ -162,9 +245,8 @@ export const ElementClass = (id, element, newElement) => {
     _element.setAttribute('style', styleAttributeHTML);
   };
 
+  // eslint-disable-next-line complexity
   const _updateElementStyles = () => {
-    const {moveMode} = enums.mod;
-
     switch (_mode) {
       case sizeMode:
       default:
@@ -175,7 +257,57 @@ export const ElementClass = (id, element, newElement) => {
         _style.left = _sizeConverter('left', _calcValueX);
         _style.top = _sizeConverter('top', _calcValueY);
         break;
+      case freeMode:
+        switch (_quadrant) {
+          case enums.quadrants.quadrant1:
+            _style.top = _sizeConverter('top', _calcValueY);
+            _style.height = _sizeConverter('height', _calcValueY * -1);
+            _style.width = _sizeConverter('width', _calcValueX);
+            break;
+          case enums.quadrants.quadrant2:
+            _style.left = _sizeConverter('left', _calcValueX);
+            _style.width = _sizeConverter('width', _calcValueX * -1);
+            _style.top = _sizeConverter('top', _calcValueY);
+            _style.height = _sizeConverter('height', _calcValueY * -1);
+            break;
+          case enums.quadrants.quadrant3:
+            _style.left = _sizeConverter('left', _calcValueX);
+            _style.width = _sizeConverter('width', _calcValueX * -1);
+            _style.height = _sizeConverter('height', _calcValueY);
+            break;
+          case enums.quadrants.quadrant4:
+            _style.width = _sizeConverter('width', _calcValueX);
+            _style.height = _sizeConverter('height', _calcValueY);
+            break;
+          case enums.quadrants.quadrantCenter:
+            _style.left = _sizeConverter('left', _calcValueX);
+            _style.top = _sizeConverter('top', _calcValueY);
+            break;
+          case enums.quadrants.quadrantCenterBottom:
+            _style.height = _sizeConverter('height', _calcValueY);
+            break;
+          case enums.quadrants.quadrantCenterTop:
+            _style.top = _sizeConverter('top', _calcValueY);
+            _style.height = _sizeConverter('height', _calcValueY * -1);
+            break;
+          case enums.quadrants.quadrantCenterLeft:
+            _style.left = _sizeConverter('left', _calcValueX);
+            _style.width = _sizeConverter('width', _calcValueX * -1);
+
+            break;
+          case enums.quadrants.quadrantCenterRight:
+            _style.width = _sizeConverter('width', _calcValueX);
+            break;
+        }
+        break;
     }
+  };
+
+  const _prepareCSSPropertiesWithSize = () => {
+    Object.keys(propertySizeInPixels).forEach(property => {
+      _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
+      _styleDynamic[`${property}Relative`] = _style[property] || 0;
+    });
   };
 
   const elementGetter = () => _element;
@@ -194,13 +326,10 @@ export const ElementClass = (id, element, newElement) => {
         _calcValueX = 0;
         _calcValueY = 0;
 
-        Object.keys(propertySizeInPixels).forEach(property => {
-          _styleDynamic[`${property}Absolute`] = _element[propertySizeInPixels[property]];
-          _styleDynamic[`${property}Relative`] = _style[property] || 0;
-        });
-
+        _prepareCSSPropertiesWithSize();
         styleTagUpdater();
         makeOnlyElementtouchable(_element);
+        console.log(_quadrant);
         break;
       case 'move':
         if (_onDraggingElement) {
@@ -234,6 +363,10 @@ export const ElementClass = (id, element, newElement) => {
     _mode = mode;
   };
 
+  const quadrantSetter = quadrant => {
+    _quadrant = quadrant;
+  };
+
   const styleGetter = () => _style;
 
   const styleSetter = (command, value) => {
@@ -244,6 +377,7 @@ export const ElementClass = (id, element, newElement) => {
     elementGetter,
     dragEvents,
     modeSetter,
+    quadrantSetter,
     styleGetter,
     styleSetter,
   };

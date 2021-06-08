@@ -309,8 +309,20 @@ export const enums = {
     tune: 'tune',
   },
   mod: {
+    freeMode: 'freeMode',
     sizeMode: 'sizeMode',
     moveMode: 'moveMode',
+  },
+  quadrants: {
+    quadrant1: 'quadrant1',
+    quadrant2: 'quadrant2',
+    quadrant3: 'quadrant3',
+    quadrant4: 'quadrant4',
+    quadrantCenter: 'quadrantCenter',
+    quadrantCenterBottom: 'quadrantCenterBottom',
+    quadrantCenterTop: 'quadrantCenterTop',
+    quadrantCenterLeft: 'quadrantCenterLeft',
+    quadrantCenterRight: 'quadrantCenterRight',
   },
   command: {
     newElement: 'new element',

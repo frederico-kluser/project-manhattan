@@ -55,7 +55,7 @@ export const commandResetter = () => {
 
 const commandExecutor = () => {
   const {command} = shortCutCommands;
-  const {sizeMode, moveMode} = enums.mod;
+  const {freeMode, sizeMode, moveMode} = enums.mod;
   const {className, innerText, newElement} = enums.command;
 
   console.log('Execute command');
@@ -67,6 +67,7 @@ const commandExecutor = () => {
     propertyCommands[command](shortCutCommands);
   } else {
     switch (command) {
+      case freeMode:
       case sizeMode:
       case moveMode:
         Elements[elementIdGetter()].modeSetter(command);
@@ -112,6 +113,8 @@ const getControlCommands = {
   1: () => shortCutCommandsSetter(enums.mod.sizeMode),
   m: () => shortCutCommandsSetter(enums.mod.moveMode),
   2: () => shortCutCommandsSetter(enums.mod.moveMode),
+  f: () => shortCutCommandsSetter(enums.mod.freeMode),
+  3: () => shortCutCommandsSetter(enums.mod.freeMode),
 };
 
 const getShiftCommands = {
