@@ -90,7 +90,7 @@ const commandExecutor = () => {
         // eslint-disable-next-line no-case-declarations
         const element = Elements[elementIdGetter()].elementGetter();
         // eslint-disable-next-line no-new
-        new ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
+        ElementBuilder(element, elementInfo.tag, elementInfo.className, elementInfo.text);
         break;
     }
   }
