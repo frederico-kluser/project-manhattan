@@ -1,2 +1,4 @@
 node_modules
 .eslintcache
+# stryker temp files
+.stryker-tmp

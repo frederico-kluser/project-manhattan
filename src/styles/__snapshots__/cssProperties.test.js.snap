@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`object propertyShiftCommands default value 1`] = `
+Object {
+  "h": [Function],
+  "l": [Function],
+  "m": [Function],
+  "p": [Function],
+  "t": [Function],
+  "w": [Function],
+}
+`;

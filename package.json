@@ -4,8 +4,9 @@
   "description": "Github project template",
   "main": "index.js",
   "scripts": {
-    "lint": "pretty-quick --staged && lint-staged",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "pretty-quick --staged && lint-staged && jest && stryker run",
+    "test": "jest",
+    "mutants": "npx stryker run"
   },
   "repository": {
     "type": "git",
@@ -19,14 +20,25 @@
   "homepage": "https://github.com/frederico-kluser/javascript-started-project#readme",
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "@stryker-mutator/core": "^4.6.0",
+    "@stryker-mutator/jest-runner": "^4.6.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^26.6.3",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.3.5",
+    "gulp-babel": "^8.0.0",
     "husky": "^4.2.5",
+    "jest": "^26.6.3",
     "lint-staged": "^10.3.0",
     "prettier": "^2.1.1",
-    "pretty-quick": "^3.0.0"
+    "pretty-quick": "^3.0.0",
+    "stryker-cli": "^1.0.0"
   },
   "husky": {
     "hooks": {
@@ -35,5 +47,10 @@
   },
   "lint-staged": {
     "*.{ts,js}": "eslint --cache --fix"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   }
 }
